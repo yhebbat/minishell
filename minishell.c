@@ -176,16 +176,56 @@ void	ft_addbottom(t_henv *head, char *var, char *val)
 	}
 }
 
-// void	env_from_tab_to_ll(char **env, t_henv *henv)
+void	env_from_tab_to_ll(char **env, t_henv *henv)
+{
+	int i;
+	char **str;
+
+	i = 0;
+	while(env[i])
+	{
+		str = ft_split(env[i], '=');
+		ft_addbottom(henv, str[0], str[1]);
+		ft_freee(str, ft_mots(env[i], '=') + 1);
+		i++;
+	}
+}
+
+// char	**env_from_ll_to_tab(t_henv *henv)
 // {
-// 	int	i;
+// 	int i;
+// 	t_env *nb;
+// 	int k;
+// 	int r;
+// 	char **str;
 
+// 	k = 0;
 // 	i = 0;
-// 	while(env[i])
+// 	nb = henv->header;
+// 	while (nb)
 // 	{
-
 // 		i++;
+// 		nb = nb->suivant;
 // 	}
+// 	str = malloc(sizeof(char) * i + 1);
+// 	nb = henv->header;
+// 	while(nb)
+// 	{
+// 		k = 0;
+// 		while (nb->val[k])
+// 			k++;
+// 		while (nb->var[])
+// 		nb = nb->suivant;
+// 	}
+// 	i = 0;
+// 	// while(env[i])
+// 	// {
+// 	// 	str = ft_split(env[i], '=');
+// 	// 	ft_addbottom(henv, str[0], str[1]);
+// 	// 	ft_freee(str, ft_mots(env[i], '=') + 1);
+// 	// 	i++;
+// 	// }
+// 	return (str);
 // }
 
 int	main(int ac, char **av, char **env)
@@ -200,18 +240,18 @@ int	main(int ac, char **av, char **env)
 	henv = malloc(sizeof(t_henv));
 	henv->header = NULL;
 	henv->footer = NULL;
-//	env_from_tab_to_ll(env, henv);
-	ft_addtop(henv, "tst", "talam");
-	printf("---%s\n", henv->header->val);
-	ft_addtop(henv, "tst2", "salam2");
+	env_from_tab_to_ll(env, henv);
+	// ft_addtop(henv, "tst", "talam");
+	// ft_addtop(henv, "tst2", "salam2");
 	new_env = henv->header;
 	while (new_env)
 	{
 		printf("%s = %s\n", new_env->var, new_env->val);
 		new_env = new_env->suivant;
 	}
-	ft_deltop(henv);
-	ft_deltop(henv);
+	while (henv->header)
+		ft_delbottom(henv);
 	free(henv);
 	henv = NULL;
+	// system("leaks minishell");
 }

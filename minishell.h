@@ -17,4 +17,8 @@ typedef struct s_henv
 	struct s_env	*header;
 	struct s_env	*footer;
 }t_henv;
+
+char	**ft_split(char const *s, char c);
+int	ft_mots(char const *s, char c);
+void	*ft_freee(char **p, int j);
 #endif

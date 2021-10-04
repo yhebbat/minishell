@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static int	ft_mots(char const *s, char c)
+int	ft_mots(char const *s, char c)
 {
 	int			i;
 	int			k;
@@ -24,7 +24,7 @@ static int	ft_mots(char const *s, char c)
 	return (k);
 }
 
-static void	*ft_freee(char **p, int j)
+void	*ft_freee(char **p, int j)
 {
 	int	i;
 
