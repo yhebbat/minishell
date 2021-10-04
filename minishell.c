@@ -1,43 +1,28 @@
 #include "minishell.h"
 
-// void	ft_free(t_env *to_del)
-// {
-// 	int i;
-// 	// int j;
+int		ft_strlen(char *str)
+{
+	int	i;
 
-// 	i = 0;
-// 	// j = 0;
-// 	// while (to_del->val[i])
-// 	// 	i++;
-// 	// i++;
-// 	// while (i >= 0)
-// 	// {
-// 		// printf("%c\n", to_del->val[i]);
-// 		free(to_del->val);
-// 	// 	i--;
-// 	// }
-// 	// i = 0;
-// 	// // while (to_del->var[i])
-// 	// // {
-// 	// // 	// printf("%c\n", to_del->var[i]);
-// 	// // 	free(&to_del->var[i]);
-// 	// // 	i++;
-// 	// // }
-// 	// while (i >= 0)
-// 	// {
-// 	// 	i--;
-// 	// }
-// 	// i = 0;
-// 	// j = 0;
-// 	// while (to_del->var[i])
-// 	// 	i++;
-// 	// // i++;
-// 	// while (j < i)
-// 	// {
-// 	// 	free(&to_del->var[j]);
-// 	// 	j++;
-// 	// }
-// }
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+static void	*ft_freee(char **p)
+{
+	int	i;
+
+	i = 0;
+	while (p[i])
+	{
+		free(p[i]);
+		i++;
+	}
+	free(p);
+	return (0);
+}
 
 void	ft_deltop(t_henv *head)
 {
@@ -186,7 +171,7 @@ void	env_from_tab_to_ll(char **env, t_henv *henv)
 	{
 		str = ft_split(env[i], '=');
 		ft_addbottom(henv, str[0], str[1]);
-		ft_freee(str, ft_mots(env[i], '=') + 1);
+		ft_freee(str);
 		i++;
 	}
 }

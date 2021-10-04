@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int	ft_mots(char const *s, char c)
+static	int	ft_mots(char const *s, char c)
 {
 	int			i;
 	int			k;
@@ -24,12 +24,12 @@ int	ft_mots(char const *s, char c)
 	return (k);
 }
 
-void	*ft_freee(char **p, int j)
+static void	*ft_freee(char **p)
 {
 	int	i;
 
 	i = 0;
-	while (i < j)
+	while (p[i])
 	{
 		free(p[i]);
 		i++;
@@ -66,13 +66,14 @@ static char	**ft_remp(char **p, char const *s, char c)
 			s++;
 		p[j] = malloc(sizeof(char) * ft_alpha(s, c, i) + 1);
 		if (!p[j])
-			return (ft_freee(p, j));
+			return (ft_freee(p));
 		while (s[i] && s[i] != c)
 			p[j][k++] = s[i++];
 		p[j][k] = '\0';
 		j++;
 	}
 	p[j] = 0;
+	// printf("%d\n", j);
 	return (p);
 }
 
@@ -88,17 +89,41 @@ char	**ft_split(char const *s, char c)
 	return (ft_remp(p, s, c));
 }
 
-// int	main(void)
+// int	main(int ac, char **av, char **env)
 // {
 // 	char	**test;
 // 	int		i;
 
 // 	i = 0;
-// 	test = ft_split("", 's');
+// 	test = ft_split("hello world test", ' ');
 // 	while (test[i])
 // 	{
 // 		printf("%s\n", test[i]);
 // 		i++;
 // 	}
-// 	ft_freee(test, ft_mots("", 's') + 1);
+// 	ft_freee(test);
+// 	i = 0;
+// 	test = ft_split("hello world test", ' ');
+// 	while (test[i])
+// 	{
+// 		printf("%s\n", test[i]);
+// 		i++;
+// 	}
+// 	ft_freee(test);
+// 	// int i;
+// 	// int j;
+// 	// char **str;
+
+// 	// j = 0;
+// 	// i = 0;
+// 	// while (env[i])
+// 	// 	i++;
+// 	// while(j < i)
+// 	// {
+// 	// 	str = ft_split(env[j], '=');
+// 	// 	// ft_addbottom(henv, str[0], str[1]);
+// 	// 	ft_freee(str, ft_mots(env[j], '='));
+// 	// 	// ft_freee(str, 3);
+// 	// 	j++;
+// 	// }
 // }
