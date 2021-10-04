@@ -49,7 +49,8 @@ void	ft_deltop(t_henv *head)
 		to_delete = head->header;
 		if (!to_delete->suivant)
 		{
-			// free(to_delete);
+			free(to_delete->val);
+			free(to_delete->var);
 			free(to_delete);
 			head->header = NULL;
 			head->footer = NULL;
@@ -60,7 +61,8 @@ void	ft_deltop(t_henv *head)
 			stack = to_delete->suivant;
 			head->header = stack;
 			stack->preced = NULL;
-			// ft_free(to_delete);
+			free(to_delete->val);
+			free(to_delete->var);
 			free(to_delete);
 			to_delete = NULL;
 		}
@@ -74,9 +76,8 @@ void	ft_delbottom(t_henv *head)
 
 	if (head != NULL && head->header != NULL)
 	{
-		// printf("hell\n");
 		to_delete = head->footer;
-		if (!to_delete->suivant)
+		if (!to_delete->preced)
 		{
 			free(to_delete->val);
 			free(to_delete->var);
@@ -200,20 +201,17 @@ int	main(int ac, char **av, char **env)
 	henv->header = NULL;
 	henv->footer = NULL;
 //	env_from_tab_to_ll(env, henv);
-	ft_addbottom(henv, "tst", "talam");
-	ft_addbottom(henv, "tst2", "salam2");
+	ft_addtop(henv, "tst", "talam");
+	printf("---%s\n", henv->header->val);
+	ft_addtop(henv, "tst2", "salam2");
 	new_env = henv->header;
 	while (new_env)
 	{
 		printf("%s = %s\n", new_env->var, new_env->val);
 		new_env = new_env->suivant;
 	}
-	 new_env = henv->header;
-	ft_delbottom(henv);
-	ft_delbottom(henv);
+	ft_deltop(henv);
+	ft_deltop(henv);
 	free(henv);
-	// henv = malloc(sizeof(t_henv));
-	// henv = malloc(sizeof(t_henv));
 	henv = NULL;
-	// while (1);
 }
