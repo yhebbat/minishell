@@ -14,6 +14,8 @@ typedef struct s_env
 	struct s_env	*preced;
 }t_env;
 
+
+
 typedef struct s_headers
 {
 	struct s_env	*env_h;
@@ -21,4 +23,5 @@ typedef struct s_headers
 }t_headers;
 
 char	**ft_split(char const *s, char c);
+char	**ft_toke(char const *s, char c);
 #endif

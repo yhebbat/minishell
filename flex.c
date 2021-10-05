@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "minishell.h"
 
 static	int	ft_mots(char const *s, char c)
 {
@@ -22,6 +21,12 @@ static	int	ft_mots(char const *s, char c)
 			{
 				i++;
 				while (s[i] && s[i] != '"')
+					i++;
+			}
+			else if (s[i] == '\'')
+			{
+				i++;
+				while (s[i] && s[i] != '\'')
 					i++;
 			}
 			if (s[i] == c)
@@ -68,6 +73,16 @@ static int	ft_alpha(char const *s, char c, int i)
 			}
 			i++;
 		}
+		else if (s[i] == '\'')
+		{
+			i++;
+			while (s[i] != '\'')
+			{
+				r++;
+				i++;
+			}
+			i++;
+		}
 		else
 		{
 			r++;
@@ -106,6 +121,17 @@ static char	**ft_remp(char **p, char const *s, char c)
                 }
                 i++;
             }
+			else if (s[i] == '\'')
+            {
+                i++;
+                while (s[i] != '\'')
+                {
+		        	p[j][k] = s[i];
+					k++;
+					i++;
+                }
+                i++;
+            }
 			else
 				p[j][k++] = s[i++];
         }
@@ -126,29 +152,4 @@ char	**ft_toke(char const *s, char c)
 	if (!p)
 		return (0);
 	return (ft_remp(p, s, c));
-}
-
-int	main(int ac, char **av)
-{
-    (void)ac;
-	char	var[30] = "\"test|\"|h";
-    char    **test;
-    int     i = 0;
-
-    test = ft_toke(var, '|');
-
-    while (test[i])
-    {
-        printf("%s\n", test[i]);
-        i++;
-    }
-    ft_freee(test);
-    // var = "test | \"test|ls\"";
-	// var = getenv("SHELL");
-	// printf("la valeur de PATH est %s\n", var);
-    // printf("%d\n%s\n",ft_mots(var, '|'), var);
-    // printf("%d\n%s\n",ft_mots(var, '|'), var);
-    // printf("%d\n%s\n",ft_alpha(var, '|', 0), var);
-
-    
 }

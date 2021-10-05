@@ -229,9 +229,24 @@ void	envi(char **env, t_headers *header)
 	// 	ft_delbottom(header);
 }
 
-void	parse(char *line)
+void	flex(char *line, t_headers *header)
 {
-	
+	(void)header;
+	char	**test;
+    int     i = 0;
+
+    test = ft_toke(line, '|');
+    while (test[i])
+    {
+        printf("%s\n", test[i]);
+        i++;
+    }
+    ft_freee(test);
+}
+
+void	parse(char *line, t_headers *header)
+{
+	flex(line, header);
 }
 
 int	main(int ac, char **av, char **env)
@@ -241,7 +256,6 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	int k;
-	(void)env;
 
 	k = 1;
 	line = NULL;
@@ -252,7 +266,7 @@ int	main(int ac, char **av, char **env)
 	while (k)
 	{
 		line = readline("minishell🔥>");
-		parse(line);
+		parse(line, header);
 		add_history(line);
 		if (!strcmp(line, "exit"))
 		{
