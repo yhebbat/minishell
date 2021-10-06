@@ -11,7 +11,7 @@ OBJECT = $(SRC:.c=.o)
 all : $(NAME)
 
 $(NAME):
-	@clang -Wall -Wextra -Werror $(SRC) -o $(NAME) -g -fsanitize=address -lreadline
+	@clang -Wall -Wextra -Werror $(SRC) -o $(NAME) -g -lreadline #-fsanitize=address 
 	@echo "✅✅✅"
 
 #bonus:

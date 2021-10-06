@@ -5,11 +5,11 @@ static	int	ft_mots(char const *s, char c)
 	int			i;
 	int			k;
 	int			p;
-    int         d_q;
-    int         s_q;
+	int			d_q;
+	int			s_q;
 
-    d_q = 0;
-    s_q = 0;
+	d_q = 0;
+	s_q = 0;
 	i = 0;
 	k = 0;
 	p = 1;
@@ -39,7 +39,7 @@ static	int	ft_mots(char const *s, char c)
 			i++;
 		}
 	}
-    return (k);
+	return (k);
 }
 
 static void	*ft_freee(char **p)

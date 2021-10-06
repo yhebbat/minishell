@@ -1,0 +1,57 @@
+# skip spaces
+# "" or '' don't skip 
+
+#syntax error
+
+ | |
+ |
+ redirection PIPE
+ << >> < >
+
+ <<< =>error
+ >>> =>error
+
+ unclosed quotes => syntax error
+
+ >><
+ <<>
+
+Pipe at the end of line
+
+redirection at the end of line
+
+
+------------------------------
+
+Parse identifier of export/unset
+
+Start with underscore or alphabet and rest have to be only alphanum or undescore
+1jfbndh
+_bnhbnh
+bghhrbgh
+
+15315 =>error
+1563d
+
+=======================
+Parse line of heredoc
+<< stop_word cmd
+
+
+
+**arg => arg[0] = cmd | rest => arguments
+
+filename && type (input | output)=>
+
+typedef struct s_cmds
+{
+	char **args;
+	t_file *file;
+}	t_cmds;
+
+typedef struct s_file
+{
+	char *filename;
+	int type;
+	strcut s_file *next; 
+}	t_file;
