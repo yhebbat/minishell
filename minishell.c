@@ -324,18 +324,18 @@ void	check_error_redirections(char *line)
 	int i;
 
 	i = 0;
-	if (line[0] == '|')
-	{
-		free(line);
-		printf("parse error near `|'\n");
-		exit(0);
-	}
+	// if (line[0] == '|')
+	// {
+	// 	free(line);
+	// 	printf("parse error near `|'\n");
+	// 	exit(0);
+	// }
 	while (line[i])
 	{
-		if ((line[i] == '<' && !line[i + 1]) || (line[i] == '>' && !line[i + 1]))
+		if ((line[i] == '<' && !line[i + 1]) || (line[i] == '<' && !line[i + 1]))
 		{
 			free(line);
-			printf("parse error near `>'\n");
+			printf("parse error near `<'\n");
 			exit(0);
 		}
 		if ((line[i] == '<' && line[i + 1] == '|') || (line[i] == '>' && line[i + 1] == '|'))
