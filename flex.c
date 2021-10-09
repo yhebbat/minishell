@@ -6,10 +6,10 @@ static	int	ft_mots(char const *s, char c)
 	int			k;
 	int			p;
 	int			d_q;
-	int			s_q;
+//	int			s_q;
 
 	d_q = 0;
-	s_q = 0;
+//	s_q = 0;
 	i = 0;
 	k = 0;
 	p = 1;
@@ -65,22 +65,26 @@ static int	ft_alpha(char const *s, char c, int i)
 	{
 		if (s[i] == '"')
 		{
+			r++;
 			i++;
 			while (s[i] != '"')
 			{
 				r++;
 				i++;
 			}
+			r++;
 			i++;
 		}
 		else if (s[i] == '\'')
 		{
+			r++;
 			i++;
 			while (s[i] != '\'')
 			{
 				r++;
 				i++;
 			}
+			r++;
 			i++;
 		}
 		else
@@ -92,7 +96,7 @@ static int	ft_alpha(char const *s, char c, int i)
 	return (r);
 }
 
-static char	**ft_remp(char **p, char const *s, char c)
+static char	**ft_remp(char **p, char const *s, char c, int mots)
 {
 	int	i;
 	int	j;
@@ -100,8 +104,9 @@ static char	**ft_remp(char **p, char const *s, char c)
 
 	i = 0;
 	j = 0;
-	while (s[i] && ft_mots(s, c) > j)
+	while (s[i] && mots > j)
 	{
+		// printf("---%d----%d\n",mots, j);
 		k = 0;
 		while (s[i] == c)
 			s++;
@@ -112,6 +117,8 @@ static char	**ft_remp(char **p, char const *s, char c)
         {
             if (s[i] == '"')
             {
+				p[j][k] = s[i];
+				k++;
                 i++;
                 while (s[i] != '"')
                 {
@@ -119,10 +126,14 @@ static char	**ft_remp(char **p, char const *s, char c)
 					k++;
 					i++;
                 }
+				p[j][k] = s[i];
+				k++;
                 i++;
             }
 			else if (s[i] == '\'')
             {
+				p[j][k] = s[i];
+				k++;
                 i++;
                 while (s[i] != '\'')
                 {
@@ -130,6 +141,8 @@ static char	**ft_remp(char **p, char const *s, char c)
 					k++;
 					i++;
                 }
+				p[j][k] = s[i];
+				k++;
                 i++;
             }
 			else
@@ -145,11 +158,13 @@ static char	**ft_remp(char **p, char const *s, char c)
 char	**ft_toke(char const *s, char c)
 {
 	char	**p;
+	int		mots;
 
 	if (s == NULL)
 		return (0);
-	p = malloc(sizeof(char *) * (ft_mots(s, c) + 1));
+	mots = ft_mots(s, c);
+	p = malloc(sizeof(char *) * (mots + 1));
 	if (!p)
 		return (0);
-	return (ft_remp(p, s, c));
+	return (ft_remp(p, s, c, mots));
 }

@@ -229,7 +229,7 @@ void	envi(char **env, t_headers *header)
 	// 	ft_delbottom(header);
 }
 
-void	flex(char *line, t_headers *header)
+char	**flex(char *line, t_headers *header)
 {
 	(void)header;
 	char	**test;
@@ -241,7 +241,8 @@ void	flex(char *line, t_headers *header)
         printf("%s\n", test[i]);
         i++;
     }
-    ft_freee(test);
+	return (test);
+    // ft_freee(test);
 }
 
 void	nb_of_quotes(char *line)
@@ -355,25 +356,41 @@ void	check_error(char *line)
 	check_error_redirections(line);
 }
 
+// void	before_save(t_headers *header, char	**str)
+// {
+// 	init_cmd();
+// }
+
+// void	save_cmd(t_headers *header, char **str)
+// {
+// 	before_save(header, str);
+// 	// save(header, str);
+// }
+
 void	parse(char *line, t_headers *header)
 {
+	char	**str;
 	check_error(line);
-	flex(line, header);
+	str = flex(line, header);
+	// save_cmd(header, str);
+    ft_freee(str);
+
 }
 
 int	main(int ac, char **av, char **env)
 {
 	t_headers	*header;
 	char		*line;
-	(void)ac;
-	(void)av;
-	int k;
+	(void)		ac;
+	(void)		av;
+	int			k;
 
 	k = 1;
 	line = NULL;
 	header = malloc(sizeof(t_headers));
 	header->env_h = NULL;
 	header->env_f = NULL;
+	header->cmd_h = NULL;
 	envi(env, header);
 	while (k)
 	{
