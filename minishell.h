@@ -31,6 +31,7 @@ typedef struct s_cmds
 	char	*cmd;
 	struct	t_file	*file;
 	struct	s_cmds	*next;
+	struct	s_cmds	*prec;
 }t_cmds;
 
 
@@ -39,6 +40,7 @@ typedef struct s_headers
 	struct s_env	*env_h;
 	struct s_env	*env_f;
 	struct s_cmds	*cmd_h;
+	struct s_cmds	*cmd_f;
 }t_headers;
 
 char	**ft_split(char const *s, char c);
