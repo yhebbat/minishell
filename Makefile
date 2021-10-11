@@ -2,7 +2,7 @@ PHONY: all bonus clean fclean re
 
 NAME = minishell
 
-SRC =	minishell.c ft_split.c flex.c
+SRC =	minishell.c ft_split.c flex.c ft_tst.c
 #SRC_BONUS =	checker.c get_next_line.c get_next_line_utils.c pile.c \
 			operations.c to_check.c utils.c free.c
 OBJECT = $(SRC:.c=.o)

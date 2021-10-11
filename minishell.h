@@ -45,4 +45,5 @@ typedef struct s_headers
 
 char	**ft_split(char const *s, char c);
 char	**ft_toke(char const *s, char c);
+char	**ft_flex(char const *s, char c);
 #endif

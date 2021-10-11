@@ -19,8 +19,7 @@ static void	*ft_freee(char **p)
 	{
 		free(p[i]);
 		i++;
-	}
-	free(p);
+	}	free(p);
 	return (0);
 }
 
@@ -416,6 +415,30 @@ void	ft_delbotcmd(t_headers *head)
 	}
 }
 
+void	ft_complet(t_headers *header)
+{
+	t_cmds *new_cmd;
+	new_cmd = header->cmd_h;
+	while (new_cmd)
+	{
+		new_cmd->args = ft_flex(new_cmd->cmd, ' ');
+		new_cmd = new_cmd->next;
+	}
+	new_cmd = header->cmd_h;
+	while (new_cmd)
+	{
+		int i = 0;
+		while (new_cmd->args[i])
+		{
+			printf("%s\n",new_cmd->args[i]);
+			i++;
+		}
+		printf("----------------------\n");
+		new_cmd = new_cmd->next;
+	}
+	//to free this sturct u have to call ft_freeee inside ft_delstruct 
+}
+
 void	before_save(t_headers *header, char	**str)
 {
 	int i;
@@ -426,13 +449,15 @@ void	before_save(t_headers *header, char	**str)
 		ft_addbotcmd(header, str[i]);
 		i++;
 	}
-	t_cmds *new_cmd;
-	new_cmd = header->cmd_h;
-	while (new_cmd)
-	{
-		printf("%s\n", new_cmd->cmd);
-		new_cmd = new_cmd->next;
-	}
+	ft_complet(header);
+	// t_cmds *new_cmd;
+	// new_cmd = header->cmd_h;
+	// while (new_cmd)
+	// {
+		
+	// 	printf("%s\n", new_cmd->cmd);
+	// 	new_cmd = new_cmd->next;
+	// }
 }
 
 void	save_cmd(t_headers *header, char **str)
@@ -469,7 +494,7 @@ int	main(int ac, char **av, char **env)
 	envi(env, header);
 	while (k)
 	{
-		line = readline("minishell🔥>");
+		line = readline("minishell🔥\%");
 		parse(line, header);
 		add_history(line);
 		if (!strcmp(line, "exit"))

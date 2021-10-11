@@ -1,47 +1,5 @@
 #include "minishell.h"
 
-static	int	ft_mots(char const *s, char c)
-{
-	int			i;
-	int			k;
-	int			p;
-	int			d_q;
-//	int			s_q;
-
-	d_q = 0;
-//	s_q = 0;
-	i = 0;
-	k = 0;
-	p = 1;
-	if (*s)
-	{
-		while (s[i])
-		{
-			if (s[i] == '"')
-			{
-				i++;
-				while (s[i] && s[i] != '"')
-					i++;
-			}
-			else if (s[i] == '\'')
-			{
-				i++;
-				while (s[i] && s[i] != '\'')
-					i++;
-			}
-			if (s[i] == c)
-				p = 1;
-			else if (p == 1 && !d_q)
-			{
-				p = 0;
-				k++;
-			}
-			i++;
-		}
-	}
-	return (k);
-}
-
 static void	*ft_freee(char **p)
 {
 	int	i;
@@ -56,7 +14,43 @@ static void	*ft_freee(char **p)
 	return (0);
 }
 
-static int	ft_alpha(char const *s, char c, int i)
+static	int	ft_mmots(char const *s, char c)
+{
+	int			i;
+	int			k;
+	int			p;
+    int         d_q;
+    int         s_q;
+
+    d_q = 0;
+    s_q = 0;
+	i = 0;
+	k = 0;
+	p = 1;
+	if (*s)
+	{
+		while (s[i])
+		{
+			if (s[i] == '"')
+			{
+				i++;
+				while (s[i] && s[i] != '"')
+					i++;
+			}
+			if (s[i] == c)
+				p = 1;
+			else if (p == 1 && !d_q)
+			{
+				p = 0;
+				k++;
+			}
+			i++;
+		}
+	}
+    return (k);
+}
+
+static int	ft_alphaa(char const *s, char c, int i)
 {
 	int	r;
 
@@ -65,26 +59,12 @@ static int	ft_alpha(char const *s, char c, int i)
 	{
 		if (s[i] == '"')
 		{
-			r++;
 			i++;
 			while (s[i] != '"')
 			{
 				r++;
 				i++;
 			}
-			r++;
-			i++;
-		}
-		else if (s[i] == '\'')
-		{
-			r++;
-			i++;
-			while (s[i] != '\'')
-			{
-				r++;
-				i++;
-			}
-			r++;
 			i++;
 		}
 		else
@@ -96,7 +76,7 @@ static int	ft_alpha(char const *s, char c, int i)
 	return (r);
 }
 
-static char	**ft_remp(char **p, char const *s, char c, int mots)
+static char	**ft_rempp(char **p, char const *s, char c, int mots)
 {
 	int	i;
 	int	j;
@@ -109,15 +89,13 @@ static char	**ft_remp(char **p, char const *s, char c, int mots)
 		k = 0;
 		while (s[i] == c)
 			s++;
-		p[j] = malloc(sizeof(char) * ft_alpha(s, c, i) + 1);
+		p[j] = malloc(sizeof(char) * ft_alphaa(s, c, i) + 1);
 		if (!p[j])
 			return (ft_freee(p));
 		while (s[i] && s[i] != c)
         {
             if (s[i] == '"')
             {
-				p[j][k] = s[i];
-				k++;
                 i++;
                 while (s[i] != '"')
                 {
@@ -125,23 +103,6 @@ static char	**ft_remp(char **p, char const *s, char c, int mots)
 					k++;
 					i++;
                 }
-				p[j][k] = s[i];
-				k++;
-                i++;
-            }
-			else if (s[i] == '\'')
-            {
-				p[j][k] = s[i];
-				k++;
-                i++;
-                while (s[i] != '\'')
-                {
-		        	p[j][k] = s[i];
-					k++;
-					i++;
-                }
-				p[j][k] = s[i];
-				k++;
                 i++;
             }
 			else
@@ -154,16 +115,16 @@ static char	**ft_remp(char **p, char const *s, char c, int mots)
 	return (p);
 }
 
-char	**ft_toke(char const *s, char c)
+char	**ft_flex(char const *s, char c)
 {
 	char	**p;
 	int		mots;
 
 	if (s == NULL)
 		return (0);
-	mots = ft_mots(s, c);
+	mots = ft_mmots(s, c);
 	p = malloc(sizeof(char *) * (mots + 1));
 	if (!p)
 		return (0);
-	return (ft_remp(p, s, c, mots));
+	return (ft_rempp(p, s, c, mots));
 }

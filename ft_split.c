@@ -51,7 +51,7 @@ static int	ft_alpha(char const *s, char c, int i)
 	return (r);
 }
 
-static char	**ft_remp(char **p, char const *s, char c)
+static char	**ft_remp(char **p, char const *s, char c, int mots)
 {
 	int	i;
 	int	j;
@@ -59,7 +59,7 @@ static char	**ft_remp(char **p, char const *s, char c)
 
 	i = 0;
 	j = 0;
-	while (s[i] && ft_mots(s, c) > j)
+	while (s[i] && mots > j)
 	{
 		k = 0;
 		while (s[i] == c)
@@ -80,13 +80,15 @@ static char	**ft_remp(char **p, char const *s, char c)
 char	**ft_split(char const *s, char c)
 {
 	char	**p;
+	int		mots;
 
 	if (s == NULL)
 		return (0);
-	p = malloc(sizeof(char *) * (ft_mots(s, c) + 1));
+	mots = ft_mots(s, c);
+	p = malloc(sizeof(char *) * (mots + 1));
 	if (!p)
 		return (0);
-	return (ft_remp(p, s, c));
+	return (ft_remp(p, s, c, mots));
 }
 
 // int	main(int ac, char **av, char **env)
