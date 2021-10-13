@@ -40,6 +40,7 @@ void	ft_delbotcmd(t_headers *head)
 		to_delete = head->cmd_f;
 		if (!to_delete->prec)
 		{
+			ft_free(to_delete->args);
 			free(to_delete->cmd);
 			// free(to_delete->var);
 			free(to_delete);
@@ -52,6 +53,7 @@ void	ft_delbotcmd(t_headers *head)
 			stack = to_delete->prec;
 			head->cmd_f = stack;
 			stack->next = NULL;
+			ft_free(to_delete->args);
 			// free(to_delete->val);
 			free(to_delete->cmd);
 			free(to_delete);
@@ -81,6 +83,7 @@ void	ft_complet(t_headers *header)
 		printf("----------------------\n");
 		new_cmd = new_cmd->next;
 	}
+	new_cmd = header->cmd_h;
 	//to free this sturct u have to call ft_freeee inside ft_delstruct 
 }
 
