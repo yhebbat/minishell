@@ -157,15 +157,13 @@ char	*findit(t_headers *header, char *var)
 		if (!strcmp(checkenv->var, var))
 		{
 			str = checkenv->val;
+			return (str);
 			break ;
 		}
 		checkenv = checkenv->suivant;
 	}
-	if (strcmp(checkenv->var, var) != 0)
-	{
-		str = malloc(1);
-		str = "\n";
-	}
+	str = malloc(1);
+	str[0] = '\0';
 	return (str);
 }
 
@@ -178,7 +176,9 @@ void	checkdollar(t_headers *header)
 	char	*val; //  KOFLA
 	int		i;
 	int		k;
+	int s_q;
 
+	s_q = 0;
 	i = 0;
 	k = 0;
 	findollar = header->cmd_h;
@@ -191,11 +191,13 @@ void	checkdollar(t_headers *header)
 			k = 0;
 			while (findollar->args[i][k])
 			{
-				if (findollar->args[i][k] == '$')
+				if (findollar->args[i][k] == '\'')
+					s_q++;
+				if (findollar->args[i][k] == '$' && s_q % 2 == 0)
 				{
 					var = to_find(findollar->args[i], k);
 					val = findit(header, var); // STILL HAVE A PRBLM WHEN U DON'T FIND THE VAR
-					printf("var---%s\nval---%s\n", var, val);
+					// printf("var---%s\nval---%s\n", var, val);
 					findollar->args[i] = ft_strjoin(findollar->args[i], val);
 					// add strjoin and modify on it
 					// free(var);
@@ -209,8 +211,6 @@ void	checkdollar(t_headers *header)
 		}
 		findollar = findollar->next;
 	}
-	// free(var);
-	// free(val);
 }
 
 void	save_cmd(t_headers *header, char **str)
