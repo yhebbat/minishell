@@ -194,7 +194,7 @@ void	checkdollar(t_headers *header)
 				if (findollar->args[i][k] == '$')
 				{
 					var = to_find(findollar->args[i], k);
-					val = findit(header, var);
+					val = findit(header, var); // STILL HAVE A PRBLM WHEN U DON'T FIND THE VAR
 					printf("var---%s\nval---%s\n", var, val);
 					findollar->args[i] = ft_strjoin(findollar->args[i], val);
 					// add strjoin and modify on it
