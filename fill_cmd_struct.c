@@ -29,7 +29,6 @@ void	ft_addbotcmd(t_headers *head, char *val)
 	}
 }
 
-
 void	ft_delbotcmd(t_headers *head)
 {
 	t_cmds	*to_delete;
@@ -95,17 +94,17 @@ void	ft_complet(t_headers *header)
 	// 	new_cmd = new_cmd->next;
 	// }
 	new_cmd = header->cmd_h;
-	while (new_cmd)
-	{
-		int i = 0;
-		while (new_cmd->args[i])
-		{
-			printf("%s\n",new_cmd->args[i]);
-			i++;
-		}
-		printf("----------------------\n");
-		new_cmd = new_cmd->next;
-	}
+	// while (new_cmd)
+	// {
+	// 	int i = 0;
+	// 	while (new_cmd->args[i])
+	// 	{
+	// 		printf("%s\n",new_cmd->args[i]);
+	// 		i++;
+	// 	}
+	// 	printf("----------------------\n");
+	// 	new_cmd = new_cmd->next;
+	// }
 	new_cmd = header->cmd_h;
 	//to free this sturct u have to call ft_freeee inside ft_delstruct 
 }
@@ -138,7 +137,7 @@ char	*to_find(char *str, int k)
 	char	*var;
 
 	i = strlen(str);
-	var = malloc(sizeof(char) * (i - k));
+	var = malloc(sizeof(char) * (i - k + 1));
 	i = 0;
 	k++;
 	while (str[k])
@@ -162,20 +161,21 @@ char	*findit(t_headers *header, char *var)
 		}
 		checkenv = checkenv->suivant;
 	}
-	if (strcmp(checkenv->var, var))
+	if (strcmp(checkenv->var, var) != 0)
 	{
 		str = malloc(1);
-		str = '\n';
+		str = "\n";
 	}
 	return (str);
 }
 
 void	checkdollar(t_headers *header)
 {
-	t_cmds	*findollar;
+	t_cmds	*findollar; //RIB7 MINA L INTERNET
+
 	// t_env	*checkenv;
-	char	*var;
-	char	*val;
+	char	*var;  // PENALTY
+	char	*val; //  KOFLA
 	int		i;
 	int		k;
 
@@ -195,23 +195,41 @@ void	checkdollar(t_headers *header)
 				{
 					var = to_find(findollar->args[i], k);
 					val = findit(header, var);
+					printf("var---%s\nval---%s\n", var, val);
+					findollar->args[i] = ft_strjoin(findollar->args[i], val);
 					// add strjoin and modify on it
+					// free(var);
+					// free(val);
+					// N.B.: YOU HAAVE TO FIND A WAY TO FREE VAR AND VAL
 					break ;
 				}
 				k++;
 			}
-			free(var);
 			i++;
 		}
 		findollar = findollar->next;
 	}
-	
+	// free(var);
+	// free(val);
 }
 
 void	save_cmd(t_headers *header, char **str)
 {
+	t_cmds	*new_cmd;
 	before_save(header, str);
 	checkdollar(header);
+	new_cmd = header->cmd_h;
+	while (new_cmd)
+	{
+		int i = 0;
+		while (new_cmd->args[i])
+		{
+			printf("%s\n",new_cmd->args[i]);
+			i++;
+		}
+		printf("----------------------\n");
+		new_cmd = new_cmd->next;
+	}
 	// save(header, str);
 	while (header->cmd_h)
 		ft_delbotcmd(header);
