@@ -50,7 +50,9 @@ void	nb_of_quotes(char *line)
 void	check_error_pipes(char *line)
 {
 	int i;
+	int	d_q;
 
+	d_q = 0;
 	i = 0;
 	if (line[0] == '|')
 	{
@@ -60,13 +62,15 @@ void	check_error_pipes(char *line)
 	}
 	while (line[i])
 	{
-		if ((line[i] == '|' && !line[i + 1]) || (line[i] == '|' && line[i + 1] == '|'))
+		if (line[i] == '"')
+			d_q++;
+		if ((line[i] == '|' && !line[i + 1]) || (line[i] == '|' && line[i + 1] == '|' && d_q % 2 == 0))
 		{
 			free(line);
 			printf("parse error near `|'\n");
 			exit(0);
 		}
-		if ((line[i] == '<' && line[i + 1] == '|') || (line[i] == '>' && line[i + 1] == '|'))
+		if ((d_q % 2 == 0 &&(line[i] == '<' || line[i] == '>') && line[i + 1] == '|'))
 		{
 			free(line);
 			printf("parse error near \"<>|\"\n");
@@ -95,12 +99,12 @@ void	check_error_redirections(char *line)
 			printf("parse error near `<'\n");
 			exit(0);
 		}
-		if ((line[i] == '<' && line[i + 1] == '|') || (line[i] == '>' && line[i + 1] == '|'))
-		{
-			free(line);
-			printf("parse error near \"<>|\"\n");
-			exit(0);
-		}
+		// if ((line[i] == '<' && line[i + 1] == '|') || (line[i] == '>' && line[i + 1] == '|'))
+		// {
+		// 	free(line);
+		// 	printf("parse error near \"<>|\"\n");
+		// 	exit(0);
+		// }
 		i++;
 	}
 }

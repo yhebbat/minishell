@@ -57,7 +57,19 @@ static int	ft_alphaa(char const *s, char c, int i)
 	r = 0;
 	while (s[i] && s[i] != c)
 	{
-		if (s[i] == '"')
+		if (s[i] == '\'')
+		{
+			i++;
+			r++;
+			while (s[i] != '\'')
+			{
+				r++;
+				i++;
+			}
+			r++;
+			i++;
+		}
+		else if (s[i] == '"')
 		{
 			i++;
 			while (s[i] != '"')
@@ -94,7 +106,22 @@ static char	**ft_rempp(char **p, char const *s, char c, int mots)
 			return (ft_freee(p));
 		while (s[i] && s[i] != c)
         {
-            if (s[i] == '"')
+			if (s[i] == '\'')
+            {
+				p[j][k] = s[i];
+                i++;
+				k++;
+                while (s[i] != '\'')
+                {
+		        	p[j][k] = s[i];
+					k++;
+					i++;
+                }
+				p[j][k] = s[i];
+                i++;
+				k++;
+            }
+            else if (s[i] == '"')
             {
                 i++;
                 while (s[i] != '"')

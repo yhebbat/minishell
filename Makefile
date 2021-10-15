@@ -12,7 +12,7 @@ OBJECT = $(SRC:.c=.o)
 all : $(NAME)
 
 $(NAME):
-	@gcc -Wall -Wextra -Werror $(SRC) -o $(NAME) -g -lreadline -fsanitize=address 
+	@gcc -Wall -Wextra -Werror $(SRC) -o $(NAME) -g -lreadline -fsanitize=address
 	@echo "✅✅✅"
 
 #bonus:

@@ -54,4 +54,5 @@ void	ft_delbottom(t_headers *head);
 void	ft_addbottom(t_headers *head, char *var, char *val);
 char	*add_str(char *str);
 void	save_cmd(t_headers *header, char **str);
+int		ft_strlen(char *str);
 #endif

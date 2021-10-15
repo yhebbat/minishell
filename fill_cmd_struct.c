@@ -71,6 +71,29 @@ void	ft_complet(t_headers *header)
 		new_cmd->args = ft_flex(new_cmd->cmd, ' ');
 		new_cmd = new_cmd->next;
 	}
+	// new_cmd = header->cmd_h;
+	// while (new_cmd)
+	// {
+	// 	int i = 0;
+	// 	int k = 0;
+	// 	while (new_cmd->args[i])
+	// 	{
+	// 		k = 0;
+	// 		if (new_cmd->args[i][k] != '\'')
+	// 		{
+	// 			while (new_cmd->args[i][k])
+	// 			{
+	// 				if (new_cmd->args[i][k] == '$')
+	// 				{
+
+	// 				}
+	// 				k++;
+	// 			}
+	// 		}
+	// 		i++;
+	// 	}
+	// 	new_cmd = new_cmd->next;
+	// }
 	new_cmd = header->cmd_h;
 	while (new_cmd)
 	{
@@ -94,6 +117,7 @@ void	before_save(t_headers *header, char	**str)
 	i = 0;
 	while (str[i])
 	{
+		// printf("|%s|\n",str[i]);
 		ft_addbotcmd(header, str[i]);
 		i++;
 	}
@@ -108,9 +132,74 @@ void	before_save(t_headers *header, char	**str)
 	// }
 }
 
+char	*to_find(char *str, int k)
+{
+	int		i;
+	char	*var;
+
+	i = strlen(str);
+	var = malloc(sizeof(char) * (i - k));
+	i = 0;
+	k++;
+	while (str[k])
+		var[i++] = str[k++];
+	var[i] = '\0';
+	return (var);
+}
+
+char	*findit(t_headers *header, char *var)
+{
+	t_env	*checkenv;
+	checkenv = header->env_h;
+
+	while ()
+	{
+		/* code */
+	}
+	
+}
+
+void	checkdollar(t_headers *header)
+{
+	t_cmds	*findollar;
+	// t_env	*checkenv;
+	char	*var;
+	char	*val;
+	int		i;
+	int		k;
+
+	i = 0;
+	k = 0;
+	findollar = header->cmd_h;
+	// checkenv = header->envi;
+	while (findollar)
+	{
+		i = 0;
+		while (findollar->args[i])
+		{
+			k = 0;
+			while (findollar->args[i][k])
+			{
+				if (findollar->args[i][k] == '$')
+				{
+					var = to_find(findollar->args[i], k);
+					findit(header, var);
+					break ;
+				}
+				k++;
+			}
+			free(var);
+			i++;
+		}
+		findollar = findollar->next;
+	}
+	
+}
+
 void	save_cmd(t_headers *header, char **str)
 {
 	before_save(header, str);
+	checkdollar(header);
 	// save(header, str);
 	while (header->cmd_h)
 		ft_delbotcmd(header);

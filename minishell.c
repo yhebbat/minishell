@@ -115,6 +115,8 @@ int	main(int ac, char **av, char **env)
 	while (k)
 	{
 		line = readline("minishell🔥\%");
+		if (!line)
+			break;
 		parse(line, header);
 		add_history(line);
 		if (!strcmp(line, "exit"))
