@@ -150,13 +150,24 @@ char	*to_find(char *str, int k)
 char	*findit(t_headers *header, char *var)
 {
 	t_env	*checkenv;
-	checkenv = header->env_h;
+	char	*str;
 
-	while ()
+	checkenv = header->env_h;
+	while (checkenv)
 	{
-		/* code */
+		if (!strcmp(checkenv->var, var))
+		{
+			str = checkenv->val;
+			break ;
+		}
+		checkenv = checkenv->suivant;
 	}
-	
+	if (strcmp(checkenv->var, var))
+	{
+		str = malloc(1);
+		str = '\n';
+	}
+	return (str);
 }
 
 void	checkdollar(t_headers *header)
@@ -183,7 +194,8 @@ void	checkdollar(t_headers *header)
 				if (findollar->args[i][k] == '$')
 				{
 					var = to_find(findollar->args[i], k);
-					findit(header, var);
+					val = findit(header, var);
+					// add strjoin and modify on it
 					break ;
 				}
 				k++;
