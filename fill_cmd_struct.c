@@ -156,7 +156,7 @@ char	*findit(t_headers *header, char *var)
 	{
 		if (!strcmp(checkenv->var, var))
 		{
-			str = checkenv->val;
+			str = ft_strdup(checkenv->val);
 			return (str);
 			break ;
 		}
@@ -166,17 +166,24 @@ char	*findit(t_headers *header, char *var)
 	str[0] = '\0';
 	return (str);
 }
+char *ft_strjoin_free(char *s1, char *s2)
+{
+	char *ret;
 
+	ret = ft_strjoin(s1, s2);
+	free (s1);
+	return (ret);
+}
 void	checkdollar(t_headers *header)
 {
-	t_cmds	*findollar; //RIB7 MINA L INTERNET
+	t_cmds	*findollar;
 
 	// t_env	*checkenv;
-	char	*var;  // PENALTY
-	char	*val; //  KOFLA
 	int		i;
 	int		k;
 	int s_q;
+	char	*var;
+	char	*val;
 
 	s_q = 0;
 	i = 0;
@@ -198,10 +205,10 @@ void	checkdollar(t_headers *header)
 					var = to_find(findollar->args[i], k);
 					val = findit(header, var); // STILL HAVE A PRBLM WHEN U DON'T FIND THE VAR
 					// printf("var---%s\nval---%s\n", var, val);
-					findollar->args[i] = ft_strjoin(findollar->args[i], val);
+					findollar->args[i] = ft_strjoin_free(findollar->args[i], val);
 					// add strjoin and modify on it
-					// free(var);
-					// free(val);
+					free(var);
+					free(val);
 					// N.B.: YOU HAAVE TO FIND A WAY TO FREE VAR AND VAL
 					break ;
 				}
@@ -216,6 +223,7 @@ void	checkdollar(t_headers *header)
 void	save_cmd(t_headers *header, char **str)
 {
 	t_cmds	*new_cmd;
+
 	before_save(header, str);
 	checkdollar(header);
 	new_cmd = header->cmd_h;

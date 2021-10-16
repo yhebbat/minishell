@@ -83,3 +83,24 @@ char	*ft_strjoin(char *s1, char *s2)
 	new[ss1 + ss2] = '\0';
 	return (new);
 }
+
+char	*ft_strdup(const char *s)
+{
+	size_t	k;
+	char	*new;
+	size_t	i;
+
+	i = 0;
+	k = 0;
+	while (s[k] != '\0')
+		k++;
+	if (!(new = (char *)malloc((k + 1) * sizeof(char))))
+		return (0);
+	while (s[i] != '\0')
+	{
+		new[i] = s[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}

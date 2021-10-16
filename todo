@@ -55,3 +55,14 @@ typedef struct s_file
 	int type;
 	strcut s_file *next; 
 }	t_file;
+
+
+
+
+
+
+""| sd as
+  | sd as
+$U"S"ER
+$1lsd
+export A="echo hello"

@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 
-void	nb_of_quotes(char *line)
+int	nb_of_quotes(char *line)
 {
 	int i;
 	int	d_q;
@@ -41,13 +41,14 @@ void	nb_of_quotes(char *line)
 	}
 	if (s_q || d_q)
 	{
-		free(line);
+		// free(line);
 		printf("syntax error in quotes\n");
-		exit(0);
+		return (1);
 	}
+	return (0);
 }
 
-void	check_error_pipes(char *line)
+int	check_error_pipes(char *line)
 {
 	int i;
 	int	d_q;
@@ -56,9 +57,9 @@ void	check_error_pipes(char *line)
 	i = 0;
 	if (line[0] == '|')
 	{
-		free(line);
+		// free(line);
 		printf("parse error near `|'\n");
-		exit(0);
+		return (1);
 	}
 	while (line[i])
 	{
@@ -66,21 +67,22 @@ void	check_error_pipes(char *line)
 			d_q++;
 		if ((line[i] == '|' && !line[i + 1]) || (line[i] == '|' && line[i + 1] == '|' && d_q % 2 == 0))
 		{
-			free(line);
+			// free(line);
 			printf("parse error near `|'\n");
-			exit(0);
+			return (1);
 		}
 		if ((d_q % 2 == 0 &&(line[i] == '<' || line[i] == '>') && line[i + 1] == '|'))
 		{
-			free(line);
+			// free(line);
 			printf("parse error near \"<>|\"\n");
-			exit(0);
+			return (1);
 		}
 		i++;
 	}
+	return (0);
 }
 
-void	check_error_redirections(char *line)
+int	check_error_redirections(char *line)
 {
 	int i;
 
@@ -95,9 +97,9 @@ void	check_error_redirections(char *line)
 	{
 		if ((line[i] == '<' && !line[i + 1]) || (line[i] == '<' && !line[i + 1]))
 		{
-			free(line);
+			// free(line);
 			printf("parse error near `<'\n");
-			exit(0);
+			return (1);
 		}
 		// if ((line[i] == '<' && line[i + 1] == '|') || (line[i] == '>' && line[i + 1] == '|'))
 		// {
@@ -107,11 +109,17 @@ void	check_error_redirections(char *line)
 		// }
 		i++;
 	}
+	return (0);
 }
 
-void	check_error(char *line)
+int	check_error(char *line)
 {
-	nb_of_quotes(line);
-	check_error_pipes(line);
-	check_error_redirections(line);
+	if (nb_of_quotes(line))
+		return (1);
+	else if (check_error_pipes(line))
+		return (1);
+	else if (check_error_redirections(line))
+		return (1);
+	else
+		return (0);
 }

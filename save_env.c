@@ -30,7 +30,6 @@ void	ft_delbottom(t_headers *head)
 	}
 }
 
-
 void	ft_addbottom(t_headers *head, char *var, char *val)
 {
 	t_env	*stack;

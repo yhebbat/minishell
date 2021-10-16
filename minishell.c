@@ -91,10 +91,12 @@ void	ft_addtop(t_headers *head, char *var, char *val)
 void	parse(char *line, t_headers *header)
 {
 	char	**str;
-	check_error(line);
-	str = split_pipe(line, header);
-	save_cmd(header, str);
-    ft_free(str);
+	if (!check_error(line))
+	{
+		str = split_pipe(line, header);
+		save_cmd(header, str);
+		ft_free(str);
+	}
 }
 
 int	main(int ac, char **av, char **env)
@@ -131,5 +133,5 @@ int	main(int ac, char **av, char **env)
 		ft_delbottom(header);
 	free(header);
 	header = NULL;
-	// system("leaks minishell");
+	system("leaks minishell");
 }

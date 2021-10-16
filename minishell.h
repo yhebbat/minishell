@@ -48,7 +48,7 @@ char	**ft_toke(char const *s, char c);
 char	**ft_flex(char const *s, char c);
 char	**split_pipe(char *line, t_headers *header);
 void	envi(char **env, t_headers *header);
-void	check_error(char *line);
+int		check_error(char *line);
 void	*ft_free(char **p);
 void	ft_delbottom(t_headers *head);
 void	ft_addbottom(t_headers *head, char *var, char *val);
@@ -56,4 +56,5 @@ char	*add_str(char *str);
 void	save_cmd(t_headers *header, char **str);
 int		ft_strlen(char *str);
 char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strdup(const char *s);
 #endif

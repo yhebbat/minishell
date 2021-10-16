@@ -349,4 +349,5 @@ int main()
 	// s = to_find(str, k);
 	printf("%s\n", str);
 	free(str);
+	system("leaks a.out");
 }
