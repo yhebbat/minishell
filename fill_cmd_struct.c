@@ -120,7 +120,7 @@ void	before_save(t_headers *header, char	**str)
 		ft_addbotcmd(header, str[i]);
 		i++;
 	}
-	ft_complet(header);
+	// ft_complet(header);
 	// t_cmds *new_cmd;
 	// new_cmd = header->cmd_h;
 	// while (new_cmd)
@@ -134,13 +134,19 @@ void	before_save(t_headers *header, char	**str)
 char	*to_find(char *str, int k)
 {
 	int		i;
+	int		r;
 	char	*var;
 
-	i = strlen(str);
-	var = malloc(sizeof(char) * (i - k + 1));
 	i = 0;
-	k++;
-	while (str[k])
+	r = k;
+	while (str[r] && str[r] != '"' && str[r] != ' ')
+	{
+		i++;
+		r++;
+	}
+	var = malloc(sizeof(char) * (i + 1));
+	i = 0;
+	while (str[k] && str[k] != '"' && str[k] != ' ')
 		var[i++] = str[k++];
 	var[i] = '\0';
 	return (var);
@@ -159,6 +165,7 @@ char	*findit(t_headers *header, char *var)
 	char	*str;
 
 	checkenv = header->env_h;
+	var++;
 	if (var[0] != '_' && !ft_isalpha(var[0]))
 	{
 		var++;
@@ -179,6 +186,14 @@ char	*findit(t_headers *header, char *var)
 	str[0] = '\0';
 	return (str);
 }
+char *ft_strjoin_dollarfree(char *s1, char *s2)
+{
+	char *ret;
+
+	ret = ft_strjoin_dollar(s1, s2);
+	free (s1);
+	return (ret);
+}
 char *ft_strjoin_free(char *s1, char *s2)
 {
 	char *ret;
@@ -187,52 +202,118 @@ char *ft_strjoin_free(char *s1, char *s2)
 	free (s1);
 	return (ret);
 }
-void	checkdollar(t_headers *header)
-{
-	t_cmds	*findollar;
+// void	checkdollar(t_headers *header)
+// {
+// 	t_cmds	*findollar;
 
-	// t_env	*checkenv;
+// 	// t_env	*checkenv;
+// 	int		i;
+// 	int		k;
+// 	int s_q;
+// 	// int d_q;
+// 	char	*var;
+// 	char	*val;
+
+// 	s_q = 0;
+// 	i = 0;
+// 	k = 0;
+// 	findollar = header->cmd_h;
+// 	// checkenv = header->envi;
+// 	while (findollar)
+// 	{
+// 		i = 0;
+// 		while (findollar->args[i])
+// 		{
+// 			k = 0;
+// 			while (findollar->args[i][k])
+// 			{
+// 				if (findollar->args[i][k] == '\'')
+// 					s_q++;
+// 				if (findollar->args[i][k] == '$' && s_q % 2 == 0)
+// 				{
+// 					var = to_find(findollar->args[i], k);
+// 					val = findit(header, var); // STILL HAVE A PRBLM WHEN U DON'T FIND THE VAR
+// 					// printf("|%s|\n",var);
+// 					// printf("|%s|\n",val);
+// 					// printf("var---%s\nval---%s\n", var, val);
+// 					findollar->args[i] = ft_strjoin_free(findollar->args[i], val);
+// 					// add strjoin and modify on it
+// 					free(var);
+// 					free(val);
+// 					// N.B.: YOU HAAVE TO FIND A WAY TO FREE VAR AND VAL
+// 					break ;
+// 				}
+// 				k++;
+// 			}
+// 			i++;
+// 		}
+// 		findollar = findollar->next;
+// 	}
+// }
+
+char	*ft_strstr(const char *src, const char *tofind)
+{
+	const char	*deb;
+	const char	*fin;
+
+	if (*tofind == '\0')
+		return (char*)src;
+	while (*src != '\0')
+	{
+		deb = src;
+		fin = tofind;
+		while (*src && *fin && *src == *fin)
+		{
+			src++;
+			fin++;
+		}
+		if (*fin == '\0')
+			return ((char *)src);
+		src = deb + 1;
+	}
+	return (0);
+}
+
+void	checkdollar_cmd(t_headers *header)
+{
+	t_cmds	*new_cmd;
 	int		i;
-	int		k;
-	int s_q;
-	// int d_q;
+	int		s_q;
+	int		d_q;
 	char	*var;
 	char	*val;
+	char	*rest;
 
+	new_cmd = header->cmd_h;
 	s_q = 0;
+	d_q = 0;
 	i = 0;
-	k = 0;
-	findollar = header->cmd_h;
-	// checkenv = header->envi;
-	while (findollar)
+	while (new_cmd)
 	{
-		i = 0;
-		while (findollar->args[i])
+		while (new_cmd->cmd[i])
 		{
-			k = 0;
-			while (findollar->args[i][k])
-			{
-				if (findollar->args[i][k] == '\'')
+			if (new_cmd->cmd[i] == '\'' && (d_q % 2) == 0)
 					s_q++;
-				if (findollar->args[i][k] == '$' && s_q % 2 == 0)
-				{
-					var = to_find(findollar->args[i], k);
-					val = findit(header, var); // STILL HAVE A PRBLM WHEN U DON'T FIND THE VAR
-					// printf("|%s|\n",var);
-					// printf("|%s|\n",val);
-					// printf("var---%s\nval---%s\n", var, val);
-					findollar->args[i] = ft_strjoin_free(findollar->args[i], val);
-					// add strjoin and modify on it
-					free(var);
-					free(val);
-					// N.B.: YOU HAAVE TO FIND A WAY TO FREE VAR AND VAL
-					break ;
-				}
-				k++;
+			if (new_cmd->cmd[i] == '"' && (s_q % 2) == 0)
+					d_q++;
+			if (new_cmd->cmd[i] == '$' && s_q % 2 == 0)
+			{
+				var = to_find(new_cmd->cmd, i);
+				// printf("var---%s\n", var);
+				rest = ft_strdup(ft_strstr(new_cmd->cmd, var));
+				// printf("rest---%s\n", rest);
+				val = findit(header, var); // STILL HAVE A PRBLM WHEN U DON'T FIND THE VAR
+				// printf("val---%s\n", val);
+				new_cmd->cmd = ft_strjoin_dollarfree(new_cmd->cmd, val);
+				// printf("cmd---%s\n", new_cmd->cmd);
+				new_cmd->cmd = ft_strjoin_free(new_cmd->cmd, rest);
+				free(var);
+				free(val);
+				free(rest);
 			}
 			i++;
 		}
-		findollar = findollar->next;
+		new_cmd = new_cmd->next;
 	}
 }
 
@@ -241,7 +322,8 @@ void	save_cmd(t_headers *header, char **str)
 	t_cmds	*new_cmd;
 	
 	before_save(header, str);
-	checkdollar(header);
+	checkdollar_cmd(header);
+	ft_complet(header);
 	new_cmd = header->cmd_h;
 	while (new_cmd)
 	{

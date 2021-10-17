@@ -337,17 +337,40 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (new);
 }
 
+char	*ft_strstr(const char *src, const char *tofind)
+{
+	const char	*deb;
+	const char	*fin;
+
+	if (*tofind == '\0')
+		return (char*)src;
+	while (*src != '\0')
+	{
+		deb = src;
+		fin = tofind;
+		while (*src && *fin && *src == *fin)
+		{
+			src++;
+			fin++;
+		}
+		if (*fin == '\0')
+			return ((char *)src);
+		src = deb + 1;
+	}
+	return (0);
+}
+
 int main()
 {
 	char *s;
-	char *str = "hello $world";
-	char *ll = "test";
-	str = ft_strjoin(str, ll);
+	char *str = "hello $world $pwd";
+	char *ll = "$world";
+	// str = ft_strjoin(str, ll);
 	// int k = 0;
 	// while (str[k]!='$')
 	// 	k++;
 	// s = to_find(str, k);
-	printf("%s\n", str);
-	free(str);
-	system("leaks a.out");
+	printf("%s\n", ft_strnstr(str, ll));
+	// free(str);
+	// system("leaks a.out");
 }
