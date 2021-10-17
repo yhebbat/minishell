@@ -52,10 +52,13 @@ int	check_error_pipes(char *line)
 {
 	int i;
 	int	d_q;
+	int	k;
 
 	d_q = 0;
 	i = 0;
-	if (line[0] == '|')
+	while(line[i] == ' ')
+		i++;
+	if (line[i] == '|')
 	{
 		// free(line);
 		printf("parse error near `|'\n");
@@ -76,6 +79,17 @@ int	check_error_pipes(char *line)
 			// free(line);
 			printf("parse error near \"<>|\"\n");
 			return (1);
+		}
+		if(line[i] == '|')
+		{
+			k = i + 1;
+			while(line[k] == ' ')
+				k++;
+			if (line[k] == '\0')
+			{
+				printf("parse error near `|'\n");
+				return (1);
+			}
 		}
 		i++;
 	}

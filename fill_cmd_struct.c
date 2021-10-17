@@ -105,7 +105,7 @@ void	ft_complet(t_headers *header)
 	// 	printf("----------------------\n");
 	// 	new_cmd = new_cmd->next;
 	// }
-	new_cmd = header->cmd_h;
+	// new_cmd = header->cmd_h;
 	//to free this sturct u have to call ft_freeee inside ft_delstruct 
 }
 
@@ -146,12 +146,25 @@ char	*to_find(char *str, int k)
 	return (var);
 }
 
+int	ft_isalpha(int c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		return (1);
+	return (0);
+}
+
 char	*findit(t_headers *header, char *var)
 {
 	t_env	*checkenv;
 	char	*str;
 
 	checkenv = header->env_h;
+	if (var[0] != '_' && !ft_isalpha(var[0]))
+	{
+		var++;
+		str = ft_strdup(var);
+		return(str);
+	}
 	while (checkenv)
 	{
 		if (!strcmp(checkenv->var, var))
@@ -182,6 +195,7 @@ void	checkdollar(t_headers *header)
 	int		i;
 	int		k;
 	int s_q;
+	// int d_q;
 	char	*var;
 	char	*val;
 
@@ -204,6 +218,8 @@ void	checkdollar(t_headers *header)
 				{
 					var = to_find(findollar->args[i], k);
 					val = findit(header, var); // STILL HAVE A PRBLM WHEN U DON'T FIND THE VAR
+					// printf("|%s|\n",var);
+					// printf("|%s|\n",val);
 					// printf("var---%s\nval---%s\n", var, val);
 					findollar->args[i] = ft_strjoin_free(findollar->args[i], val);
 					// add strjoin and modify on it
@@ -223,7 +239,7 @@ void	checkdollar(t_headers *header)
 void	save_cmd(t_headers *header, char **str)
 {
 	t_cmds	*new_cmd;
-
+	
 	before_save(header, str);
 	checkdollar(header);
 	new_cmd = header->cmd_h;
