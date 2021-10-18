@@ -290,6 +290,7 @@ void	checkdollar_cmd(t_headers *header)
 	i = 0;
 	while (new_cmd)
 	{
+		i = 0;
 		while (new_cmd->cmd[i])
 		{
 			if (new_cmd->cmd[i] == '\'' && (d_q % 2) == 0)
