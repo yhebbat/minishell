@@ -67,3 +67,13 @@ $U"S"ER
 $1lsd
 export A="echo hello"
 
+
+
+dollar:
+$
+$$$$
+$$$$PWD
+$var no defined
+$PWD$PWD
+$$PWD$PWD
+

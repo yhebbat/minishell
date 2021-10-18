@@ -183,7 +183,7 @@ char	*findit(t_headers *header, char *var)
 		checkenv = checkenv->suivant;
 	}
 	str = malloc(1);
-	str[0] = '\0';
+	*str = '\0';
 	return (str);
 }
 char *ft_strjoin_dollarfree(char *s1, char *s2)
@@ -280,6 +280,7 @@ void	checkdollar_cmd(t_headers *header)
 	int		i;
 	int		s_q;
 	int		d_q;
+	int		dollar;
 	char	*var;
 	char	*val;
 	char	*rest;
@@ -288,6 +289,7 @@ void	checkdollar_cmd(t_headers *header)
 	s_q = 0;
 	d_q = 0;
 	i = 0;
+	dollar = 0;
 	while (new_cmd)
 	{
 		i = 0;
@@ -297,18 +299,23 @@ void	checkdollar_cmd(t_headers *header)
 					s_q++;
 			if (new_cmd->cmd[i] == '"' && (s_q % 2) == 0)
 					d_q++;
-			if (new_cmd->cmd[i] == '$' && s_q % 2 == 0)
+			// while (new_cmd->cmd[i] == '$')
+			// {
+			// 	dollar = 1;
+			// 	i++;
+			// }
+			if (dollar && new_cmd->cmd[i] && s_q % 2 == 0)
 			{
 				var = to_find(new_cmd->cmd, i);
-				printf("var---%s\n", var);
+				printf("var ---%s\n", var);
 				rest = ft_strdup(ft_strstr(new_cmd->cmd, var));
 				printf("rest---%s\n", rest);
 				val = findit(header, var); // STILL HAVE A PRBLM WHEN U DON'T FIND THE VAR
-				printf("val---%s\n", val);
+				printf("val ---%s\n", val);
 				new_cmd->cmd = ft_strjoin_dollarfree(new_cmd->cmd, val);
 				printf("cmd0---%s\n", new_cmd->cmd);
 				new_cmd->cmd = ft_strjoin_free(new_cmd->cmd, rest);
-				printf("cmd0---%s\n", new_cmd->cmd);
+				printf("cmd ---%s\n", new_cmd->cmd);
 				free(var);
 				free(val);
 				free(rest);
