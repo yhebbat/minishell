@@ -61,7 +61,7 @@ static int	ft_alphaa(char const *s, char c, int i)
 		{
 			i++;
 			r++;
-			while (s[i] != '\'')
+			while (s[i] && s[i] != '\'')
 			{
 				r++;
 				i++;

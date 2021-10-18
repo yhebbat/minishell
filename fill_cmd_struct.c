@@ -138,15 +138,16 @@ char	*to_find(char *str, int k)
 	char	*var;
 
 	i = 0;
+	k++;
 	r = k;
-	while (str[r] && str[r] != '"' && str[r] != ' ')
+	while (str[r] && str[r] != '"' && str[r] != ' ' && str[r] != '\'' && str[r] != '$')
 	{
 		i++;
 		r++;
 	}
 	var = malloc(sizeof(char) * (i + 1));
 	i = 0;
-	while (str[k] && str[k] != '"' && str[k] != ' ')
+	while (str[k] && str[k] != '"' && str[k] != ' ' && str[k] != '\'' && str[k] != '$')
 		var[i++] = str[k++];
 	var[i] = '\0';
 	return (var);
@@ -165,7 +166,6 @@ char	*findit(t_headers *header, char *var)
 	char	*str;
 
 	checkenv = header->env_h;
-	var++;
 	if (var[0] != '_' && !ft_isalpha(var[0]))
 	{
 		var++;
@@ -300,14 +300,15 @@ void	checkdollar_cmd(t_headers *header)
 			if (new_cmd->cmd[i] == '$' && s_q % 2 == 0)
 			{
 				var = to_find(new_cmd->cmd, i);
-				// printf("var---%s\n", var);
+				printf("var---%s\n", var);
 				rest = ft_strdup(ft_strstr(new_cmd->cmd, var));
-				// printf("rest---%s\n", rest);
+				printf("rest---%s\n", rest);
 				val = findit(header, var); // STILL HAVE A PRBLM WHEN U DON'T FIND THE VAR
-				// printf("val---%s\n", val);
+				printf("val---%s\n", val);
 				new_cmd->cmd = ft_strjoin_dollarfree(new_cmd->cmd, val);
-				// printf("cmd---%s\n", new_cmd->cmd);
+				printf("cmd0---%s\n", new_cmd->cmd);
 				new_cmd->cmd = ft_strjoin_free(new_cmd->cmd, rest);
+				printf("cmd0---%s\n", new_cmd->cmd);
 				free(var);
 				free(val);
 				free(rest);
