@@ -56,6 +56,6 @@ char	*add_str(char *str);
 void	save_cmd(t_headers *header, char **str);
 int		ft_strlen(char *str);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strjoin_dollar(char *s1, char *s2);
+char	*ft_strjoin_dollar(char *s1, char *s2, int i);
 char	*ft_strdup(const char *s);
 #endif

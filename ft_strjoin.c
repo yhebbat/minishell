@@ -62,7 +62,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-char	*ft_strjoin_dollar(char *s1, char *s2)
+char	*ft_strjoin_dollar(char *s1, char *s2, int i)
 {
 	unsigned int		ss1;
 	unsigned int		ss2;
@@ -76,11 +76,11 @@ char	*ft_strjoin_dollar(char *s1, char *s2)
 		ss1++;
 	while (s2[ss2] != '\0')
 		ss2++;
-	if (!(new = (char *)malloc((ss1 + ss2 + 1) * sizeof(char))))
+	if (!(new = (char *)malloc((i + ss2 + 1) * sizeof(char))))
 		return (0);
-	ft_memmove(new, s1, ss1);
-	ft_memmove(new + ss1, s2, ss2);
-	new[ss1 + ss2] = '\0';
+	ft_memmove(new, s1, i);
+	ft_memmove(new + i, s2, ss2);
+	new[i + ss2] = '\0';
 	return (new);
 }
 
