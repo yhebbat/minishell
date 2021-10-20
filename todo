@@ -77,3 +77,23 @@ $var no defined
 $PWD$PWD
 $$PWD$PWD
 
+
+redirections errors:
+-----------------------
+bash-3.2$ echo ls > > file
+bash: syntax error near unexpected token `>'
+------------------------
+echo ls >>> file
+bash: syntax error near unexpected token `>'
+------------------------
+echo ls <<< file
+ls
+------------------------
+echo ls <<<< file
+bash: syntax error near unexpected token `<'
+-------------------------
+echo lsx <> file
+lsx
+-------------------------
+echo lsx >< file
+bash: syntax error near unexpected token `<'

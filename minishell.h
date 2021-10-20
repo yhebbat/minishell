@@ -7,6 +7,11 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+// 1 -> >
+// 2 -> >>
+// 3 -> <
+// 4 -> <<
+
 typedef struct s_env
 {
 	char			*var;
@@ -19,17 +24,17 @@ typedef	struct	s_file
 {
 	char	*filename;
 	int		type;
-	struct	t_file	*next; 
+	struct	s_file	*next; 
+	struct	s_file	*prec; 
 }t_file;
 
 typedef struct s_cmds
 {
 	// redirections;
 	char	**args;
-	int		d_q;
-	int		s_q;
 	char	*cmd;
-	struct	t_file	*file;
+	struct	s_file	*file_h;
+	struct	s_file	*file_f;
 	struct	s_cmds	*next;
 	struct	s_cmds	*prec;
 }t_cmds;

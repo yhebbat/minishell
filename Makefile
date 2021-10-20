@@ -1,9 +1,9 @@
-PHONY: all clean fclean re
+#PHONY: all clean fclean re
 
 NAME = minishell
 
 SRC =	minishell.c ft_split.c toke.c ft_tst.c flex.c save_env.c error.c \
-		free.c fill_cmd_struct.c ft_strjoin.c
+		free.c fill_cmd_struct.c ft_strjoin.c redirections.c
 #SRC_BONUS =	checker.c get_next_line.c get_next_line_utils.c pile.c \
 			operations.c to_check.c utils.c free.c
 OBJECT = $(SRC:.c=.o)
@@ -20,9 +20,9 @@ $(NAME):
 #	@echo "🎁🎁🎁"
 
 clean:
-	@rm -f $(OBJECT) $(OBJECT_BONUS)
+	@rm -f $(OBJECT)
 	@echo "🗑️ 🗑️ 🗑️"
 fclean: clean
-	@rm -f $(NAME) $(NAME_BONUS)
+	@rm -f $(NAME)
 	@echo "🚮🚮🚮"
 re: fclean all

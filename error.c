@@ -115,12 +115,12 @@ int	check_error_redirections(char *line)
 			printf("parse error near `<'\n");
 			return (1);
 		}
-		// if ((line[i] == '<' && line[i + 1] == '|') || (line[i] == '>' && line[i + 1] == '|'))
-		// {
-		// 	free(line);
-		// 	printf("parse error near \"<>|\"\n");
-		// 	exit(0);
-		// }
+		if ((line[i] == '<' && line[i + 1] == '<' && line[i + 1] == '<') || (line[i] == '>' && line[i + 1] == '|'))
+		{
+			// free(line);
+			printf("parse error near \"<>|\"\n");
+			return (1);
+		}
 		i++;
 	}
 	return (0);

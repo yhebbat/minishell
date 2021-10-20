@@ -269,8 +269,8 @@ char	*ft_strstr(const char *src, const char *tofind)
 			src++;
 			fin++;
 		}
-		if (*src == '\0' && *fin == '\0')
-			return("\"\"");
+		// if (*src == '\0' && *fin == '\0')
+		// 	return("\"\"");
 		if (*fin == '\0')
 			return ((char *)src);
 		src = deb + 1;
@@ -412,6 +412,7 @@ void	save_cmd(t_headers *header, char **str)
 	
 	before_save(header, str);
 	checkdollar_cmd(header);
+	// checkredirection_cmd(header);
 	ft_complet(header);
 	new_cmd = header->cmd_h;
 	while (new_cmd)
