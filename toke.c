@@ -6,10 +6,8 @@ static	int	ft_mots(char const *s, char c)
 	int			k;
 	int			p;
 	int			d_q;
-//	int			s_q;
 
 	d_q = 0;
-//	s_q = 0;
 	i = 0;
 	k = 0;
 	p = 1;
@@ -172,14 +170,7 @@ char	**split_pipe(char *line, t_headers *header)
 {
 	(void)header;
 	char	**test;
-    // int     i = 0;
 
     test = ft_toke(line, '|');
-    // while (test[i])
-    // {
-    //     printf("%s\n", test[i]);
-    //     i++;
-    // }
 	return (test);
-    // ft_freee(test);
 }

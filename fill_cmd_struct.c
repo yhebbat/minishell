@@ -11,7 +11,6 @@ void	ft_addbotcmd(t_headers *head, char *val)
 	if (head->cmd_h == NULL)
 	{
 		to_add->cmd = add_str(val);
-		// to_add->val = add_str(val);
 		to_add->next = NULL;
 		to_add->prec = NULL;
 		head->cmd_f = to_add;
@@ -20,7 +19,6 @@ void	ft_addbotcmd(t_headers *head, char *val)
 	else
 	{
 		stack = head->cmd_f;
-		// to_add->var = add_str(var);
 		to_add->cmd = add_str(val);
 		to_add->prec = stack;
 		to_add->next = NULL;
@@ -41,7 +39,6 @@ void	ft_delbotcmd(t_headers *head)
 		{
 			ft_free(to_delete->args);
 			free(to_delete->cmd);
-			// free(to_delete->var);
 			free(to_delete);
 			head->cmd_h = NULL;
 			head->cmd_f = NULL;
@@ -53,7 +50,6 @@ void	ft_delbotcmd(t_headers *head)
 			head->cmd_f = stack;
 			stack->next = NULL;
 			ft_free(to_delete->args);
-			// free(to_delete->val);
 			free(to_delete->cmd);
 			free(to_delete);
 			to_delete = NULL;
@@ -70,43 +66,6 @@ void	ft_complet(t_headers *header)
 		new_cmd->args = ft_flex(new_cmd->cmd, ' ');
 		new_cmd = new_cmd->next;
 	}
-	// new_cmd = header->cmd_h;
-	// while (new_cmd)
-	// {
-	// 	int i = 0;
-	// 	int k = 0;
-	// 	while (new_cmd->args[i])
-	// 	{
-	// 		k = 0;
-	// 		if (new_cmd->args[i][k] != '\'')
-	// 		{
-	// 			while (new_cmd->args[i][k])
-	// 			{
-	// 				if (new_cmd->args[i][k] == '$')
-	// 				{
-
-	// 				}
-	// 				k++;
-	// 			}
-	// 		}
-	// 		i++;
-	// 	}
-	// 	new_cmd = new_cmd->next;
-	// }
-	new_cmd = header->cmd_h;
-	// while (new_cmd)
-	// {
-	// 	int i = 0;
-	// 	while (new_cmd->args[i])
-	// 	{
-	// 		printf("%s\n",new_cmd->args[i]);
-	// 		i++;
-	// 	}
-	// 	printf("----------------------\n");
-	// 	new_cmd = new_cmd->next;
-	// }
-	// new_cmd = header->cmd_h;
-	//to free this sturct u have to call ft_freeee inside ft_delstruct 
 }
 
 void	before_save(t_headers *header, char	**str)
@@ -116,19 +75,9 @@ void	before_save(t_headers *header, char	**str)
 	i = 0;
 	while (str[i])
 	{
-		// printf("|%s|\n",str[i]);
 		ft_addbotcmd(header, str[i]);
 		i++;
 	}
-	// ft_complet(header);
-	// t_cmds *new_cmd;
-	// new_cmd = header->cmd_h;
-	// while (new_cmd)
-	// {
-		
-	// 	printf("%s\n", new_cmd->cmd);
-	// 	new_cmd = new_cmd->next;
-	// }
 }
 
 char	*to_find(char *str, int k)
@@ -179,8 +128,7 @@ char	*findit(t_headers *header, char *var)
 		{
 			str = ft_strdup(checkenv->val);
 			return (str);
-			// break ;
-		}
+			}
 		checkenv = checkenv->suivant;
 	}
 	str = malloc(1);
@@ -277,7 +225,6 @@ char	*ft_strstr(const char *src, const char *tofind)
 	}
 	return (0);
 }
-
 
 // void	checkdollar_cmd(t_headers *header)
 // {

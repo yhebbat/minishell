@@ -84,7 +84,8 @@ void	checkredirection_cmd(t_headers *header)
 		{
 			if (find_redirection->cmd[i] == '>' || find_redirection->cmd[i] == '<')
 			{
-				red = redcounter(find_redirection->cmd, i);
+				// red = redcounter(find_redirection->cmd, i);
+				
 			}
 			i++;
 		}
