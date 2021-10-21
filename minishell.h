@@ -12,6 +12,11 @@
 // 3 -> <
 // 4 -> <<
 
+# define ONE 1
+# define TWO 2
+# define ONEREV 3
+# define TWOREV 4
+
 typedef struct s_env
 {
 	char			*var;
@@ -63,4 +68,10 @@ int		ft_strlen(char *str);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strjoin_dollar(char *s1, char *s2, int i);
 char	*ft_strdup(const char *s);
+void	ft_addbotfile(t_cmds *head, char *val, int type);
+void	ft_delbotfile(t_cmds *head);
+void	checkredirection_cmd(t_headers *header);
+void	*ft_memmove(void *dest, const void *src, size_t n);
+char	*ft_strjoin_red(char *s1, char *s2, int i);
+char	*ft_strstr(const char *src, const char *tofind);
 #endif

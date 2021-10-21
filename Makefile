@@ -2,7 +2,7 @@
 
 NAME = minishell
 
-SRC =	minishell.c ft_split.c toke.c ft_tst.c flex.c save_env.c error.c \
+SRC =	minishell.c ft_split.c toke.c ft_tst.c save_env.c error.c \
 		free.c fill_cmd_struct.c ft_strjoin.c redirections.c
 #SRC_BONUS =	checker.c get_next_line.c get_next_line_utils.c pile.c \
 			operations.c to_check.c utils.c free.c
@@ -12,7 +12,7 @@ OBJECT = $(SRC:.c=.o)
 all : $(NAME)
 
 $(NAME):
-	@gcc -Wall -Wextra -Werror $(SRC) -o $(NAME) -g -lreadline -fsanitize=address
+	@gcc -Wall -Wextra -Werror $(SRC) -o $(NAME) -g -lreadline #-fsanitize=address
 	@echo "✅✅✅"
 
 #bonus:

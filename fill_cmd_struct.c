@@ -11,6 +11,8 @@ void	ft_addbotcmd(t_headers *head, char *val)
 	if (head->cmd_h == NULL)
 	{
 		to_add->cmd = add_str(val);
+		to_add->file_h = NULL;
+		to_add->file_f = NULL;
 		to_add->next = NULL;
 		to_add->prec = NULL;
 		head->cmd_f = to_add;
@@ -20,6 +22,8 @@ void	ft_addbotcmd(t_headers *head, char *val)
 	{
 		stack = head->cmd_f;
 		to_add->cmd = add_str(val);
+		to_add->file_h = NULL;
+		to_add->file_f = NULL;
 		to_add->prec = stack;
 		to_add->next = NULL;
 		stack->next = to_add;
@@ -27,6 +31,11 @@ void	ft_addbotcmd(t_headers *head, char *val)
 	}
 }
 
+void	ft_freefile(t_cmds *head)
+{
+	while (head->file_h)
+		ft_delbotfile(head);
+}
 void	ft_delbotcmd(t_headers *head)
 {
 	t_cmds	*to_delete;
@@ -37,6 +46,7 @@ void	ft_delbotcmd(t_headers *head)
 		to_delete = head->cmd_f;
 		if (!to_delete->prec)
 		{
+			ft_freefile(to_delete);
 			ft_free(to_delete->args);
 			free(to_delete->cmd);
 			free(to_delete);
@@ -49,6 +59,7 @@ void	ft_delbotcmd(t_headers *head)
 			stack = to_delete->prec;
 			head->cmd_f = stack;
 			stack->next = NULL;
+			ft_freefile(to_delete);
 			ft_free(to_delete->args);
 			free(to_delete->cmd);
 			free(to_delete);
@@ -356,20 +367,29 @@ void	checkdollar_cmd(t_headers *header)
 void	save_cmd(t_headers *header, char **str)
 {
 	t_cmds	*new_cmd;
+	t_file	*file;
 	
 	before_save(header, str);
 	checkdollar_cmd(header);
-	// checkredirection_cmd(header);
+	checkredirection_cmd(header);
 	ft_complet(header);
 	new_cmd = header->cmd_h;
 	while (new_cmd)
 	{
+		file = new_cmd->file_h;
 		int i = 0;
 		while (new_cmd->args[i])
 		{
 			printf("%s\n",new_cmd->args[i]);
 			i++;
 		}
+		while (file)
+		{
+			printf("[type:%d][name:%s]\n",file->type,file->filename);
+			// printf("[%s]\n",file->filename);
+			file = file->next;
+		}
+		
 		printf("----------------------\n");
 		new_cmd = new_cmd->next;
 	}
