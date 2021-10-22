@@ -32,13 +32,13 @@ static	int	ft_mmots(char const *s, char c)
 			if (s[i] == '"')
 			{
 				i++;
-				while (s[i] && s[i] != '"')
+				while (s[i] != '"')
 					i++;
 			}
 			else if (s[i] == '\'')
 			{
 				i++;
-				while (s[i] && s[i] != '\'')
+				while (s[i] != '\'')
 					i++;
 			}
 			if (s[i] == c)

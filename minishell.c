@@ -1,15 +1,5 @@
 #include "minishell.h"
 
-int		ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
 void	ft_deltop(t_headers *head)
 {
 	t_env	*to_delete;
@@ -38,25 +28,6 @@ void	ft_deltop(t_headers *head)
 			to_delete = NULL;
 		}
 	}
-}
-
-char	*add_str(char *str)
-{
-	char	*res;
-	int		i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	res = malloc(sizeof(char) * i + 1);
-	i = 0;
-	while (str[i])
-	{
-		res[i] = str[i];
-		i++;
-	}
-	res[i] = '\0';
-	return (res);
 }
 
 void	ft_addtop(t_headers *head, char *var, char *val)

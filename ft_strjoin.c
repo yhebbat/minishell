@@ -1,67 +1,5 @@
 #include "minishell.h"
 
-int	ft_memcmp(const void *s1, const void *s2, size_t n)
-{
-	unsigned char	*ss1;
-	unsigned char	*ss2;
-	size_t			i;
-
-	ss1 = (unsigned char *)s1;
-	ss2 = (unsigned char *)s2;
-	i = 0;
-	if (n == 0)
-		return (0);
-	while (i < n - 1 && ss1[i] == ss2[i])
-		i++;
-	return (ss1[i] - ss2[i]);
-}
-
-void	*ft_memcpy(void *dest, const void *src, size_t n)
-{
-	size_t				i;
-	char				*res;
-	const char			*acpy;
-
-	i = 0;
-	res = dest;
-	acpy = src;
-	if (res == NULL && acpy == NULL)
-		return (0);
-	if (ft_memcmp(res, acpy, n) != 0)
-	{
-		while (i < n)
-		{
-			res[i] = acpy[i];
-			i++;
-		}
-	}
-	return (dest);
-}
-
-void	*ft_memmove(void *dest, const void *src, size_t n)
-{
-	char		*dst;
-	char		*ssrc;
-
-	dst = (char *)dest;
-	ssrc = (char *)src;
-	if (dest == NULL && src == NULL)
-		return (0);
-	if (ssrc > dst)
-		ft_memcpy(dst, ssrc, n);
-	else
-	{
-		dst = (char *)dest + (n - 1);
-		ssrc = (char *)src + (n - 1);
-		while (n > 0)
-		{
-			*(dst--) = *(ssrc--);
-			n--;
-		}
-	}
-	return (dest);
-}
-
 char	*ft_strjoin_dollar(char *s1, char *s2, int i)
 {
 	unsigned int		ss1;
@@ -124,23 +62,20 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (new);
 }
 
-char	*ft_strdup(const char *s)
+char *ft_strjoin_dollarfree(char *s1, char *s2, int i)
 {
-	size_t	k;
-	char	*new;
-	size_t	i;
+	char *ret;
 
-	i = 0;
-	k = 0;
-	while (s[k] != '\0')
-		k++;
-	if (!(new = (char *)malloc((k + 1) * sizeof(char))))
-		return (0);
-	while (s[i] != '\0')
-	{
-		new[i] = s[i];
-		i++;
-	}
-	new[i] = '\0';
-	return (new);
+	ret = ft_strjoin_dollar(s1, s2, i);
+	free (s1);
+	return (ret);
+}
+
+char *ft_strjoin_free(char *s1, char *s2)
+{
+	char *ret;
+
+	ret = ft_strjoin(s1, s2);
+	free (s1);
+	return (ret);
 }

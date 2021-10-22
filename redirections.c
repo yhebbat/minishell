@@ -74,9 +74,13 @@ char	*find_red(char *str, int k, int *red)
 {
 	int		i;
 	int		r;
+	// int		d_q;
+	// int		s_q;
 	char	*var;
 
 	i = 0;
+	// d_q = 0;
+	// s_q = 0;
 	r = k;
 	if (str[r] == '>' && str[r + 1] != '>')
 		*red = ONE;
@@ -93,8 +97,31 @@ char	*find_red(char *str, int k, int *red)
 	}
 	while (str[r] && str[r] != ' ' && str[r] != '>' && str[r] != '<')
 	{
-		i++;
-		r++;
+		if (str[r] == '"')
+		{
+			r++;
+			i++;
+			while (str[r] && str[r] != '"')
+			{
+				r++;
+				i++;
+			}
+		}
+		else if (str[r] == '\'')
+		{
+			r++;
+			i++;
+			while (str[r] && str[r] != '\'')
+			{
+				r++;
+				i++;
+			}
+		}
+		else
+		{
+			i++;
+			r++;
+		}
 	}
 	var = malloc(sizeof(char) * (i + 1));
 	r = i;
@@ -109,26 +136,53 @@ char	*findredtosave(char *var)
 {
 	int		i;
 	int		k;
-	// int		t;
+	int		t;
 	char	*ret;
 
 	k = 0;
-	// t = 0;
+	t = 0;
 	i = 0;
 	while (var[i] == '>' || var[i] == '<' || var[i] == ' ')
 		var++;
 	// t = i;
 	while (var[i] && var[i] != '>' && var[i] != '<' && var[i] != ' ')
 	{
-		i++;
-		k++;
+		if (var[i] == '"')
+		{
+			i++;
+			t++;
+			while (var[i] && var[i] != '"')
+			{
+				k++;
+				i++;
+			}
+			i++;
+		}
+		else if (var[i] == '\'')
+		{
+			i++;
+			t++;
+			while (var[i] && var[i] != '\'')
+			{
+				k++;
+				i++;
+			}
+			i++;
+		}
+		else
+		{
+			i++;
+			k++;
+		}
 	}
 	ret = malloc(sizeof(char) * (k + 1));
+	i = k;
 	k = 0;
 	while (k < i)
 	{
-		ret[k] = var[k];
+		ret[k] = var[t];
 		k++;
+		t++;
 	}
 	ret[k] = '\0';
 	return (ret);
@@ -173,11 +227,12 @@ void	checkredirection_cmd(t_headers *header)
 			if ((find_redirection->cmd[i] == '>' || find_redirection->cmd[i] == '<') && !(d_q % 2) && !(s_q % 2))
 			{
 				var = find_red(find_redirection->cmd, i, &red);
-				// printf("var ---%s\n", var);
+				printf("var ---%s\n", var);
 				// printf("type ---%d\n", red);
 				rest = ft_strdup(ft_strstr(find_redirection->cmd + i, var));
 				// printf("rest---%s\n", rest);
 				val = findredtosave(var);
+				printf("val ---%s\n", val);
 				find_redirection->cmd = ft_strjoin_redfree(find_redirection->cmd, rest, i);
 				ft_addbotfile(find_redirection, val, red);
 				i = -1;
