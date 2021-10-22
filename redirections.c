@@ -109,15 +109,15 @@ char	*findredtosave(char *var)
 {
 	int		i;
 	int		k;
-	int		t;
+	// int		t;
 	char	*ret;
 
 	k = 0;
-	t = 0;
+	// t = 0;
 	i = 0;
 	while (var[i] == '>' || var[i] == '<' || var[i] == ' ')
 		var++;
-	t = i;
+	// t = i;
 	while (var[i] && var[i] != '>' && var[i] != '<' && var[i] != ' ')
 	{
 		i++;
