@@ -226,7 +226,7 @@ void	save_cmd(t_headers *header, char **str)
 		int i = 0;
 		while (new_cmd->args[i])
 		{
-			printf("%s\n",new_cmd->cmd);
+			printf("%s\n",new_cmd->args[i]);
 			i++;
 		}
 		while (file)
