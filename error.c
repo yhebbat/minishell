@@ -118,12 +118,13 @@ int	check_error_redirections(char *line)
 
 int	check_error(char *line)
 {
-	if (nb_of_quotes(line))
-		return (1);
-	else if (check_error_pipes(line))
-		return (1);
-	else if (check_error_redirections(line))
-		return (1);
-	else
+	(void)line;
+	// if (nb_of_quotes(line))
+	// 	return (1);
+	// else if (check_error_pipes(line))
+	// 	return (1);
+	// else if (check_error_redirections(line))
+	// 	return (1);
+	// else
 		return (0);
 }

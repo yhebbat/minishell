@@ -10,7 +10,7 @@ void	ft_addbotfile(t_cmds *head, char *val, int type)
 		exit(0);
 	if (head->file_h == NULL)
 	{
-		to_add->filename = add_str(val);
+		to_add->filename = ft_strdup(val);
 		to_add->type = type;
 		to_add->next = NULL;
 		to_add->prec = NULL;
@@ -20,7 +20,7 @@ void	ft_addbotfile(t_cmds *head, char *val, int type)
 	else
 	{
 		stack = head->file_f;
-		to_add->filename = add_str(val);
+		to_add->filename = ft_strdup(val);
 		to_add->type = type;
 		to_add->prec = stack;
 		to_add->next = NULL;
@@ -150,7 +150,7 @@ char	*findredtosave(char *var)
 		if (var[i] == '"')
 		{
 			i++;
-			t++;
+			// t++;
 			while (var[i] && var[i] != '"')
 			{
 				k++;
@@ -161,7 +161,7 @@ char	*findredtosave(char *var)
 		else if (var[i] == '\'')
 		{
 			i++;
-			t++;
+			// t++;
 			while (var[i] && var[i] != '\'')
 			{
 				k++;
@@ -176,13 +176,44 @@ char	*findredtosave(char *var)
 		}
 	}
 	ret = malloc(sizeof(char) * (k + 1));
-	i = k;
+	// i = k;
 	k = 0;
-	while (k < i)
+	// while (k < i)
+	// {
+	// 	ret[k] = var[t];
+	// 	k++;
+	// 	t++;
+	// }
+	while (var[t])
 	{
-		ret[k] = var[t];
-		k++;
-		t++;
+		if (var[t] == '\'')
+		{
+			// ret[k]] = var[t];
+			t++;
+			// k++;
+			while (var[t] != '\'')
+			{
+				ret[k] = var[t];
+				k++;
+				t++;
+			}
+			// ret[k]] = var[t];
+			t++;
+			// k++;
+		}
+		else if (var[t] == '"')
+		{
+			t++;
+			while (var[t] != '"')
+			{
+				ret[k] = var[t];
+				k++;
+				t++;
+			}
+			t++;
+		}
+		else
+			ret[k++] = var[t++];
 	}
 	ret[k] = '\0';
 	return (ret);
@@ -194,6 +225,46 @@ char *ft_strjoin_redfree(char *s1, char *s2, int i)
 
 	ret = ft_strjoin_red(s1, s2, i);
 	free (s1);
+	return (ret);
+}
+
+char	*ft_herdocs(char *str)
+{
+	char	*limiter;
+	char	*line;
+	char	*ret;
+	int		k;
+
+	k = 1;
+	limiter = findredtosave(str);
+	while (k)
+	{
+		line = readline(">>");
+		if (!line)
+			break;
+		// add_history(line);
+		if (!strcmp(line, limiter))
+		{
+			k = 0;
+			free(limiter);
+			free(line);
+		}
+		else
+		{
+			if (ret == NULL)
+			{
+				ret = ft_strdup(line);
+				ret = ft_strjoin_free(ret, "\n");
+			}
+			else
+			{
+				ret = ft_strjoin_free(ret, line);
+				ret = ft_strjoin_free(ret, "\n");
+			}
+			free(line);
+		}
+	}
+	printf("<%s>\n", ret);
 	return (ret);
 }
 
@@ -227,12 +298,15 @@ void	checkredirection_cmd(t_headers *header)
 			if ((find_redirection->cmd[i] == '>' || find_redirection->cmd[i] == '<') && !(d_q % 2) && !(s_q % 2))
 			{
 				var = find_red(find_redirection->cmd, i, &red);
-				printf("var ---%s\n", var);
-				// printf("type ---%d\n", red);
+				// printf("var ---%s\n", var);
 				rest = ft_strdup(ft_strstr(find_redirection->cmd + i, var));
+				if (red == 4)
+					val = ft_herdocs(var);
+				else
+					val = findredtosave(var);
 				// printf("rest---%s\n", rest);
-				val = findredtosave(var);
-				printf("val ---%s\n", val);
+				// printf("val ---%s\n", val);
+				// printf("type ---%d\n", red);
 				find_redirection->cmd = ft_strjoin_redfree(find_redirection->cmd, rest, i);
 				ft_addbotfile(find_redirection, val, red);
 				i = -1;
