@@ -73,7 +73,6 @@ static char	**ft_remp(char **p, char const *s, char c, int mots)
 		j++;
 	}
 	p[j] = 0;
-	// printf("%d\n", j);
 	return (p);
 }
 

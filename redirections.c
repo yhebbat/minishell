@@ -10,7 +10,10 @@ void	ft_addbotfile(t_cmds *head, char *val, int type)
 		exit(0);
 	if (head->file_h == NULL)
 	{
-		to_add->filename = ft_strdup(val);
+		if (val != NULL)
+			to_add->filename = ft_strdup(val);
+		else
+			to_add->filename = ft_strdup("");
 		to_add->type = type;
 		to_add->next = NULL;
 		to_add->prec = NULL;
@@ -20,7 +23,10 @@ void	ft_addbotfile(t_cmds *head, char *val, int type)
 	else
 	{
 		stack = head->file_f;
-		to_add->filename = ft_strdup(val);
+		if (val != NULL)
+			to_add->filename = ft_strdup(val);
+		else
+			to_add->filename = ft_strdup("");
 		to_add->type = type;
 		to_add->prec = stack;
 		to_add->next = NULL;
@@ -264,7 +270,7 @@ char	*ft_herdocs(char *str)
 			free(line);
 		}
 	}
-	printf("<%s>\n", ret);
+	// printf("<%s>\n", ret);
 	return (ret);
 }
 

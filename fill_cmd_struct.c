@@ -184,20 +184,13 @@ void	checkdollar_cmd(t_headers *header)
 			{
 				d = calculate_dollar(new_cmd->cmd, i);
 				i += (d - 1);
-				// printf("d ---%d\n", d);
 			}
-			// printf("i ---%d\n", i);
 			if (new_cmd->cmd[i] == '$' && (d % 2) && new_cmd->cmd[i + 1] != '\0' && s_q % 2 == 0)
 			{
 				var = to_find(new_cmd->cmd, i);
-				// printf("var ---%s\n", var);
 				rest = ft_strdup(ft_strstr(new_cmd->cmd + i, var));
-				// printf("rest---%s\n", rest);
 				val = findit(header, var); // STILL HAVE A PRBLM WHEN U DON'T FIND THE VAR
-				// printf("val ---%s\n", val);
-				// printf("cmd0---%s\n", new_cmd->cmd);
 				new_cmd->cmd = ft_strjoin_dollarfree(new_cmd->cmd, val, i);
-				// printf("cmd ---%s\n", new_cmd->cmd);
 				new_cmd->cmd = ft_strjoin_free(new_cmd->cmd, rest);
 				i = -1;
 				free(var);

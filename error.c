@@ -59,7 +59,7 @@ int	check_error_pipes(char *line)
 		i++;
 	if (line[i] == '|')
 	{
-		printf("parse error near `|'\n");
+		printf("syntax error near unexpected token `|'\n");
 		return (1);
 	}
 	while (line[i])
@@ -68,12 +68,12 @@ int	check_error_pipes(char *line)
 			d_q++;
 		if ((line[i] == '|' && !line[i + 1]) || (line[i] == '|' && line[i + 1] == '|' && d_q % 2 == 0))
 		{
-			printf("parse error near `|'\n");
+			printf("syntax error near unexpected token `|'\n");
 			return (1);
 		}
 		if ((d_q % 2 == 0 &&(line[i] == '<' || line[i] == '>') && line[i + 1] == '|'))
 		{
-			printf("parse error near \"<>|\"\n");
+			printf("syntax error near unexpected token `newline'\n");
 			return (1);
 		}
 		if(line[i] == '|')
@@ -83,7 +83,7 @@ int	check_error_pipes(char *line)
 				k++;
 			if (line[k] == '\0')
 			{
-				printf("parse error near `|'\n");
+				printf("syntax error near unexpected token `|'\n");
 				return (1);
 			}
 		}
@@ -97,18 +97,32 @@ int	check_error_redirections(char *line)
 	int i;
 
 	i = 0;
+	while (line[i] == ' ')
+		i++;
 	while (line[i])
 	{
 		if ((line[i] == '<' && !line[i + 1]) || (line[i] == '<' && !line[i + 1]))
 		{
 			// free(line);
-			printf("parse error near `<'\n");
+			printf("syntax error near unexpected token `newline'\n");
 			return (1);
 		}
-		if ((line[i] == '<' && line[i + 1] == '<' && line[i + 1] == '<') || (line[i] == '>' && line[i + 1] == '|'))
+		else if ((line[i] == '<' && line[i + 1] == '<' && line[i + 2] == '<') || (line[i] == '>' && line[i + 1] == '|'))
 		{
 			// free(line);
-			printf("parse error near \"<>|\"\n");
+			printf("syntax error near unexpected token `<'\n");
+			return (1);
+		}
+		else if ((line[i] == '>' && line[i + 1] == '<'))// || (line[i] == '>' && line[i + 1] == '|'))
+		{
+			// free(line);
+			printf("syntax error near unexpected token `<'\n");
+			return (1);
+		}
+		else if ((line[i] == '>' && line[i + 1] == '>' && line[i + 2] == '>') || (line[i] == '>' && line[i + 1] == '>' && !line[i + 2]))
+		{
+			// free(line);
+			printf("bash: syntax error near unexpected token `>'\n");
 			return (1);
 		}
 		i++;
@@ -119,12 +133,12 @@ int	check_error_redirections(char *line)
 int	check_error(char *line)
 {
 	(void)line;
-	// if (nb_of_quotes(line))
-	// 	return (1);
-	// else if (check_error_pipes(line))
-	// 	return (1);
-	// else if (check_error_redirections(line))
-	// 	return (1);
-	// else
+	if (nb_of_quotes(line))
+		return (1);
+	else if (check_error_pipes(line))
+		return (1);
+	else if (check_error_redirections(line))
+		return (1);
+	else
 		return (0);
 }

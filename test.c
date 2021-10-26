@@ -360,6 +360,27 @@ char	*ft_strstr(const char *src, const char *tofind)
 	return (0);
 }
 
+char	*ft_strdup(const char *s)
+{
+	size_t	k;
+	char	*new;
+	size_t	i;
+
+	i = 0;
+	k = 0;
+	while (s[k] != '\0')
+		k++;
+    new = (char *)malloc((k + 1) * sizeof(char));
+	if (!new)
+		return (0);
+	while (s[i] != '\0')
+	{
+		new[i] = s[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}
 int main()
 {
 	char *s;
@@ -370,7 +391,7 @@ int main()
 	// while (str[k]!='$')
 	// 	k++;
 	// s = to_find(str, k);
-	printf("%s\n", ft_strnstr(str, ll));
+	printf("%s\n", ft_strdup(s));
 	// free(str);
 	// system("leaks a.out");
 }
