@@ -318,7 +318,7 @@ void	checkredirection_cmd(t_headers *header)
 				i = -1;
 				free(var);
 				free(val);
-				free(rest);
+				//free(rest);
 			}
 			i++;
 		}

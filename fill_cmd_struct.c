@@ -212,26 +212,28 @@ void	save_cmd(t_headers *header, char **str)
 	checkdollar_cmd(header);
 	checkredirection_cmd(header);
 	ft_complet(header);
-	new_cmd = header->cmd_h;
-	while (new_cmd)
-	{
-		file = new_cmd->file_h;
-		int i = 0;
-		while (new_cmd->args[i])
-		{
-			printf("%s\n",new_cmd->args[i]);
-			i++;
-		}
-		while (file)
-		{
-			printf("[type:%d][name:%s]\n",file->type,file->filename);
-			// printf("[%s]\n",file->filename);
-			file = file->next;
-		}
-		printf("----------------------\n");
-		new_cmd = new_cmd->next;
-	}
-	// save(header, str);
+	lsh_execute(header);
 	while (header->cmd_h)
 		ft_delbotcmd(header);
+	// new_cmd = header->cmd_h;
+	// while (new_cmd)
+	// {
+	// 	file = new_cmd->file_h;
+	// 	int i = 0;
+	// 	while (new_cmd->args[i])
+	// 	{
+	// 		printf("%s\n",new_cmd->args[i]);
+	// 		i++;
+	// 	}
+	// 	while (file)
+	// 	{
+	// 		printf("[type:%d][name:%s]\n",file->type,file->filename);
+	// 		// printf("[%s]\n",file->filename);
+	// 		file = file->next;
+	// 	}
+	// 	printf("----------------------\n");
+	// 	new_cmd = new_cmd->next;
+	// }
+	// save(header, str);
+	
 }

@@ -91,6 +91,7 @@ int	main(int ac, char **av, char **env)
 		if (!line)
 			break;
 		parse(line, header);
+		// lsh_execute(header);
 		add_history(line);
 		if (!strcmp(line, "exit"))
 		{

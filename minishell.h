@@ -3,6 +3,7 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+# include <unistd.h>
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -16,6 +17,9 @@
 # define TWO 2
 # define ONEREV 3
 # define TWOREV 4
+
+char *builtin_str[];
+int (*builtin_func[]) (char **) ;
 
 typedef struct s_env
 {
@@ -98,4 +102,10 @@ void	ft_addbotfile(t_cmds *head, char *val, int type);
 void	ft_delbotfile(t_cmds *head);
 void	checkredirection_cmd(t_headers *header);
 void	fill_cmd(t_headers *header, char	**str);
+void	ft_delbotcmd(t_headers *head);
+
+int lsh_launch(char **args);
+int lsh_num_builtins();
+int lsh_cd(char **args);
+int lsh_execute(t_headers *header);
 #endif
