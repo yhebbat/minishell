@@ -7,6 +7,8 @@
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include  <errno.h>
+# include <fcntl.h>
 
 // 1 -> >
 // 2 -> >>
@@ -58,6 +60,17 @@ typedef struct s_headers
 }t_headers;
 
 /*
+	execution part structure
+*/
+typedef struct	s_variables
+{
+	pid_t	pid;
+	int		exit_status;
+}				t_variables;
+
+t_variables	g_variables;
+
+/*
 libft
 */
 int		ft_isalpha(int c);
@@ -104,8 +117,14 @@ void	checkredirection_cmd(t_headers *header);
 void	fill_cmd(t_headers *header, char	**str);
 void	ft_delbotcmd(t_headers *head);
 
-int lsh_launch(char **args);
-int lsh_num_builtins();
-int lsh_cd(char **args);
-int lsh_execute(t_headers *header);
+/*
+	execution part prototypes
+*/
+
+int		launch(t_headers *header);
+int		num_builtins();
+int		cd(char **args);
+int		execute(t_headers *header);
+
+void	redirection(t_cmds *cmd_h);
 #endif

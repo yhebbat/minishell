@@ -212,7 +212,7 @@ void	save_cmd(t_headers *header, char **str)
 	checkdollar_cmd(header);
 	checkredirection_cmd(header);
 	ft_complet(header);
-	lsh_execute(header);
+	execute(header);
 	while (header->cmd_h)
 		ft_delbotcmd(header);
 	// new_cmd = header->cmd_h;
