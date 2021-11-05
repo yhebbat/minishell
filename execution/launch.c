@@ -75,14 +75,16 @@ int launch(t_headers *header)
 	int status;
 	int	pipefd[2];
 	int	in = 0;
+	t_cmds *cmd;
 
+	cmd = header->cmd_h;
 	// THIS IS MY MAIN LOOP IN CASE WE HAVE PIPES
-	while (header->cmd_h->next != NULL)
+	while (cmd->next != NULL)
 	{
 		 pipe(pipefd); 
 
 		// TO-DO : WRITE A FUNCTION THAT WILL EXECUTE AND DO A FORK
-		fork_process(in, pipefd, header->cmd_h);
+		fork_process(in, pipefd, cmd);
 
 
  		if (pipefd[1] > 2)
@@ -90,11 +92,11 @@ int launch(t_headers *header)
 		if (in != STDIN_FILENO)
 			close(in);
 		in = pipefd[0]; 
-		header->cmd_h = header->cmd_h->next;
+		cmd = cmd->next;
 	}
 
 	// TO-DO : EXECUTE LAST COMMAND
-	fork_last_process(in, pipefd, header->cmd_h);
+	fork_last_process(in, pipefd, cmd);
 
 
 	// THIS IS THE PARENT PROCESS

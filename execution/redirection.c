@@ -23,11 +23,14 @@ void	redirection(t_cmds *cmd_h)
 {
 	int in = STDIN_FILENO;
 	int out = STDOUT_FILENO;
+	t_file *file;
+
+	file = cmd_h->file_h;
 	
-	while (cmd_h->file_h != NULL)
+	while (file != NULL)
 	{
-		redirection_inside_loop(&in, &out, cmd_h->file_h);
-		cmd_h->file_h = cmd_h->file_h->next;
+		redirection_inside_loop(&in, &out, file);
+		file = file->next;
 	}
 	if (in > 2)
 	{

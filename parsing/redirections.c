@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 void	ft_addbotfile(t_cmds *head, char *val, int type)
 {

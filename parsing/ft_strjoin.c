@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*ft_strjoin_dollar(char *s1, char *s2, int i)
 {
