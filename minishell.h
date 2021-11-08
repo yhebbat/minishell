@@ -3,9 +3,12 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+# include <unistd.h>
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include  <errno.h>
+# include <fcntl.h>
 
 // 1 -> >
 // 2 -> >>
@@ -16,6 +19,9 @@
 # define TWO 2
 # define ONEREV 3
 # define TWOREV 4
+
+char *builtin_str[7];
+int (*builtin_func[7]) (char **) ;
 
 typedef struct s_env
 {
@@ -54,6 +60,20 @@ typedef struct s_headers
 }t_headers;
 
 /*
+	execution part structure
+*/
+typedef struct	s_var
+{
+	pid_t	pid;
+	int		exit_status;
+	int		echo_flag;
+	int		echo_i;
+	int		echo_j;
+}				t_var;
+
+t_var	g_var;
+
+/*
 libft
 */
 int		ft_isalpha(int c);
@@ -62,7 +82,7 @@ char	**ft_split(char const *s, char c);
 char	*add_str(char *str);
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strstr(const char *src, const char *tofind);
+char	*ft_strstr(char *src, char *tofind);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 int		ft_strlen(char *str);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
@@ -87,7 +107,6 @@ int		nb_of_quotes(char *line);
 int		check_error_pipes(char *line);
 int		check_error_redirections(char *line);
 /*
-
 */
 char	**ft_toke(char const *s, char c);
 char	**ft_flex(char const *s, char c);
@@ -98,4 +117,17 @@ void	ft_addbotfile(t_cmds *head, char *val, int type);
 void	ft_delbotfile(t_cmds *head);
 void	checkredirection_cmd(t_headers *header);
 void	fill_cmd(t_headers *header, char	**str);
+void	ft_delbotcmd(t_headers *head);
+
+/*
+	execution part prototypes
+*/
+
+int		launch(t_headers *header);
+int		num_builtins();
+int		cd(char **args);
+int		execute(t_headers *header);
+int		echo(char **args);
+
+void	redirection(t_cmds *cmd_h);
 #endif

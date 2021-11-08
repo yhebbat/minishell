@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*ft_strjoin_dollar(char *s1, char *s2, int i)
 {
@@ -28,9 +28,10 @@ char	*ft_strjoin_red(char *s1, char *s2, int i)
 	char				*new;
 
 	ss2 = 0;
+	// printf("%s\n", s2);
 	if (s1 == NULL || s2 == NULL)
 		return (0);
-	while (s2[ss2] != '\0')
+	while (s2 && s2[ss2] != '\0')
 		ss2++;
 	if (!(new = (char *)malloc((i + ss2 + 1) * sizeof(char))))
 		return (0);

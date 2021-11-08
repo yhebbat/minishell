@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 int	ft_isalpha(int c)
 {
@@ -7,10 +7,10 @@ int	ft_isalpha(int c)
 	return (0);
 }
 
-char	*ft_strstr(const char *src, const char *tofind)
+char	*ft_strstr(char *src, char *tofind)
 {
-	const char	*deb;
-	const char	*fin;
+	char	*deb;
+	char	*fin;
 
 	if (*tofind == '\0')
 		return (char*)src;
@@ -23,8 +23,6 @@ char	*ft_strstr(const char *src, const char *tofind)
 			src++;
 			fin++;
 		}
-		// if (*src == '\0' && *fin == '\0')
-		// 	return("\"\"");
 		if (*fin == '\0')
 			return ((char *)src);
 		src = deb + 1;
@@ -56,6 +54,8 @@ int		ft_strlen(char *str)
 	int	i;
 
 	i = 0;
+	// if (!str)
+	// 	return (0);
 	while (str[i])
 		i++;
 	return (i);

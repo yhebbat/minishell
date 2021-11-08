@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 
 int	nb_of_quotes(char *line)

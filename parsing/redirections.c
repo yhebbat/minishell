@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 void	ft_addbotfile(t_cmds *head, char *val, int type)
 {
@@ -286,6 +286,7 @@ void	checkredirection_cmd(t_headers *header)
 	char	*rest;
 
 	i = 0;
+	// rest = NULL;
 	red = 0;
 	find_redirection = header->cmd_h;
 	while (find_redirection)
@@ -304,21 +305,24 @@ void	checkredirection_cmd(t_headers *header)
 			if ((find_redirection->cmd[i] == '>' || find_redirection->cmd[i] == '<') && !(d_q % 2) && !(s_q % 2))
 			{
 				var = find_red(find_redirection->cmd, i, &red);
-				// printf("var ---%s\n", var);
-				rest = ft_strdup(ft_strstr(find_redirection->cmd + i, var));
-				if (red == 4)
-					val = ft_herdocs(var);
-				else
-					val = findredtosave(var);
+				// // printf("var ---%s\n", var);
+				// rest = ft_strdup(ft_strstr(find_redirection->cmd + i, var));
+				// if (red == 4)
+				// 	val = ft_herdocs(var);
+				// else
+				// 	val = findredtosave(var);
 				// printf("rest---%s\n", rest);
-				// printf("val ---%s\n", val);
-				// printf("type ---%d\n", red);
-				find_redirection->cmd = ft_strjoin_redfree(find_redirection->cmd, rest, i);
-				ft_addbotfile(find_redirection, val, red);
+				// // write(2, rest, ft_strlen(rest));
+				// // write(2, "\n",1);
+				// // printf("val ---%s\n", val);
+				// // printf("type ---%d\n", red);
+				// find_redirection->cmd = ft_strjoin_redfree(find_redirection->cmd, rest, i);
+				// ft_addbotfile(find_redirection, val, red);
 				i = -1;
-				free(var);
-				free(val);
-				free(rest);
+				// free(var);
+				// // free(val);
+				// free(rest);
+				// system("leaks minishell");
 			}
 			i++;
 		}

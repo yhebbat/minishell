@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 static void	*ft_freee(char **p)
 {
