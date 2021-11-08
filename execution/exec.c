@@ -6,7 +6,7 @@ int	execute(t_headers *header)
 	ncmd = header->cmd_h;
 	int	i;
 
-	if (ncmd->args[0] == NULL)
+	if (!ncmd || ncmd->args[0] == NULL)
 	{
 		return (1);
 	}
