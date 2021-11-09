@@ -17,10 +17,12 @@
 
 typedef struct s_exec
 {
+    char    **path;//split path by ":"
 	int		*fd;
     int		in;
     int		i;
     int		pid;
 }t_exec;
+
 int     execute(t_headers *header);
 #endif

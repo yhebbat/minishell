@@ -57,7 +57,6 @@ int     execute(t_headers *header)
         {
             ft_pipe(cmd, exec);
             execvp(cmd->args[0], cmd->args);
-            // printf("sss\n");
         }
         if (exec->pid == 0)
             execvp(cmd->args[0], cmd->args);
