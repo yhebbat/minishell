@@ -124,6 +124,7 @@
 // 	return (r);
 // }
 
+fork
 // static char	**ft_remp(char **p, char const *s, char c, int mots)
 // {
 // 	int	i;

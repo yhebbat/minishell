@@ -246,7 +246,7 @@ char	*ft_herdocs(char *str)
 	limiter = findredtosave(str);
 	while (k)
 	{
-		line = readline(">>");
+		line = readline("heredoc>");
 		if (!line)
 			break;
 		// add_history(line);
@@ -321,7 +321,7 @@ void	checkredirection_cmd(t_headers *header)
 				ft_addbotfile(find_redirection, val, red);
 				i = -1;
 				free(var);
-				// free(val);
+				free(val);
 				free(rest);
 			}
 			i++;

@@ -215,28 +215,28 @@ void	save_cmd(t_headers *header, char **str)
 	checkredirection_cmd(header);
 	ft_complet(header);
 	execute(header);
-	new_cmd = header->cmd_h;
-	while (new_cmd)
-	{
-		file = new_cmd->file_h;
-		int i = 0;
-		printf("|%s|\n",new_cmd->cmd);
-		while (new_cmd->args[i])
-		{
-				printf("arg:%d ==> %s\n",i,new_cmd->args[i]);
-				i++;
-		}
-		while (file)
-		{
-			printf("[type:%d][name:%s]\n",file->type,file->filename);
-			// printf("[%s]\n",file->filename);
-			file = file->next;
-		}
-		printf("----------------------\n");
-		new_cmd = new_cmd->next;
-	}
+	// new_cmd = header->cmd_h;
+	// while (new_cmd)
+	// {
+	// 	file = new_cmd->file_h;
+	// 	int i = 0;
+	// 	printf("|%s|\n",new_cmd->cmd);
+	// 	while (new_cmd->args[i])
+	// 	{
+	// 			printf("arg:%d ==> %s\n",i,new_cmd->args[i]);
+	// 			i++;
+	// 	}
+	// 	while (file)
+	// 	{
+	// 		printf("[type:%d][name:%s]\n",file->type,file->filename);
+	// 		// printf("[%s]\n",file->filename);
+	// 		file = file->next;
+	// 	}
+	// 	printf("----------------------\n");
+	// 	new_cmd = new_cmd->next;
+	// }
 		while (header->cmd_h)
 			ft_delbotcmd(header);
+	// system("leaks minishell");
 	// save(header, str);
-	
 }

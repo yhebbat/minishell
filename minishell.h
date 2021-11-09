@@ -9,6 +9,7 @@
 # include <readline/history.h>
 # include  <errno.h>
 # include <fcntl.h>
+// # include "execution/execution.h"
 
 // 1 -> >
 // 2 -> >>
@@ -20,9 +21,6 @@
 # define ONEREV 3
 # define TWOREV 4
 
-char *builtin_str[7];
-int (*builtin_func[7]) (char **) ;
-
 typedef struct s_env
 {
 	char			*var;
@@ -31,23 +29,22 @@ typedef struct s_env
 	struct s_env	*preced;
 }t_env;
 
-typedef	struct	s_file
+typedef struct s_file
 {
-	char	*filename;
-	int		type;
-	struct	s_file	*next; 
-	struct	s_file	*prec; 
+	char			*filename;
+	int				type;
+	struct s_file	*next;
+	struct s_file	*prec;
 }t_file;
 
 typedef struct s_cmds
 {
-	// redirections;
-	char	**args;
-	char	*cmd;
-	struct	s_file	*file_h;
-	struct	s_file	*file_f;
-	struct	s_cmds	*next;
-	struct	s_cmds	*prec;
+	char			**args;
+	char			*cmd;
+	struct s_file	*file_h;
+	struct s_file	*file_f;
+	struct s_cmds	*next;
+	struct s_cmds	*prec;
 }t_cmds;
 
 
@@ -59,19 +56,7 @@ typedef struct s_headers
 	struct s_cmds	*cmd_f;
 }t_headers;
 
-/*
-	execution part structure
-*/
-typedef struct	s_var
-{
-	pid_t	pid;
-	int		exit_status;
-	int		echo_flag;
-	int		echo_i;
-	int		echo_j;
-}				t_var;
 
-t_var	g_var;
 
 /*
 libft
@@ -119,15 +104,5 @@ void	checkredirection_cmd(t_headers *header);
 void	fill_cmd(t_headers *header, char	**str);
 void	ft_delbotcmd(t_headers *head);
 
-/*
-	execution part prototypes
-*/
-
-int		launch(t_headers *header);
-int		num_builtins();
-int		cd(char **args);
-int		execute(t_headers *header);
-int		echo(char **args);
-
-void	redirection(t_cmds *cmd_h);
+int     execute(t_headers *header);
 #endif
