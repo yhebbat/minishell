@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yhebbat <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yhebbat <yhebbat@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 16:40:23 by yhebbat           #+#    #+#             */
-/*   Updated: 2021/11/09 16:40:24 by yhebbat          ###   ########.fr       */
+/*   Updated: 2021/11/10 02:35:43 by yhebbat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-#include <sys/errno.h>
 
 void    ft_pipe(t_cmds *cmd, t_exec *exec)
 {
@@ -38,17 +37,83 @@ void    ft_pipe(t_cmds *cmd, t_exec *exec)
     }
 }
 
-int     execute(t_headers *header)
+void     exec_init(t_headers *header, t_exec *exec)
 {
-    t_cmds *cmd;
-    t_exec *exec;
-    int k;
+    t_env  *env;
+	int		i;
 
-    exec = malloc(sizeof(t_exec));
+	i = 0;
     exec->i = 0;
     exec->in = 0;
     exec->fd = malloc(sizeof(int) * 2);
-    cmd = header->cmd_h;
+    env = header->env_h;
+    while (env)
+    {
+        if (ft_strcmp(env->var, "PATH") == 0)
+        {
+        	exec->path = ft_split(env->val, ':');
+        	break ;
+        }
+        env = env->suivant;
+    }
+    while (exec->path[i])
+    {
+        exec->path[i] = ft_strjoin_free(exec->path[i], "/");
+        i++;
+    }
+}
+
+void     exec_free(t_exec *exec)
+{
+	ft_free(exec->path);
+    free(exec->fd);
+    free(exec);
+}
+
+void	replace_arg(t_headers *header, t_exec *exec)
+{
+	t_cmds	*cmd;
+	char	*str;
+	int		i;
+	int		fd;
+
+	cmd = header->cmd_h;
+	while (cmd)
+	{
+		i = 0;
+		while (exec->path[i])
+		{
+			str = ft_strjoin(exec->path[i] ,cmd->args[0]);
+			if ((fd = open(str,O_RDONLY)) != -1)
+			{
+				close(fd);
+				cmd->args[0] = ft_strjoin_free2(exec->path[i] ,cmd->args[0]);
+				free(str);
+				break ;
+			}
+			free(str);
+			i++;
+		}
+		cmd = cmd->next;
+	}
+}
+
+int     execute(t_headers *header)
+{
+	t_cmds	*cmd;
+	t_exec	*exec;
+	int		exit_stat;
+
+    exec = malloc(sizeof(t_exec));
+	exec_init(header, exec);
+	// int i = 0;
+    // while (exec->path[i])
+    // {
+    //     printf("%s\n",exec->path[i]);
+    //     i++;
+    // }
+	replace_arg(header, exec);
+	cmd = header->cmd_h;
     while (cmd)
     {
         pipe(exec->fd);
@@ -56,11 +121,10 @@ int     execute(t_headers *header)
         if(exec->pid == 0)
         {
             ft_pipe(cmd, exec);
+			// printf("%s\n", cmd->args[0]);
             execvp(cmd->args[0], cmd->args);
         }
-        if (exec->pid == 0)
-            execvp(cmd->args[0], cmd->args);
-        waitpid(exec->pid, &k, 0);
+        waitpid(exec->pid, &exit_stat, 0);
         close(exec->fd[1]);
         if (exec->i > 0)
             close(exec->in);
@@ -68,6 +132,6 @@ int     execute(t_headers *header)
         exec->i++;
         cmd = cmd->next;
     }
-    
+	exec_free(exec);
     return (0);
 }

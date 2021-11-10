@@ -77,6 +77,7 @@ join
 char	*ft_strjoin_dollar(char *s1, char *s2, int i);
 char	*ft_strjoin_red(char *s1, char *s2, int i);
 char	*ft_strjoin_free(char *s1, char *s2);
+char *ft_strjoin_free2(char *s1, char *s2);
 char *ft_strjoin_dollarfree(char *s1, char *s2, int i);
 /*
 env
