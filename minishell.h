@@ -40,6 +40,7 @@ typedef struct s_file
 typedef struct s_cmds
 {
 	char			**args;
+	char			*path;
 	char			*cmd;
 	struct s_file	*file_h;
 	struct s_file	*file_f;

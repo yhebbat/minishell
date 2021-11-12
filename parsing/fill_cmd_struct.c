@@ -52,6 +52,8 @@ void	ft_delbotcmd(t_headers *head)
 			ft_freefile(to_delete);
 			ft_free(to_delete->args);
 			free(to_delete->cmd);
+			if (to_delete->path != NULL)
+				free(to_delete->path);
 			free(to_delete);
 			head->cmd_h = NULL;
 			head->cmd_f = NULL;
@@ -65,6 +67,8 @@ void	ft_delbotcmd(t_headers *head)
 			ft_freefile(to_delete);
 			ft_free(to_delete->args);
 			free(to_delete->cmd);
+			if (to_delete->path != NULL)
+				free(to_delete->path);
 			free(to_delete);
 			to_delete = NULL;
 		}
