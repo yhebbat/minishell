@@ -17,6 +17,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <sys/errno.h>
+# include <limits.h>
 
 typedef struct s_exec
 {

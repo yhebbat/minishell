@@ -191,15 +191,15 @@ void    check_builtins_execve(t_cmds *cmd, t_exec *exec, t_env  *env)
     if (ft_strcmp(cmd->args[0], "env") == 0)
         ft_env(exec);
 	else if (ft_strcmp(cmd->args[0], "echo") == 0)
-        echo(cmd);//todo
+        echo(cmd);
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
         export(cmd);//todo
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
         unset(cmd);//todo
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
-        pwd(cmd);//todo
+        pwd(cmd);
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
-        cd(cmd);//todo
+        cd(cmd);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
         ft_exit(cmd);//todo
 	else
