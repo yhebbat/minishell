@@ -15,7 +15,7 @@ OBJECT = $(SRC:.c=.o)
 all : $(NAME)
 
 $(NAME):
-	@gcc $(SRC) -o $(NAME) -lreadline -g #-fsanitize=address 
+	@gcc $(SRC) -o $(NAME) -lreadline -g #-fsanitize=address
 	@echo "✅✅✅"
 
 #bonus:
