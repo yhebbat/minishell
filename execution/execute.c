@@ -6,7 +6,7 @@
 /*   By: yhebbat <yhebbat@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 16:40:23 by yhebbat           #+#    #+#             */
-/*   Updated: 2021/11/10 02:35:43 by yhebbat          ###   ########.fr       */
+/*   Updated: 2021/11/14 19:08:44 by yhebbat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,14 +186,14 @@ void	ft_execve(t_cmds *cmd, t_exec *exec)
 		printf("bash: %s: No such file or directory\n", cmd->args[0]);
 }	
 
-void    check_builtins_execve(t_cmds *cmd, t_exec *exec, t_env  *env)
+void    check_builtins_execve(t_cmds *cmd, t_exec *exec, t_headers  *header)
 {
     if (ft_strcmp(cmd->args[0], "env") == 0)
         ft_env(exec);
 	else if (ft_strcmp(cmd->args[0], "echo") == 0)
         echo(cmd);
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
-        export(cmd, exec);//todo
+        export(cmd, exec, header);//todo
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
         unset(cmd, exec);//todo
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
@@ -213,7 +213,7 @@ void		ft_cmds(t_exec *exec, t_cmds *cmd, t_headers *header/*, int	exit_stat*/)
 	{
 		ft_pipe(cmd, exec);
 		//check_red
-		check_builtins_execve(cmd, exec, header->env_h);
+		check_builtins_execve(cmd, exec, header);
 		// printf("%s\n", cmd->args[0]);
 		// execve(cmd->args[0], cmd->args, exec->env);
 	}
@@ -222,7 +222,7 @@ void		ft_cmds(t_exec *exec, t_cmds *cmd, t_headers *header/*, int	exit_stat*/)
 
 void	ft_last_cmd(t_exec *exec, t_cmds *cmd, t_headers *header)
 {
-	if (cmd->next == NULL)
+	if (cmd && cmd->next == NULL)
 	{
 		// pipe(exec->fd);
 		exec->pid = fork();
@@ -247,7 +247,7 @@ int     execute(t_headers *header)
 	exec_init(header, exec);
 	replace_arg(header, exec);//maybe kayn some leaks here
 	cmd = header->cmd_h;
-    while (cmd->next != NULL)
+    while (cmd && cmd->next != NULL)
     {
         pipe(exec->fd);
 		ft_cmds(exec, cmd, header/*, &exit_stat*/);

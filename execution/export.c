@@ -73,23 +73,26 @@ char    *fill_exportval(char *str, int *eq)
     return (ret);
 }
 
-void    export(t_cmds *cmd, t_exec *exec)
+void    export(t_cmds *cmd, t_exec *exec, t_headers *header)
 {
     int t;
     int k;
-    int *eq;
+    int eq;
+    int exist_env;
+    t_env *env;
     char **str;
 
+    env = header->env_h;
     k = 0;
     t = 1;
-    str = malloc(sizeof(char *) * 3);
     if (!cmd->args[t])
     {
         //print "declare -x env"
     }
     while (cmd->args[t])
     {
-        *eq = 0;
+        str = malloc(sizeof(char *) * 3);
+        eq = 0;
         //eq==0 no =
         //eq==1 =
         //eq==2 +=
@@ -102,10 +105,23 @@ void    export(t_cmds *cmd, t_exec *exec)
         }
         // while (cmd->args[t][k])
         // {
-            str[0] = check_eq(cmd->args[t], eq);
-            str[1] = fill_exportval(cmd->args[t], eq);
+            str[0] = check_eq(cmd->args[t], &eq);
+            str[1] = fill_exportval(cmd->args[t], &eq);
             str[2] = 0;
-            printf("%s||%s||*%d*\n", str[0], str[1],*eq);
+            printf("%s||%s||*%d*\n", str[0], str[1],eq);
+            // exist_env = find_var_env(str[0], env);
+            // if (eq == 0 && exist_env)
+            //     //dont modify it
+            // if (eq == 0 && !exist_env)
+            //     //add it with val = NULL
+            // if (eq == 1 && exist_env)
+            //     //modify it
+            // if (eq == 1  && !exist_env)
+            //     //add it with val = 
+            // if (eq == 2  && exist_env)
+            //     //add it with val += 
+            // if (eq == 2  && !exist_env)
+            //     //add it with val = 
             //k++;
         //}
         ft_free(str);
