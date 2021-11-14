@@ -10,8 +10,10 @@ void	ft_delbottom(t_headers *head)
 		to_delete = head->env_f;
 		if (!to_delete->preced)
 		{
-			free(to_delete->val);
-			free(to_delete->var);
+			if (to_delete->val != NULL)
+				free(to_delete->val);
+			if (to_delete->var != NULL)
+				free(to_delete->var);
 			free(to_delete);
 			head->env_h = NULL;
 			head->env_f = NULL;
@@ -22,8 +24,10 @@ void	ft_delbottom(t_headers *head)
 			stack = to_delete->preced;
 			head->env_f = stack;
 			stack->suivant = NULL;
-			free(to_delete->val);
-			free(to_delete->var);
+			if (to_delete->val != NULL)
+				free(to_delete->val);
+			if (to_delete->var != NULL)
+				free(to_delete->var);
 			free(to_delete);
 			to_delete = NULL;
 		}
@@ -40,8 +44,10 @@ void	ft_addbottom(t_headers *head, char *var, char *val)
 		exit(0);
 	if (head->env_h == NULL)
 	{
-		to_add->var = add_str(var);
-		to_add->val = add_str(val);
+		if (var != NULL)
+			to_add->var = ft_strdup(var);
+		if (val != NULL)
+			to_add->val = ft_strdup(val);
 		to_add->suivant = NULL;
 		to_add->preced = NULL;
 		head->env_f = to_add;
@@ -50,8 +56,10 @@ void	ft_addbottom(t_headers *head, char *var, char *val)
 	else
 	{
 		stack = head->env_f;
-		to_add->var = add_str(var);
-		to_add->val = add_str(val);
+		if (var != NULL)
+			to_add->var = ft_strdup(var);
+		if (val != NULL)
+			to_add->val = ft_strdup(val);
 		to_add->preced = stack;
 		to_add->suivant = NULL;
 		stack->suivant = to_add;

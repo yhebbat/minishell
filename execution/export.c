@@ -73,12 +73,23 @@ char    *fill_exportval(char *str, int *eq)
     return (ret);
 }
 
+t_env   *find_var_env(char  str, t_env *env)
+{
+    while (env)
+    {
+        if (ft_strcmp(str, env->var) == 0)
+            return (env);
+        env = env->suivant;
+    }
+    return (NULL);
+}
+
 void    export(t_cmds *cmd, t_exec *exec, t_headers *header)
 {
     int t;
     int k;
     int eq;
-    int exist_env;
+    t_env *exist_env;
     t_env *env;
     char **str;
 
@@ -98,32 +109,45 @@ void    export(t_cmds *cmd, t_exec *exec, t_headers *header)
         //eq==2 +=
         //eq==-1 error not a valid identifier
         k = 0;
-        if (cmd->args[t][k] != '_' && ft_isalpha(cmd->args[t][k]) == 0)
+        if (cmd->args[t][0] != '_' && ft_isalpha(cmd->args[t][0]) == 0)
         {
             printf("export: `%s': not a valid identifier", cmd->args[t]);
             break ;
         }
-        // while (cmd->args[t][k])
-        // {
-            str[0] = check_eq(cmd->args[t], &eq);
-            str[1] = fill_exportval(cmd->args[t], &eq);
-            str[2] = 0;
-            printf("%s||%s||*%d*\n", str[0], str[1],eq);
-            // exist_env = find_var_env(str[0], env);
-            // if (eq == 0 && exist_env)
-            //     //dont modify it
-            // if (eq == 0 && !exist_env)
-            //     //add it with val = NULL
-            // if (eq == 1 && exist_env)
-            //     //modify it
-            // if (eq == 1  && !exist_env)
-            //     //add it with val = 
-            // if (eq == 2  && exist_env)
-            //     //add it with val += 
-            // if (eq == 2  && !exist_env)
-            //     //add it with val = 
-            //k++;
-        //}
+        str[0] = check_eq(cmd->args[t], &eq);
+        str[1] = fill_exportval(cmd->args[t], &eq);
+        str[2] = 0;
+        printf("%s||%s||*%d*\n", str[0], str[1],eq);
+        exist_env = find_var_env(str[0], env);
+        if (eq == 0 && exist_env)
+        {
+            //dont modify it
+        }
+        if (eq == 0 && !exist_env)
+        {
+			ft_addbottom(header, str[0], NULL);
+			//add it with val = NULL
+		}
+        if (eq == 1 && exist_env)
+        {
+			exist_env->val = ft_strjoin_free(exist_env->val, str[1]);
+			//modify it
+		}
+        if (eq == 1  && !exist_env)
+        {
+			ft_addbottom(header, str[0], str[1]);
+			//add it with val = 
+		}
+        if (eq == 2  && exist_env)
+        {
+			exist_env->val = ft_strjoin_free(exist_env->val, str[1]);
+			//add it with val += 
+		}
+        if (eq == 2  && !exist_env)
+        {
+			ft_addbottom(header, str[0], str[1]);
+			//add it with val = 
+		}
         ft_free(str);
         t++;
     }

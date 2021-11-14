@@ -30,24 +30,24 @@ char	*ft_strstr(char *src, char *tofind)
 	return (0);
 }
 
-char	*add_str(char *str)
-{
-	char	*res;
-	int		i;
+// char	*ft_strdup(char *str)
+// {
+// 	char	*res;
+// 	int		i;
 
-	i = 0;
-	while (str[i])
-		i++;
-	res = malloc(sizeof(char) * i + 1);
-	i = 0;
-	while (str[i])
-	{
-		res[i] = str[i];
-		i++;
-	}
-	res[i] = '\0';
-	return (res);
-}
+// 	i = 0;
+// 	while (str[i])
+// 		i++;
+// 	res = malloc(sizeof(char) * i + 1);
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		res[i] = str[i];
+// 		i++;
+// 	}
+// 	res[i] = '\0';
+// 	return (res);
+// }
 
 int		ft_strlen(char *str)
 {

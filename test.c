@@ -31,7 +31,7 @@
 // 	struct s_cmds	*cmd_f;
 // }t_headers;
 
-// char	*add_str(char *str)
+// char	*ft_strdup(char *str)
 // {
 // 	char	*res;
 // 	int		i;
@@ -176,8 +176,8 @@
 // 		exit(0);
 // 	if (head->cmd_h == NULL)
 // 	{
-// 		to_add->cmd = add_str(val);
-// 		// to_add->val = add_str(val);
+// 		to_add->cmd = ft_strdup(val);
+// 		// to_add->val = ft_strdup(val);
 // 		to_add->next = NULL;
 // 		to_add->prec = NULL;
 // 		head->cmd_f = to_add;
@@ -186,8 +186,8 @@
 // 	else
 // 	{
 // 		stack = head->cmd_f;
-// 		// to_add->var = add_str(var);
-// 		to_add->cmd = add_str(val);
+// 		// to_add->var = ft_strdup(var);
+// 		to_add->cmd = ft_strdup(val);
 // 		to_add->prec = stack;
 // 		to_add->next = NULL;
 // 		stack->next = to_add;
@@ -365,46 +365,59 @@
 // 	return (0);
 // }
 
-// char	*ft_strdup(const char *s)
-// {
-// 	size_t	k;
-// 	char	*new;
-// 	size_t	i;
+char	*ft_strdup(const char *s)
+{
+	size_t	k;
+	char	*new;
+	size_t	i;
 
-// 	i = 0;
-// 	k = 0;
-// 	while (s && s[k] != '\0')
-// 		k++;
-//     new = (char *)malloc((k + 1) * sizeof(char));
-// 	if (!new)
-// 		return (0);
-// 	while (s[i] != '\0')
-// 	{
-// 		new[i] = s[i];
-// 		i++;
-// 	}
-// 	new[i] = '\0';
-// 	return (new);
-// }
-// int main()
-// {
-// 	char *s;
-// 	char *str = "hello $world $pwd";
-// 	char *ll = "$world";
-// 	// str = ft_strjoin(str, ll);
-// 	// int k = 0;
-// 	// while (str[k]!='$')
-// 	// 	k++;
-// 	// s = to_find(str, k);
-// 	printf("%s\n", ft_strdup(s));
-// 	// free(str);
-// 	// system("leaks a.out");
-// }
+	i = 0;
+	k = 0;
+	while (s && s[k] != '\0')
+		k++;
+    new = (char *)malloc((k + 1) * sizeof(char));
+	if (!new)
+		return (0);
+	while (s[i] != '\0')
+	{
+		new[i] = s[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}
+
+char	*ft_strdup(char *str)
+{
+	char	*res;
+	int		i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	res = malloc(sizeof(char) * i + 1);
+	i = 0;
+	while (str[i])
+	{
+		res[i] = str[i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
+}
 
 int main()
 {
-	int t = fork();
-	if(t == 0)
-		exit(0);
-	while(1); 
+	char *s;
+	char *str = "hello $world $pwd";
+	char *ll = "$world";
+	// str = ft_strjoin(str, ll);
+	// int k = 0;
+	// while (str[k]!='$')
+	// 	k++;
+	// s = to_find(str, k);
+	//ft_strdup(NULL);
+	ft_strdup(NULL);
+	// free(str);
+	// system("leaks a.out");
 }

@@ -10,7 +10,7 @@ void	ft_addbotcmd(t_headers *head, char *val)
 		exit(0);
 	if (head->cmd_h == NULL)
 	{
-		to_add->cmd = add_str(val);
+		to_add->cmd = ft_strdup(val);
 		to_add->file_h = NULL;
 		to_add->file_f = NULL;
 		to_add->next = NULL;
@@ -22,7 +22,7 @@ void	ft_addbotcmd(t_headers *head, char *val)
 	else
 	{
 		stack = head->cmd_f;
-		to_add->cmd = add_str(val);
+		to_add->cmd = ft_strdup(val);
 		to_add->file_h = NULL;
 		to_add->file_f = NULL;
 		to_add->prec = stack;

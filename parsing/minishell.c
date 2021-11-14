@@ -40,8 +40,8 @@ void	ft_addtop(t_headers *head, char *var, char *val)
 		exit(0);
 	if (head->env_h == NULL)
 	{
-		to_add->var = add_str(var);
-		to_add->val = add_str(val);
+		to_add->var = ft_strdup(var);
+		to_add->val = ft_strdup(val);
 		to_add->suivant = NULL;
 		to_add->preced = NULL;
 		head->env_f = to_add;
@@ -50,8 +50,8 @@ void	ft_addtop(t_headers *head, char *var, char *val)
 	else
 	{
 		stack = head->env_h;
-		to_add->var = add_str(var);
-		to_add->val = add_str(val);
+		to_add->var = ft_strdup(var);
+		to_add->val = ft_strdup(val);
 		to_add->suivant = stack;
 		to_add->preced = NULL;
 		stack->preced = to_add;
