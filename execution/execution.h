@@ -32,10 +32,10 @@ typedef struct s_exec
 void	ft_env(t_exec *exec);
 void    cd(t_cmds *cmd);
 int     execute(t_headers *header);
-void    unset(t_cmds *cmd);
+void    unset(t_cmds *cmd, t_exec *exec);
 void    pwd(t_cmds *cmd);
 void    echo(t_cmds *cmd);
-void    export(t_cmds *cmd);
+void    export(t_cmds *cmd, t_exec *exec);
 void    ft_exit(t_cmds *cmd);
 void    ft_pipe(t_cmds *cmd, t_exec *exec);
 void    ft_pipe_last(t_cmds *cmd, t_exec *exec);

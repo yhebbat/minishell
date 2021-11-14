@@ -193,9 +193,9 @@ void    check_builtins_execve(t_cmds *cmd, t_exec *exec, t_env  *env)
 	else if (ft_strcmp(cmd->args[0], "echo") == 0)
         echo(cmd);
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
-        export(cmd);//todo
+        export(cmd, exec);//todo
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
-        unset(cmd);//todo
+        unset(cmd, exec);//todo
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
         pwd(cmd);
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
