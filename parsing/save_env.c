@@ -48,6 +48,8 @@ void	ft_addbottom(t_headers *head, char *var, char *val)
 			to_add->var = ft_strdup(var);
 		if (val != NULL)
 			to_add->val = ft_strdup(val);
+		else
+			to_add->val = NULL;
 		to_add->suivant = NULL;
 		to_add->preced = NULL;
 		head->env_f = to_add;
@@ -60,6 +62,8 @@ void	ft_addbottom(t_headers *head, char *var, char *val)
 			to_add->var = ft_strdup(var);
 		if (val != NULL)
 			to_add->val = ft_strdup(val);
+		else
+			to_add->val = NULL;
 		to_add->preced = stack;
 		to_add->suivant = NULL;
 		stack->suivant = to_add;

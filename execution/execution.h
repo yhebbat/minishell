@@ -26,7 +26,8 @@ typedef struct s_exec
 	int		*fd;
     int		in;
     int		i;
-    int		pid;
+    int		*pid;
+    int     nb_cmd;
 }t_exec;
 
 void	ft_env(t_exec *exec);
@@ -39,4 +40,5 @@ void    export(t_cmds *cmd, t_exec *exec, t_headers *header);
 void    ft_exit(t_cmds *cmd);
 void    ft_pipe(t_cmds *cmd, t_exec *exec);
 void    ft_pipe_last(t_cmds *cmd, t_exec *exec);
+void	fill_env(t_exec *exec, t_headers *header);
 #endif

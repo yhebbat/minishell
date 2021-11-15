@@ -67,6 +67,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	**ft_split(char const *s, char c);
 // char	*ft_strdup(char *str);
 char	*ft_strdup(const char *s);
+char	*ft_strdup_free(char *s1);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strstr(char *src, char *tofind);
 void	*ft_memmove(void *dest, const void *src, size_t n);

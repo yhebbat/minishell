@@ -73,7 +73,7 @@ char    *fill_exportval(char *str, int *eq)
     return (ret);
 }
 
-t_env   *find_var_env(char  str, t_env *env)
+t_env   *find_var_env(char  *str, t_env *env)
 {
     while (env)
     {
@@ -82,6 +82,46 @@ t_env   *find_var_env(char  str, t_env *env)
         env = env->suivant;
     }
     return (NULL);
+}
+
+void	fill_env2(t_exec *exec, t_headers *header)
+{
+	int		i;
+	t_env	*env;
+
+	env = header->env_h;
+	while (env)
+	{
+		if (env->val != NULL)
+			i++;
+		env = env->suivant;
+	}
+    ft_free(exec->env);
+    exec->env=NULL;
+	exec->env = malloc(sizeof(char *) * (i + 1));
+    //printf("*%d\n",i);
+	env = header->env_h;
+	i = 0;
+	while (env)
+	{
+		// if (env->val != NULL)
+		// 	printf("%s=%s\n", env->var, env->val);
+		if (env->val != NULL)
+		{
+			exec->env[i] = ft_strjoin(env->var, "=");
+			exec->env[i] = ft_strjoin_free(exec->env[i], env->val);
+			i++;
+		}
+		env = env->suivant;
+	}
+   // printf("**%d\n",i);
+	exec->env[i] = 0;
+	// i = 0;
+	// while (exec->env[i])
+	// {
+	// 	printf("%s\n", exec->env[i]);
+	// 	i++;
+	// }
 }
 
 void    export(t_cmds *cmd, t_exec *exec, t_headers *header)
@@ -117,39 +157,38 @@ void    export(t_cmds *cmd, t_exec *exec, t_headers *header)
         str[0] = check_eq(cmd->args[t], &eq);
         str[1] = fill_exportval(cmd->args[t], &eq);
         str[2] = 0;
-        printf("%s||%s||*%d*\n", str[0], str[1],eq);
+        // printf("%s||%s||*%d*\n", str[0], str[1],eq);
         exist_env = find_var_env(str[0], env);
-        if (eq == 0 && exist_env)
-        {
-            //dont modify it
-        }
         if (eq == 0 && !exist_env)
         {
 			ft_addbottom(header, str[0], NULL);
 			//add it with val = NULL
 		}
-        if (eq == 1 && exist_env)
+        else if (eq == 1 && exist_env)
         {
-			exist_env->val = ft_strjoin_free(exist_env->val, str[1]);
+			exist_env->val = ft_strdup_free(str[1]);
 			//modify it
 		}
-        if (eq == 1  && !exist_env)
+        else if (eq == 1  && !exist_env)
         {
 			ft_addbottom(header, str[0], str[1]);
+            free(str[1]);
 			//add it with val = 
 		}
-        if (eq == 2  && exist_env)
+        else if (eq == 2  && exist_env)
         {
 			exist_env->val = ft_strjoin_free(exist_env->val, str[1]);
 			//add it with val += 
 		}
-        if (eq == 2  && !exist_env)
+        else if (eq == 2  && !exist_env)
         {
 			ft_addbottom(header, str[0], str[1]);
+            free(str[1]);
 			//add it with val = 
 		}
-        ft_free(str);
+        free(str[0]);
+        free(str);
         t++;
     }
-    
+    fill_env2(exec, header);
 }

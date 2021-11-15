@@ -105,5 +105,5 @@ int	main(int ac, char **av, char **env)
 		ft_delbottom(header);
 	free(header);
 	header = NULL;
-	// system("leaks minishell");
+	system("leaks minishell");
 }

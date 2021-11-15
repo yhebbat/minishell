@@ -45,21 +45,27 @@ void	fill_env(t_exec *exec, t_headers *header)
 	env = header->env_h;
 	while (env)
 	{
-		i++;
+		if (env->val != NULL)
+			i++;
 		env = env->suivant;
 	}
-	exec->env = malloc(sizeof(char *) * i );
+	exec->env = malloc(sizeof(char *) * i);
 	env = header->env_h;
 	i = 0;
 	while (env)
 	{
-		exec->env[i] = ft_strjoin(env->var, "=");
-		exec->env[i] = ft_strjoin_free(exec->env[i], env->val);
-		i++;
+		// if (env->val != NULL)
+		// 	printf("%s=%s\n", env->var, env->val);
+		if (env->val != NULL)
+		{
+			exec->env[i] = ft_strjoin(env->var, "=");
+			exec->env[i] = ft_strjoin_free(exec->env[i], env->val);
+			i++;
+		}
 		env = env->suivant;
 	}
 	exec->env[i] = 0;
-	i = 0;
+	// i = 0;
 	// while (exec->env[i])
 	// {
 	// 	printf("%s\n", exec->env[i]);
@@ -70,8 +76,18 @@ void	fill_env(t_exec *exec, t_headers *header)
 void     exec_init(t_headers *header, t_exec *exec)
 {
     t_env  *env;
+	t_cmds *cmd;
 	int		i;
 
+	i = 0;
+	cmd = header->cmd_h;
+	while (cmd)
+	{
+		i++;
+		cmd = cmd->next;
+	}
+	exec->pid = malloc(sizeof(int) * (i));
+	exec->nb_cmd = i;
 	i = 0;
     exec->i = 0;
     exec->in = 0;
@@ -173,17 +189,29 @@ void    replace_arg(t_headers *header, t_exec *exec)
 
 void	ft_execve(t_cmds *cmd, t_exec *exec)
 {
-	if (cmd->path == NULL)
-		printf("minishell: %s: command not found\n", cmd->args[0]);
+	int		exitstatu;
+	exec->pid[0] = fork();
+	if (exec->pid[0] == 0)
+	{
+		if (cmd->path == NULL)
+			printf("minishell: %s: command not found\n", cmd->args[0]);
+		else
+		{
+			if (cmd->args[0][0] == '/' || (cmd->args[0][0] == '.' && cmd->args[0][1] == '/'))
+				execve(cmd->args[0], cmd->args, exec->env);
+			else
+				execve(cmd->path, cmd->args, exec->env);
+		}
+		if (cmd->args[0][0] == '/' || (cmd->args[0][0] == '.' && cmd->args[0][1] == '/'))
+			printf("bash: %s: No such file or directory\n", cmd->args[0]);
+		exit(127);
+	}
 	else
 	{
-		if (cmd->args[0][0] == '/' || (cmd->args[0][0] == '.' && cmd->args[0][1] == '/'))
-			execve(cmd->args[0], cmd->args, exec->env);
-		else
-			execve(cmd->path, cmd->args, exec->env);
+		waitpid(exec->pid[0] , &exitstatu, 0);
+		// exit (exitstatu);
 	}
-	if (cmd->args[0][0] == '/' || (cmd->args[0][0] == '.' && cmd->args[0][1] == '/'))
-		printf("bash: %s: No such file or directory\n", cmd->args[0]);
+//	}
 }	
 
 void    check_builtins_execve(t_cmds *cmd, t_exec *exec, t_headers  *header)
@@ -208,12 +236,13 @@ void    check_builtins_execve(t_cmds *cmd, t_exec *exec, t_headers  *header)
 
 void		ft_cmds(t_exec *exec, t_cmds *cmd, t_headers *header/*, int	exit_stat*/)
 {
-	exec->pid = fork();
-	if (exec->pid == 0)
+	exec->pid[exec->i] = fork();
+	if (exec->pid[exec->i] == 0)
 	{
 		ft_pipe(cmd, exec);
 		//check_red
 		check_builtins_execve(cmd, exec, header);
+		exit(0);
 		// printf("%s\n", cmd->args[0]);
 		// execve(cmd->args[0], cmd->args, exec->env);
 	}
@@ -224,16 +253,29 @@ void	ft_last_cmd(t_exec *exec, t_cmds *cmd, t_headers *header)
 {
 	if (cmd && cmd->next == NULL)
 	{
-		// pipe(exec->fd);
-		exec->pid = fork();
-		if (exec->pid == 0)
+		if (cmd->prec != NULL)
 		{
-			ft_pipe_last(cmd, exec);
-			//check_red
-			check_builtins_execve(cmd, exec, header->env_h);
+			pipe(exec->fd);
+			exec->pid[exec->i] = fork();
+			if (exec->pid[exec->i] == 0)
+			{
+				ft_pipe_last(cmd, exec);
+				// check_red
+				check_builtins_execve(cmd, exec, header);
+				exit (0);
+			}
+		}
+		else
+		{
+			//ft_pipe_last(cmd, exec);
+				// check_red
+			check_builtins_execve(cmd, exec, header);
 		}
 		if (exec->in != 0)
 			close(exec->in);
+		close(exec->fd[1]);
+		close(exec->fd[0]);
+
 	}
 }
 
@@ -242,7 +284,9 @@ int     execute(t_headers *header)
 	t_cmds	*cmd;
 	t_exec	*exec;
 	int		exit_stat;
+	int 	i;
 
+	i = 0;
     exec = malloc(sizeof(t_exec));
 	exec_init(header, exec);
 	replace_arg(header, exec);//maybe kayn some leaks here
@@ -260,7 +304,9 @@ int     execute(t_headers *header)
         cmd = cmd->next;
     }
 	ft_last_cmd(exec, cmd, header);
-	waitpid(exec->pid, &exit_stat, 0);
+	printf("%d\n", exec->nb_cmd);
+	while (i < exec->nb_cmd)
+		waitpid(exec->pid[i++], &exit_stat, 0);
 	exec_free(exec);
     return (0);
 }

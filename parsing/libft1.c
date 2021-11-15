@@ -49,6 +49,15 @@ char	*ft_strstr(char *src, char *tofind)
 // 	return (res);
 // }
 
+char *ft_strdup_free(char *s1)
+{
+	char *ret;
+
+	ret = ft_strdup(s1);
+	free (s1);
+	return (ret);
+}
+
 int		ft_strlen(char *str)
 {
 	int	i;

@@ -12,7 +12,7 @@ void    ft_pipe(t_cmds *cmd, t_exec *exec)
         dup2(exec->fd[1], 1);
         close(exec->fd[1]);
     }
-    if (exec->fd[0] > 2)
+    // if (exec->fd[0] > 2)
         close(exec->fd[0]);
 }
 

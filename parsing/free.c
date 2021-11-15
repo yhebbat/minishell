@@ -9,6 +9,7 @@ void	*ft_free(char **p)
 	{
 		free(p[i]);
 		i++;
-	}	free(p);
+	}
+	free(p);
 	return (0);
 }
