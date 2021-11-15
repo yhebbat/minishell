@@ -113,6 +113,7 @@ void     exec_init(t_headers *header, t_exec *exec)
 void     exec_free(t_exec *exec)
 {
 	ft_free(exec->path);
+	free(exec->pid);
 	ft_free(exec->env);
     free(exec->fd);
     free(exec);
@@ -264,18 +265,17 @@ void	ft_last_cmd(t_exec *exec, t_cmds *cmd, t_headers *header)
 				check_builtins_execve(cmd, exec, header);
 				exit (0);
 			}
+			close(exec->fd[1]);
+			close(exec->fd[0]);
 		}
 		else
 		{
-			//ft_pipe_last(cmd, exec);
+			ft_pipe_last(cmd, exec);
 				// check_red
 			check_builtins_execve(cmd, exec, header);
 		}
 		if (exec->in != 0)
 			close(exec->in);
-		close(exec->fd[1]);
-		close(exec->fd[0]);
-
 	}
 }
 
@@ -304,7 +304,7 @@ int     execute(t_headers *header)
         cmd = cmd->next;
     }
 	ft_last_cmd(exec, cmd, header);
-	printf("%d\n", exec->nb_cmd);
+	// printf("%d\n", exec->nb_cmd);
 	while (i < exec->nb_cmd)
 		waitpid(exec->pid[i++], &exit_stat, 0);
 	exec_free(exec);
