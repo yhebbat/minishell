@@ -1,20 +1,3 @@
-# skip spaces
-# "" or '' don't skip 
-
-#syntax error
-
- | |
- |
- redirection PIPE
- << >> < >
-
- <<< =>error
- >>> =>error
-
- unclosed quotes => syntax error
-
- >><
- <<>
 
 Pipe at the end of line
 
@@ -56,6 +39,8 @@ typedef struct s_file
 	strcut s_file *next; 
 }	t_file;
 
+
+--------------------------------------------------------------
 
 
 

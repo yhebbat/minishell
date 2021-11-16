@@ -106,7 +106,7 @@ char	*to_find(char *str, int k)
 
 	i = 0;
 	r = k + 1;
-	while (str[r] && str[r] != '"' && str[r] != ' ' && str[r] != '\'' && str[r] != '$')
+	while (str[r] && str[r] != '"' && str[r] != ' ' && str[r] != '\'' && str[r] != '$' && str[r] != '=')
 	{
 		i++;
 		r++;
@@ -195,7 +195,7 @@ void	checkdollar_cmd(t_headers *header)
 			{
 				var = to_find(new_cmd->cmd, i);
 				rest = ft_strdup(ft_strstr(new_cmd->cmd + i, var));
-				val = findit(header, var); // STILL HAVE A PRBLM WHEN U DON'T FIND THE VAR
+				val = findit(header, var);
 				new_cmd->cmd = ft_strjoin_dollarfree(new_cmd->cmd, val, i);
 				new_cmd->cmd = ft_strjoin_free(new_cmd->cmd, rest);
 				i = -1;

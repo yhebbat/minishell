@@ -30,15 +30,17 @@ typedef struct s_exec
     int     nb_cmd;
 }t_exec;
 
+t_env   *find_var_env(char  *str, t_env *env);
 void	ft_env(t_exec *exec);
 void    cd(t_cmds *cmd);
 int     execute(t_headers *header);
-void    unset(t_cmds *cmd, t_exec *exec);
 void    pwd(t_cmds *cmd);
 void    echo(t_cmds *cmd);
 void    export(t_cmds *cmd, t_exec *exec, t_headers *header);
+void    unset(t_cmds *cmd, t_exec *exec, t_headers *header);
 void    ft_exit(t_cmds *cmd);
 void    ft_pipe(t_cmds *cmd, t_exec *exec);
 void    ft_pipe_last(t_cmds *cmd, t_exec *exec);
 void	fill_env(t_exec *exec, t_headers *header);
+void	fill_env2(t_exec *exec, t_headers *header);
 #endif

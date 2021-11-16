@@ -101,7 +101,7 @@ int	check_error_redirections(char *line)
 		i++;
 	while (line[i])
 	{
-		if ((line[i] == '<' && !line[i + 1]) || (line[i] == '<' && !line[i + 1]))
+		if (((line[i] == '<' || line[i] == '>') && !line[i + 1]) || (line[i] == '<' && !line[i + 1]))
 		{
 			// free(line);
 			printf("syntax error near unexpected token `newline'\n");

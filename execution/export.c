@@ -138,11 +138,24 @@ void    export(t_cmds *cmd, t_exec *exec, t_headers *header)
     t = 1;
     if (!cmd->args[t])
     {
-        //print "declare -x env"
+        while (env)
+        {
+            if (env->val != NULL)
+            {
+                printf("declare -x ");
+                printf(" %s=", env->var);
+                printf("\"%s\"\n", env->val);
+            }else
+            {
+                printf("declare -x ");
+                printf(" %s=\n", env->var);  
+            }
+            env = env->suivant;
+        }
     }
+    env = header->env_h;
     while (cmd->args[t])
     {
-        str = malloc(sizeof(char *) * 3);
         eq = 0;
         //eq==0 no =
         //eq==1 =
@@ -151,43 +164,48 @@ void    export(t_cmds *cmd, t_exec *exec, t_headers *header)
         k = 0;
         if (cmd->args[t][0] != '_' && ft_isalpha(cmd->args[t][0]) == 0)
         {
-            printf("export: `%s': not a valid identifier", cmd->args[t]);
-            break ;
+            printf("export: `%s': not a valid identifier\n", cmd->args[t]);
+            // break ;
         }
-        str[0] = check_eq(cmd->args[t], &eq);
-        str[1] = fill_exportval(cmd->args[t], &eq);
-        str[2] = 0;
-        // printf("%s||%s||*%d*\n", str[0], str[1],eq);
-        exist_env = find_var_env(str[0], env);
-        if (eq == 0 && !exist_env)
+        else
         {
-			ft_addbottom(header, str[0], NULL);
-			//add it with val = NULL
-		}
-        else if (eq == 1 && exist_env)
-        {
-			exist_env->val = ft_strdup_free(str[1]);
-			//modify it
-		}
-        else if (eq == 1  && !exist_env)
-        {
-			ft_addbottom(header, str[0], str[1]);
-            free(str[1]);
-			//add it with val = 
-		}
-        else if (eq == 2  && exist_env)
-        {
-			exist_env->val = ft_strjoin_free(exist_env->val, str[1]);
-			//add it with val += 
-		}
-        else if (eq == 2  && !exist_env)
-        {
-			ft_addbottom(header, str[0], str[1]);
-            free(str[1]);
-			//add it with val = 
-		}
-        free(str[0]);
-        free(str);
+            str = malloc(sizeof(char *) * 3);
+            str[0] = check_eq(cmd->args[t], &eq);
+            str[1] = fill_exportval(cmd->args[t], &eq);
+            str[2] = 0;
+            // printf("%s||%s||*%d*\n", str[0], str[1],eq);
+            exist_env = find_var_env(str[0], env);
+            if (eq == 0 && !exist_env)
+            {
+    			ft_addbottom(header, str[0], NULL);
+    			//add it with val = NULL
+    		}
+            else if (eq == 1 && exist_env)
+            {
+    			exist_env->val = ft_strdup_free(str[1]);
+    			//modify it
+    		}
+            else if (eq == 1  && !exist_env)
+            {
+    			ft_addbottom(header, str[0], str[1]);
+                free(str[1]);
+    			//add it with val = 
+    		}
+            else if (eq == 2  && exist_env)
+            {
+    			exist_env->val = ft_strjoin_free(exist_env->val, str[1]);
+    			//add it with val += 
+    		}
+            else if (eq == 2  && !exist_env)
+            {
+    			ft_addbottom(header, str[0], str[1]);
+                free(str[1]);
+    			//add it with val = 
+    		}
+                free(str[0]);
+                free(str);  
+        }
+
         t++;
     }
     fill_env2(exec, header);

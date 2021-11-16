@@ -49,7 +49,7 @@ void	fill_env(t_exec *exec, t_headers *header)
 			i++;
 		env = env->suivant;
 	}
-	exec->env = malloc(sizeof(char *) * i);
+	exec->env = malloc(sizeof(char *) * (i + 1));
 	env = header->env_h;
 	i = 0;
 	while (env)
@@ -84,8 +84,10 @@ void     exec_init(t_headers *header, t_exec *exec)
 	while (cmd)
 	{
 		i++;
+		cmd->path = NULL;
 		cmd = cmd->next;
 	}
+	exec->path = NULL;
 	exec->pid = malloc(sizeof(int) * (i));
 	exec->nb_cmd = i;
 	i = 0;
@@ -102,7 +104,7 @@ void     exec_init(t_headers *header, t_exec *exec)
         }
         env = env->suivant;
     }
-    while (exec->path[i])
+    while (env && exec->path[i])
     {
         exec->path[i] = ft_strjoin_free(exec->path[i], "/");
         i++;
@@ -112,7 +114,8 @@ void     exec_init(t_headers *header, t_exec *exec)
 
 void     exec_free(t_exec *exec)
 {
-	ft_free(exec->path);
+	if (exec->path)
+		ft_free(exec->path);
 	free(exec->pid);
 	ft_free(exec->env);
     free(exec->fd);
@@ -130,7 +133,7 @@ void    replace_arg(t_headers *header, t_exec *exec)
 	while (cmd)
 	{
 		i = 0;
-		cmd->path = NULL;
+		// cmd->path = NULL;
 		while (exec->path[i])
 		{
 			str = ft_strjoin(exec->path[i] ,cmd->args[0]);
@@ -212,7 +215,6 @@ void	ft_execve(t_cmds *cmd, t_exec *exec)
 		waitpid(exec->pid[0] , &exitstatu, 0);
 		// exit (exitstatu);
 	}
-//	}
 }	
 
 void    check_builtins_execve(t_cmds *cmd, t_exec *exec, t_headers  *header)
@@ -224,7 +226,7 @@ void    check_builtins_execve(t_cmds *cmd, t_exec *exec, t_headers  *header)
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
         export(cmd, exec, header);//todo
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
-        unset(cmd, exec);//todo
+        unset(cmd, exec, header);//todo
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
         pwd(cmd);
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
@@ -289,7 +291,8 @@ int     execute(t_headers *header)
 	i = 0;
     exec = malloc(sizeof(t_exec));
 	exec_init(header, exec);
-	replace_arg(header, exec);//maybe kayn some leaks here
+	if (exec->path)
+		replace_arg(header, exec);//maybe kayn some leaks here
 	cmd = header->cmd_h;
     while (cmd && cmd->next != NULL)
     {
