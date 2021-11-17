@@ -91,7 +91,7 @@ int	main(int ac, char **av, char **env)
 		if (!line)
 			break;
 		parse(line, header);
-		// lsh_execute(header);
+		// execute(header);
 		add_history(line);
 		if (!strcmp(line, "exit"))
 		{
@@ -103,7 +103,9 @@ int	main(int ac, char **av, char **env)
 	}
 	while (header->env_h != NULL)
 		ft_delbottom(header);
+	// while (header->cmd_h)
+	// 	ft_delbotcmd(header);
 	free(header);
 	header = NULL;
-	system("leaks minishell");
+	// system("leaks minishell");
 }

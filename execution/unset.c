@@ -71,8 +71,6 @@ void    unset(t_cmds *cmd, t_exec *exec, t_headers *header)
                     free(to_del);
 					to_del = NULL;
                 }
-                //     env = env->suivant;
-                // }
     		}
             free(str);  
         }

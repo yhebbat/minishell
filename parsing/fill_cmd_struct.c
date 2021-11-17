@@ -239,8 +239,8 @@ void	save_cmd(t_headers *header, char **str)
 	// 	printf("----------------------\n");
 	// 	new_cmd = new_cmd->next;
 	// }
-		while (header->cmd_h)
-			ft_delbotcmd(header);
+	while (header->cmd_h)
+		ft_delbotcmd(header);
 	// system("leaks minishell");
 	// save(header, str);
 }
