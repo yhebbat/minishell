@@ -142,13 +142,13 @@ void    export(t_cmds *cmd, t_exec *exec, t_headers *header)
         {
             if (env->val != NULL)
             {
-                printf("declare -x ");
+                printf("declare -x");
                 printf(" %s=", env->var);
                 printf("\"%s\"\n", env->val);
             }else
             {
                 printf("declare -x ");
-                printf(" %s=\n", env->var);  
+                printf("%s\n", env->var);  
             }
             env = env->suivant;
         }

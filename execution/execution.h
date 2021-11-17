@@ -30,6 +30,8 @@ typedef struct s_exec
     int     nb_cmd;
 }t_exec;
 
+int         g_exit_status;
+
 t_env   *find_var_env(char  *str, t_env *env);
 void	ft_env(t_exec *exec);
 void    cd(t_cmds *cmd);

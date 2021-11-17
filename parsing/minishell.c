@@ -70,8 +70,42 @@ void	parse(char *line, t_headers *header)
 	}
 }
 
+void		handle_sigint(int sigint)
+{
+	if (__get_var(GETPID, 0) == 0)
+	{
+		write(1,"\n",1);
+		rl_on_new_line();
+		rl_replace_line("",0);
+		rl_redisplay();
+	}	
+}
+
+
+int		__get_var(t_norm op, int value)
+{
+	static int		exit_status = 0;
+	static int		pids = 0;
+
+	if (op == GETEXIT)
+		return(exit_status);
+	if (op == SETEXIT)
+		exit_status = value;
+	if (op == SETPID)
+		pids = value;
+	if (op == GETPID)
+		return (pids);
+	return (0);
+}
+
 int	main(int ac, char **av, char **env)
 {
+
+
+	__get_var(SETPID, 0);
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
+
 	t_headers	*header;
 	char		*line;
 	(void)		ac;
@@ -107,5 +141,5 @@ int	main(int ac, char **av, char **env)
 	// 	ft_delbotcmd(header);
 	free(header);
 	header = NULL;
-	// system("leaks minishell");
+	system("leaks minishell");
 }

@@ -2,5 +2,5 @@
 
 void    ft_exit(t_cmds *cmd)
 {
-    //todo     
+    //exit();
 }

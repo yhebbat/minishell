@@ -198,6 +198,7 @@ void	ft_execve(t_cmds *cmd, t_exec *exec)
 	exec->pid[0] = fork();
 	if (exec->pid[0] == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		if (cmd->path == NULL)
 			printf("minishell: %s: command not found\n", cmd->args[0]);
 		else
@@ -213,8 +214,26 @@ void	ft_execve(t_cmds *cmd, t_exec *exec)
 	}
 	else
 	{
-		waitpid(exec->pid[0] , &exitstatu, 0);
-		// exit (exitstatu);
+		if (cmd->next)
+		{
+			waitpid(exec->pid[0] , &exitstatu, 0);
+			if (WIFEXITED(exitstatu))
+			{
+				dprintf(2, "im here\n");
+				__get_var(SETEXIT, WEXITSTATUS(exitstatu));
+				//g_exit_status = WEXITSTATUS(stat);
+			}
+			else if (WIFSIGNALED(exitstatu))
+			{
+				
+				__get_var(SETEXIT, WTERMSIG(exitstatu) + 128);
+				//g_exit_status = WTERMSIG(stat) + 128;
+				if (WTERMSIG(exitstatu) == SIGQUIT)
+					dprintf(2,"\\QUIT\n");
+			}
+				exit (exitstatu);
+				dprintf(2, "im here\n");
+		}
 	}
 }	
 
@@ -246,6 +265,7 @@ void		ft_cmds(t_exec *exec, t_cmds *cmd, t_headers *header/*, int	exit_stat*/)
 	exec->pid[exec->i] = fork();
 	if (exec->pid[exec->i] == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		ft_pipe(cmd, exec);
 		//check_red
 		check_builtins_execve(cmd, exec, header);
@@ -266,6 +286,7 @@ void	ft_last_cmd(t_exec *exec, t_cmds *cmd, t_headers *header)
 			exec->pid[exec->i] = fork();
 			if (exec->pid[exec->i] == 0)
 			{
+				signal(SIGQUIT, SIG_DFL);
 				ft_pipe_last(cmd, exec);
 				// check_red
 				check_builtins_execve(cmd, exec, header);
@@ -289,9 +310,11 @@ int     execute(t_headers *header)
 {
 	t_cmds	*cmd;
 	t_exec	*exec;
-	int		exit_stat;
+	int		stat;
 	int 	i;
 
+	__get_var(SETPID, 133742);
+	//g_pids = 133742;
 	i = 0;
     exec = malloc(sizeof(t_exec));
 	exec_init(header, exec);
@@ -313,7 +336,22 @@ int     execute(t_headers *header)
 	ft_last_cmd(exec, cmd, header);
 	// printf("%d\n", exec->nb_cmd);
 	while (i < exec->nb_cmd)
-		waitpid(exec->pid[i++], &exit_stat, 0);
+		waitpid(exec->pid[i++], &stat, 0);
+	if (WIFEXITED(stat))
+	{
+		__get_var(SETEXIT, WEXITSTATUS(stat));
+		//g_exit_status = WEXITSTATUS(stat);
+	}
+	else if (WIFSIGNALED(stat))
+	{
+		__get_var(SETEXIT, WTERMSIG(stat) + 128);
+		//g_exit_status = WTERMSIG(stat) + 128;
+		if (WTERMSIG(stat) == SIGQUIT)
+			dprintf(2,"\\QUIT\n");
+	}
+	dprintf(1,"my exit status is %d\n",__get_var(GETEXIT,0));
 	exec_free(exec);
+//	g_pids = 0;
+  	__get_var(SETPID, 0);
     return (0);
 }

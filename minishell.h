@@ -57,7 +57,15 @@ typedef struct s_headers
 	struct s_cmds	*cmd_f;
 }t_headers;
 
+int         g_pids;
 
+typedef enum e_norm
+{
+    GETEXIT,
+    SETEXIT,
+    GETPID,
+    SETPID
+}t_norm;
 
 /*
 libft
@@ -108,4 +116,8 @@ void	fill_cmd(t_headers *header, char	**str);
 void	ft_delbotcmd(t_headers *head);
 
 int     execute(t_headers *header);
+
+
+
+int		__get_var(t_norm op, int value);
 #endif
