@@ -3,11 +3,12 @@
 void    unset(t_cmds *cmd, t_exec *exec, t_headers *header)
 {
     int t;
-    t_env *exist_env;
-    t_env *env;
-    char *str;
+    t_env	*exist_env;
+    t_env	*to_del;
+    t_env	*env;
+    char	*str;
 
-    env = header->env_h;
+    // env = header->env_h;
     t = 1;
     env = header->env_h;
     while (cmd->args[t])
@@ -26,25 +27,49 @@ void    unset(t_cmds *cmd, t_exec *exec, t_headers *header)
         {
             str = ft_strdup(cmd->args[t]);
             // printf("%s||%s||*%d*\n", str[0], str[1],eq);
-            exist_env = find_var_env(str, env);
-            if (exist_env)
+            to_del = find_var_env(str, env);
+            if (to_del)
             {
                 // while (env && ft_strcmp(env->var, str) == 0)
                 // {
-                if (exist_env->preced == NULL && exist_env->suivant)
+                if (to_del->preced == NULL && to_del->suivant)
                 {
-                    header->env_h = exist_env->suivant;
-                    free(exist_env);
+                    exist_env = to_del->suivant;
+                    header->env_h = exist_env;
+                    exist_env->preced = NULL;
+                    if (to_del->val != NULL)
+				        free(to_del->val);
+                    if (to_del->var != NULL)
+                        free(to_del->var);
+                    free(to_del);
+					to_del = NULL;
                 }
-                else if (exist_env->preced && exist_env->suivant)
+                else if (to_del->preced && to_del->suivant)
                 {
-                    exist_env->preced->suivant = exist_env->suivant;
-                    free(exist_env);
+                    exist_env = to_del->suivant;
+                    exist_env->preced = to_del->preced;
+                    exist_env = to_del->preced;
+                    exist_env->suivant = to_del->suivant;
+                    if (to_del->val != NULL)
+				        free(to_del->val);
+                    if (to_del->var != NULL)
+                        free(to_del->var);
+                    free(to_del);
+					to_del = NULL;
                 }
-                else if (exist_env->preced && exist_env->suivant == NULL)
+                else if (to_del->preced && to_del->suivant == NULL)
                 {
-                    exist_env->preced->suivant = NULL;
-                    free(exist_env);
+                   // header->env_f = to_del->preced;
+                    exist_env = to_del->preced;
+                    exist_env->suivant = NULL;
+                    header->env_f = exist_env;
+                    // exist_env->suivant = to_del->suivant;
+                    if (to_del->val != NULL)
+				        free(to_del->val);
+                    if (to_del->var != NULL)
+                        free(to_del->var);
+                    free(to_del);
+					to_del = NULL;
                 }
                 //     env = env->suivant;
                 // }

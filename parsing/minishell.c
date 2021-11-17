@@ -101,7 +101,7 @@ int	main(int ac, char **av, char **env)
 		else
 			free(line);
 	}
-	while (header->env_h)
+	while (header->env_h != NULL)
 		ft_delbottom(header);
 	free(header);
 	header = NULL;

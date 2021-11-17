@@ -4,7 +4,7 @@ void	ft_delbottom(t_headers *head)
 {
 	t_env	*to_delete;
 	t_env	*stack;
-
+	//printf("%s\n", head->env_h->var);
 	if (head != NULL && head->env_h != NULL)
 	{
 		to_delete = head->env_f;
