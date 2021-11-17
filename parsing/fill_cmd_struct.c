@@ -120,12 +120,59 @@ char	*to_find(char *str, int k)
 	return (var);
 }
 
+static int	ft_intlen(unsigned int nb)
+{
+	int	i;
+
+	i = 0;
+	while (nb > 0)
+	{
+		nb = nb / 10;
+		i++;
+	}
+	return (i);
+}
+
+char		*ft_itoa(int c)
+{
+	unsigned int		nb;
+	unsigned int		i;
+	char				*str;
+
+	nb = c;
+	i = 0;
+	if (c <= 0)
+	{
+		nb = -c;
+		i = 1;
+	}
+	i += ft_intlen(nb);
+	if (!(str = (char *)malloc((i + 1) * sizeof(char))))
+		return (0);
+	str[i] = '\0';
+	while (i-- > 0)
+	{
+		str[i] = (nb % 10) + '0';
+		nb = nb / 10;
+	}
+	if (c < 0)
+		str[0] = '-';
+	return (str);
+}
+
 char	*findit(t_headers *header, char *var)
 {
 	t_env	*checkenv;
 	char	*str;
 
 	checkenv = header->env_h;
+	if (var[1] == '?')
+	{
+		str = ft_itoa(__get_var(GETEXIT,0));
+		if (var[2])
+			str = ft_strjoin_free(str, var + 2);
+		return (str);
+	}
 	if (var[1] != '_' && !ft_isalpha(var[1]))
 	{
 		var += 2;
@@ -196,6 +243,7 @@ void	checkdollar_cmd(t_headers *header)
 				var = to_find(new_cmd->cmd, i);
 				rest = ft_strdup(ft_strstr(new_cmd->cmd + i, var));
 				val = findit(header, var);
+				//printf("[%s], [%s], [%s]\n", var, val, rest);
 				new_cmd->cmd = ft_strjoin_dollarfree(new_cmd->cmd, val, i);
 				new_cmd->cmd = ft_strjoin_free(new_cmd->cmd, rest);
 				i = -1;
