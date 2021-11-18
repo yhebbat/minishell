@@ -20,4 +20,5 @@ void	pwd(t_cmds *cmd)
 		perror("getcwd() error");
 	else
 		printf("%s\n", cwd);
+	__get_var(SETEXIT,0);
 }

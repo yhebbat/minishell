@@ -122,7 +122,7 @@ int	check_error_redirections(char *line)
 		else if ((line[i] == '>' && line[i + 1] == '>' && line[i + 2] == '>') || (line[i] == '>' && line[i + 1] == '>' && !line[i + 2]))
 		{
 			// free(line);
-			printf("bash: syntax error near unexpected token `>'\n");
+			printf("minishell: syntax error near unexpected token `>'\n");
 			return (1);
 		}
 		i++;

@@ -153,6 +153,7 @@ void    export(t_cmds *cmd, t_exec *exec, t_headers *header)
             }
             env = env->suivant;
         }
+        __get_var(SETEXIT,0);
     }
     env = header->env_h;
     while (cmd->args[t])
@@ -204,10 +205,11 @@ void    export(t_cmds *cmd, t_exec *exec, t_headers *header)
                 free(str[1]);
     			//add it with val = 
     		}
-                free(str[0]);
-                free(str);  
+            free(str[0]);
+            free(str);
+            if (__get_var(GETEXIT,0) != 1)
+                __get_var(SETEXIT,0);  
         }
-
         t++;
     }
     fill_env2(exec, header);

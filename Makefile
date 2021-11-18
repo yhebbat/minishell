@@ -1,8 +1,8 @@
 #PHONY: all clean fclean re
 
 
- LDFLAGS=-L/goinfre/yhebbat/yhebbat/.brew/opt/readline/lib
- CPPFLAGS=-I/goinfre/yhebbat/yhebbat/.brew/opt/readline/include
+ LDFLAGS=-L/Users/yhebbat/.brew/opt/readline/lib
+ CPPFLAGS=-I/Users/yhebbat/.brew/opt/readline/include
 
 NAME = minishell
 
@@ -19,7 +19,7 @@ OBJECT = $(SRC:.c=.o)
 all : $(NAME)
 
 $(NAME):
-	@gcc $(SRC) -o $(NAME) -lreadline -g #-fsanitize=address#$(LDFLAGS) $(CPPFLAGS) 
+	@gcc $(SRC) -o $(NAME) -lreadline -g $(LDFLAGS) $(CPPFLAGS) #-fsanitize=address  
 	@echo "✅✅✅"
 
 #bonus:

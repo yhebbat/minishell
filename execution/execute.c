@@ -216,20 +216,20 @@ void	ft_execve(t_cmds *cmd, t_exec *exec)
 					execve(cmd->path, cmd->args, exec->env);
 			}
 			if (cmd->args[0] && (cmd->args[0][0] == '/' || (cmd->args[0][0] == '.' && cmd->args[0][1] == '/')))
-				printf("bash: %s: No such file or directory\n", cmd->args[0]);
+				printf("minishell: %s: No such file or directory\n", cmd->args[0]);
 			exit(127);
 		}
 		waitpid(pid, &exitstatu, 0);
 		if (WIFEXITED(exitstatu))
 		{
-			dprintf(2, "im here\n");
+			// dprintf(2, "im here\n");
 			__get_var(SETEXIT, WEXITSTATUS(exitstatu));
-			//printf("%d\n",__get_var(GETEXIT, WEXITSTATUS(exitstatu)));
+			// printf("%d\n",__get_var(GETEXIT, WEXITSTATUS(exitstatu)));
 			//g_exit_status = WEXITSTATUS(stat);
 		}
 		else if (WIFSIGNALED(exitstatu))
 		{
-			
+			//dprintf(2, "im here\n");
 			__get_var(SETEXIT, WTERMSIG(exitstatu) + 128);
 			//g_exit_status = WTERMSIG(stat) + 128;
 			if (WTERMSIG(exitstatu) == SIGQUIT)
@@ -249,7 +249,7 @@ void	ft_execve(t_cmds *cmd, t_exec *exec)
 				execve(cmd->path, cmd->args, exec->env);
 		}
 		if (cmd->args[0] && (cmd->args[0][0] == '/' || (cmd->args[0][0] == '.' && cmd->args[0][1] == '/')))
-			printf("bash: %s: No such file or directory\n", cmd->args[0]);
+			printf("minishell: %s: No such file or directory\n", cmd->args[0]);
 		exit(127);
 	}
 	// }
@@ -357,6 +357,8 @@ int     execute(t_headers *header)
 	int 	i;
 
 	__get_var(SETPID, -1);
+
+	// printf("**************\n");
 	//g_pids = 133742;
 	i = 0;
     exec = malloc(sizeof(t_exec));
@@ -384,18 +386,21 @@ int     execute(t_headers *header)
 		waitpid(exec->pid[i], &stat, 0);
 		i++;
 	}
-	if (WIFEXITED(stat))
+	if (cmd->prec)
 	{
-		__get_var(SETEXIT, WEXITSTATUS(stat));
-		dprintf(1,"||%d\n",__get_var(GETEXIT,0));
-		//g_exit_status = WEXITSTATUS(stat);
-	}
-	else if (WIFSIGNALED(stat))
-	{
-		__get_var(SETEXIT, WTERMSIG(stat) + 128);
-		//g_exit_status = WTERMSIG(stat) + 128;
-		if (WTERMSIG(stat) == SIGQUIT)
-			dprintf(2,"\\QUIT\n");
+		if (WIFEXITED(stat))
+		{
+			__get_var(SETEXIT, WEXITSTATUS(stat));
+			// dprintf(1,"||%d\n",__get_var(GETEXIT,0));
+			// g_exit_status = WEXITSTATUS(stat);
+		}
+		else if (WIFSIGNALED(stat))
+		{
+			__get_var(SETEXIT, WTERMSIG(stat) + 128);
+			//g_exit_status = WTERMSIG(stat) + 128;
+			if (WTERMSIG(stat) == SIGQUIT)
+				dprintf(2,"\\QUIT\n");
+		}
 	}
 	//dprintf(1,"my exit status is %d\n",__get_var(GETEXIT,0));
 	exec_free(exec);

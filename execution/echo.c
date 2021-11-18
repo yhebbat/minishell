@@ -58,4 +58,5 @@ void    echo(t_cmds *cmd)
     }
     else
         write(1, "\n", 1);
+    __get_var(SETEXIT,0);
 }

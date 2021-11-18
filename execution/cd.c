@@ -17,7 +17,11 @@ void    cd(t_cmds *cmd)
     else if (cmd->args[1])
         i = chdir(cmd->args[1]);
     if (i != 0)
+    {
         printf("cd: %s: No such file or directory\n",cmd->args[1]);
-
+        __get_var(SETEXIT,1);
+    }
+    else
+        __get_var(SETEXIT,0);
     //todo     
 }

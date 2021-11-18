@@ -21,6 +21,7 @@ void    unset(t_cmds *cmd, t_exec *exec, t_headers *header)
         if (cmd->args[t][0] != '_' && ft_isalpha(cmd->args[t][0]) == 0)
         {
             printf("export: `%s': not a valid identifier\n", cmd->args[t]);
+            __get_var(SETEXIT,1);
             // break ;
         }
         else
@@ -72,7 +73,9 @@ void    unset(t_cmds *cmd, t_exec *exec, t_headers *header)
 					to_del = NULL;
                 }
     		}
-            free(str);  
+            free(str);
+            if (__get_var(GETEXIT,0) != 1)
+                __get_var(SETEXIT,0);
         }
         t++;
     }
