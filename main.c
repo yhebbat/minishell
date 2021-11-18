@@ -26,7 +26,7 @@ int		__get_var(t_norm op, int value)
 
 int main()
 {
-    __get_var(SETEXIT, 22);
-    printf("%d\n", __get_var(GETEXIT, 0));
-    return (99);
+   // __get_var(SETEXIT, 22);
+    //printf("%d\n", __get_var(GETEXIT, 0));
+    return (-1);
 }

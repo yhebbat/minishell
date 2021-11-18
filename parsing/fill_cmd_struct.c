@@ -247,7 +247,7 @@ void	checkdollar_cmd(t_headers *header)
 				var = to_find(new_cmd->cmd, i);
 				rest = ft_strdup(ft_strstr(new_cmd->cmd + i, var));
 				val = findit(header, var);
-				printf("[%s], [%s], [%s]\n", var, val, rest);
+				//printf("[%s], [%s], [%s]\n", var, val, rest);
 				new_cmd->cmd = ft_strjoin_dollarfree(new_cmd->cmd, val, i);
 				new_cmd->cmd = ft_strjoin_free(new_cmd->cmd, rest);
 				i = -1;

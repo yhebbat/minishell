@@ -134,7 +134,7 @@ void    replace_arg(t_headers *header, t_exec *exec)
 	{
 		i = 0;
 		// cmd->path = NULL;
-		while (exec->path[i])
+		while (exec->path && exec->path[i])
 		{
 			//printf("hjk\n");
 			str = ft_strjoin(exec->path[i] ,cmd->args[0]);
@@ -148,8 +148,10 @@ void    replace_arg(t_headers *header, t_exec *exec)
 			free(str);
 			i++;
 		}
-		if (cmd->args[0] && (cmd->args[0][0] == '/' || (cmd->args[0][0] == '.' && cmd->args[0][1] == '/')))
+		if (cmd->args[0] && strchr(cmd->args[0],'/'))
+		{
 			cmd->path = ft_strdup(cmd->args[0]);
+		}
 		cmd = cmd->next;
 	}
 }
@@ -196,6 +198,7 @@ void	ft_execve(t_cmds *cmd, t_exec *exec)
 {
 	int		exitstatu;
 	int		pid;
+	struct stat buff;
 	// pid = fork();
 	// if (pid == 0)
 	// {
@@ -210,23 +213,25 @@ void	ft_execve(t_cmds *cmd, t_exec *exec)
 				printf("minishell: %s: command not found\n", cmd->args[0]);
 			else
 			{
-				if (cmd->args[0][0] == '/' || (cmd->args[0][0] == '.' && cmd->args[0][1] == '/'))
-					execve(cmd->args[0], cmd->args, exec->env);
-				else
-					execve(cmd->path, cmd->args, exec->env);
+		
+				if (cmd->args[0] && strchr(cmd->args[0],'/'))
+				{
+					stat(cmd->args[0], &buff);
+					if(buff.st_mode & S_IFDIR)
+					{
+						printf("minishell: %s: is a directory\n", cmd->args[0]);
+						exit(126);
+					}
+				}
+				execve(cmd->path, cmd->args, exec->env);
 			}
-			if (cmd->args[0] && (cmd->args[0][0] == '/' || (cmd->args[0][0] == '.' && cmd->args[0][1] == '/')))
+			if (cmd->args[0] && strchr(cmd->args[0],'/'))
 				printf("minishell: %s: No such file or directory\n", cmd->args[0]);
 			exit(127);
 		}
 		waitpid(pid, &exitstatu, 0);
 		if (WIFEXITED(exitstatu))
-		{
-			// dprintf(2, "im here\n");
 			__get_var(SETEXIT, WEXITSTATUS(exitstatu));
-			// printf("%d\n",__get_var(GETEXIT, WEXITSTATUS(exitstatu)));
-			//g_exit_status = WEXITSTATUS(stat);
-		}
 		else if (WIFSIGNALED(exitstatu))
 		{
 			//dprintf(2, "im here\n");
@@ -243,12 +248,18 @@ void	ft_execve(t_cmds *cmd, t_exec *exec)
 			printf("minishell: %s: command not found\n", cmd->args[0]);
 		else
 		{
-			if (cmd->args[0][0] == '/' || (cmd->args[0][0] == '.' && cmd->args[0][1] == '/'))
-				execve(cmd->args[0], cmd->args, exec->env);
-			else
-				execve(cmd->path, cmd->args, exec->env);
+			if (cmd->args[0] && strchr(cmd->args[0],'/'))
+			{
+				stat(cmd->args[0], &buff);
+				if(buff.st_mode & S_IFDIR)
+				{
+					printf("minishell: %s: is a directory\n", cmd->args[0]);
+					exit(126);
+				}
+			}
+			execve(cmd->path, cmd->args, exec->env);
 		}
-		if (cmd->args[0] && (cmd->args[0][0] == '/' || (cmd->args[0][0] == '.' && cmd->args[0][1] == '/')))
+		if (cmd->args[0] && strchr(cmd->args[0],'/'))
 			printf("minishell: %s: No such file or directory\n", cmd->args[0]);
 		exit(127);
 	}
@@ -289,9 +300,9 @@ void    check_builtins_execve(t_cmds *cmd, t_exec *exec, t_headers  *header)
 		else if (ft_strcmp(cmd->args[0], "echo") == 0)
 			echo(cmd);
 		else if (ft_strcmp(cmd->args[0], "export") == 0)
-			export(cmd, exec, header);//todo
+			export(cmd, exec, header);
 		else if (ft_strcmp(cmd->args[0], "unset") == 0)
-			unset(cmd, exec, header);//todo
+			unset(cmd, exec, header);
 		else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 			pwd(cmd);
 		else if (ft_strcmp(cmd->args[0], "cd") == 0)
@@ -311,6 +322,8 @@ void		ft_cmds(t_exec *exec, t_cmds *cmd, t_headers *header/*, int	exit_stat*/)
 		signal(SIGQUIT, SIG_DFL);
 		ft_pipe(cmd, exec);
 		//check_red
+		// if (cmd->file_h && cmd->file_h->filename != NULL)
+		// 	redirection(cmd);
 		check_builtins_execve(cmd, exec, header);
 		exit(__get_var(GETEXIT,0));
 		// printf("%s\n", cmd->args[0]);
@@ -358,12 +371,10 @@ int     execute(t_headers *header)
 
 	__get_var(SETPID, -1);
 
-	// printf("**************\n");
-	//g_pids = 133742;
 	i = 0;
     exec = malloc(sizeof(t_exec));
 	exec_init(header, exec);
-	if (exec->path)
+	//if (exec->path)
 		replace_arg(header, exec);//maybe kayn some leaks here
 	cmd = header->cmd_h;
     while (cmd && cmd->next != NULL)

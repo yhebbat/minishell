@@ -1,8 +1,11 @@
 #PHONY: all clean fclean re
 
 
- LDFLAGS=-L/home/linuxbrew/.linuxbrew/Cellar/readline/lib
- CPPFLAGS=-I/home/linuxbrew/.linuxbrew/Cellar/readline/include
+#LDFLAGS=-L/home/linuxbrew/.linuxbrew/Cellar/readline/lib
+#CPPFLAGS=-I/home/linuxbrew/.linuxbrew/Cellar/readline/include
+
+#LDFLAGS=-L/home/linuxbrew/.linuxbrew/Cellar/readline/lib
+#CPPFLAGS=-I/home/linuxbrew/.linuxbrew/Cellar/readline/include
 
 NAME = minishell
 

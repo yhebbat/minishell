@@ -23,5 +23,4 @@ void    cd(t_cmds *cmd)
     }
     else
         __get_var(SETEXIT,0);
-    //todo     
 }
