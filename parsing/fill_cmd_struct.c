@@ -14,6 +14,7 @@ void	ft_addbotcmd(t_headers *head, char *val)
 		to_add->file_h = NULL;
 		to_add->file_f = NULL;
 		to_add->next = NULL;
+		to_add->path = NULL;
 		to_add->prec = NULL;
 		to_add->args = NULL;
 		head->cmd_f = to_add;
@@ -25,6 +26,7 @@ void	ft_addbotcmd(t_headers *head, char *val)
 		to_add->cmd = ft_strdup(val);
 		to_add->file_h = NULL;
 		to_add->file_f = NULL;
+		to_add->path = NULL;
 		to_add->prec = stack;
 		to_add->next = NULL;
 		to_add->args = NULL;
@@ -163,9 +165,11 @@ char		*ft_itoa(int c)
 char	*findit(t_headers *header, char *var)
 {
 	t_env	*checkenv;
+	//int		r;
 	char	*str;
 
 	checkenv = header->env_h;
+	// r = 0;
 	if (var[1] == '?')
 	{
 		str = ft_itoa(__get_var(GETEXIT,0));
@@ -238,12 +242,12 @@ void	checkdollar_cmd(t_headers *header)
 				d = calculate_dollar(new_cmd->cmd, i);
 				i += (d - 1);
 			}
-			if (new_cmd->cmd[i] == '$' && (d % 2) && new_cmd->cmd[i + 1] != '\0' && s_q % 2 == 0)
+			if (new_cmd->cmd[i] == '$' && (d % 2) && new_cmd->cmd[i + 1] != '\0' && new_cmd->cmd[i + 1] != '=' && new_cmd->cmd[i + 1] != '+' && new_cmd->cmd[i + 1] != '-' && s_q % 2 == 0)
 			{
 				var = to_find(new_cmd->cmd, i);
 				rest = ft_strdup(ft_strstr(new_cmd->cmd + i, var));
 				val = findit(header, var);
-				//printf("[%s], [%s], [%s]\n", var, val, rest);
+				printf("[%s], [%s], [%s]\n", var, val, rest);
 				new_cmd->cmd = ft_strjoin_dollarfree(new_cmd->cmd, val, i);
 				new_cmd->cmd = ft_strjoin_free(new_cmd->cmd, rest);
 				i = -1;

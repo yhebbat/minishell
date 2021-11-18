@@ -141,5 +141,5 @@ int	main(int ac, char **av, char **env)
 	// 	ft_delbotcmd(header);
 	free(header);
 	header = NULL;
-	system("leaks minishell");
+	// system("leaks minishell");
 }

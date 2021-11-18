@@ -1,8 +1,8 @@
 #PHONY: all clean fclean re
 
 
- LDFLAGS=-L/Users/yhebbat/.brew/opt/readline/lib
- CPPFLAGS=-I/Users/yhebbat/.brew/opt/readline/include
+ LDFLAGS=-L/home/linuxbrew/.linuxbrew/Cellar/readline/lib
+ CPPFLAGS=-I/home/linuxbrew/.linuxbrew/Cellar/readline/include
 
 NAME = minishell
 
@@ -19,7 +19,7 @@ OBJECT = $(SRC:.c=.o)
 all : $(NAME)
 
 $(NAME):
-	@gcc $(SRC) -o $(NAME) -lreadline -g $(LDFLAGS) $(CPPFLAGS) #-fsanitize=address  
+	@gcc $(SRC) -o $(NAME) -lreadline -g $(LDFLAGS) $(CPPFLAGS) -fsanitize=address  
 	@echo "✅✅✅"
 
 #bonus:

@@ -7,6 +7,7 @@
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+ #include <signal.h>
 # include  <errno.h>
 # include <fcntl.h>
 // # include "execution/execution.h"
