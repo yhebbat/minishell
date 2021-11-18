@@ -322,8 +322,8 @@ void		ft_cmds(t_exec *exec, t_cmds *cmd, t_headers *header/*, int	exit_stat*/)
 		signal(SIGQUIT, SIG_DFL);
 		ft_pipe(cmd, exec);
 		//check_red
-		// if (cmd->file_h && cmd->file_h->filename != NULL)
-		// 	redirection(cmd);
+		if (cmd->file_h && cmd->file_h->filename != NULL)
+			redirection(cmd);
 		check_builtins_execve(cmd, exec, header);
 		exit(__get_var(GETEXIT,0));
 		// printf("%s\n", cmd->args[0]);
@@ -345,6 +345,8 @@ void	ft_last_cmd(t_exec *exec, t_cmds *cmd, t_headers *header)
 				signal(SIGQUIT, SIG_DFL);
 				ft_pipe_last(cmd, exec);
 				// check_red
+				if (cmd->file_h && cmd->file_h->filename != NULL)
+					redirection(cmd);
 				check_builtins_execve(cmd, exec, header);
 				exit(__get_var(GETEXIT,0));
 			}
@@ -355,6 +357,8 @@ void	ft_last_cmd(t_exec *exec, t_cmds *cmd, t_headers *header)
 		{
 			ft_pipe_last(cmd, exec);
 				// check_red
+			if (cmd->file_h && cmd->file_h->filename != NULL)
+				redirection(cmd);
 			check_builtins_execve(cmd, exec, header);
 		}
 		if (exec->in != 0)
