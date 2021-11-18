@@ -19,7 +19,7 @@ OBJECT = $(SRC:.c=.o)
 all : $(NAME)
 
 $(NAME):
-	@gcc $(SRC) -o $(NAME) -lreadline $(LDFLAGS) $(CPPFLAGS) -g #-fsanitize=address
+	@gcc $(SRC) -o $(NAME) -lreadline -g #-fsanitize=address#$(LDFLAGS) $(CPPFLAGS) 
 	@echo "✅✅✅"
 
 #bonus:

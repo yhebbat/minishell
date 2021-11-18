@@ -266,7 +266,9 @@ void	save_cmd(t_headers *header, char **str)
 	checkdollar_cmd(header);
 	checkredirection_cmd(header);
 	ft_complet(header);
-	execute(header);
+	if (header->cmd_h)
+		if (header->cmd_h->args[0] || header->cmd_h->file_h)
+			execute(header);
 	// new_cmd = header->cmd_h;
 	// while (new_cmd)
 	// {
