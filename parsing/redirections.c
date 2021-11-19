@@ -239,11 +239,18 @@ char	*ft_herdocs(char *str)
 	char	*limiter;
 	char	*line;
 	char	*ret;
+	char	*name;
+	int		fd;
 	int		k;
 
 	k = 1;
 	ret = NULL;
 	limiter = findredtosave(str);
+	/*hadchi li zedt*/
+	name = ft_strjoin("/tmp/", limiter);
+	fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	//free(name);
+	/**/
 	while (k)
 	{
 		line = readline("heredoc>");
@@ -271,8 +278,13 @@ char	*ft_herdocs(char *str)
 			free(line);
 		}
 	}
-	// printf("<%s>\n", ret);
-	return (ret);
+	/*hadshi li zedt*/
+	dprintf(fd, "%s", ret);
+	close(fd);
+	free(ret);
+	return(name);
+	/**/
+	//return (ret);
 }
 
 void	checkredirection_cmd(t_headers *header)

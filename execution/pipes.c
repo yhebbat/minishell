@@ -1,64 +1,64 @@
 #include "execution.h"
 
-int     get_fd(t_cmds *cmd, t_exec *exec, int flag) // 0 for input fd | 1 for out fd
-{
-    t_file *file;
-    int     fd = 0;
+// int     get_fd(t_cmds *cmd, t_exec *exec, int flag) // 0 for input fd | 1 for out fd
+// {
+//     t_file *file;
+//     int     fd = 0;
 
-    file = cmd->file_h;
-    // t_file *file0 = cmd->file_h;
-    // t_cmds  *new_cmd = cmd;
-	// while (new_cmd)
-	// {
-	// 	t_file *file0 = new_cmd->file_h;
-	// 	// int i = 0;
-	// 	// printf("|%s|\n",new_cmd->cmd);
-	// 	// while (new_cmd->args[i])
-	// 	// {
-	// 	// 		printf("arg:%d ==> %s\n",i,new_cmd->args[i]);
-	// 	// 		i++;
-	// 	// }
-	// 	while (file0)
-	// 	{
-	// 		printf("[type:%d][name:%s]\n",file0->type,file0->filename);
-	// 		// printf("[%s]\n",file->filename);
-	// 		file0 = file0->next;
-	// 	}
-	// 	printf("----------------------\n");
-	// 	new_cmd = new_cmd->next;
-	// }
-    if (file)
-    {
-        printf("IMGERE**********************\n");
-        while (file)
-        {
-            printf("DBG STRing: [%s]\n", file->filename);
-            if (file->type == 3) // add heredocs value 
-            {
-                if (flag == 0)
-                {
-                    fd = open(file->filename, O_RDONLY);
-                }
-                // else
-                    // fd = open(file->filename, O_CREAT | O_RDONLY);
-                if (fd < 0)
-                {
-                    //error;
-                }
-                else // FD LEAKS
-                {
-                    //FDLEAKS;
-                }
-            }
-            file = file->next;
-        }
-    }
-    if (fd == 0)
-    {
-        return (flag);
-    }
-    return (fd);
-}
+//     file = cmd->file_h;
+//     // t_file *file0 = cmd->file_h;
+//     // t_cmds  *new_cmd = cmd;
+// 	// while (new_cmd)
+// 	// {
+// 	// 	t_file *file0 = new_cmd->file_h;
+// 	// 	// int i = 0;
+// 	// 	// printf("|%s|\n",new_cmd->cmd);
+// 	// 	// while (new_cmd->args[i])
+// 	// 	// {
+// 	// 	// 		printf("arg:%d ==> %s\n",i,new_cmd->args[i]);
+// 	// 	// 		i++;
+// 	// 	// }
+// 	// 	while (file0)
+// 	// 	{
+// 	// 		printf("[type:%d][name:%s]\n",file0->type,file0->filename);
+// 	// 		// printf("[%s]\n",file->filename);
+// 	// 		file0 = file0->next;
+// 	// 	}
+// 	// 	printf("----------------------\n");
+// 	// 	new_cmd = new_cmd->next;
+// 	// }
+//     if (file)
+//     {
+//         //printf("IMGERE**********************\n");
+//         while (file)
+//         {
+//            // printf("DBG STRing: [%s]\n", file->filename);
+//             if (file->type == 3) // add heredocs value 
+//             {
+//                 if (flag == 0)
+//                 {
+//                     fd = open(file->filename, O_RDONLY);
+//                 }
+//                 // else
+//                     // fd = open(file->filename, O_CREAT | O_RDONLY);
+//                 if (fd < 0)
+//                 {
+//                     //error;
+//                 }
+//                 else // FD LEAKS
+//                 {
+//                     //FDLEAKS;
+//                 }
+//             }
+//             file = file->next;
+//         }
+//     }
+//     if (fd == 0)
+//     {
+//         return (flag);
+//     }
+//     return (fd);
+// }
 
 void    ft_pipe(t_cmds *cmd, t_exec *exec)
 {
