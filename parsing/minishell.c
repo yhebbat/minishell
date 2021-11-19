@@ -125,7 +125,7 @@ int	main(int ac, char **av, char **env)
 		parse(line, header);
 		// execute(header);
 		add_history(line);
-		// if (!strcmp(line, "exit"))
+		// if (!ft_strcmp(line, "exit"))
 		// {
 		// 	k = 0;
 		// 	free(line);

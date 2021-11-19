@@ -257,7 +257,7 @@ char	*ft_herdocs(char *str)
 		if (!line)
 			break;
 		// add_history(line);
-		if (!strcmp(line, limiter))
+		if (!ft_strcmp(line, limiter))
 		{
 			k = 0;
 			free(limiter);

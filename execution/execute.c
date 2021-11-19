@@ -312,7 +312,7 @@ void    check_builtins_execve(t_cmds *cmd, t_exec *exec, t_headers  *header)
 		else if (ft_strcmp(cmd->args[0], "cd") == 0)
 			cd(cmd);
 		else if (ft_strcmp(cmd->args[0], "exit") == 0)
-			ft_exit(cmd);//todo
+			ft_exit(header);//todo
 		else
 			ft_execve(cmd, exec);
 	}
@@ -343,7 +343,7 @@ void    check_builtins(t_cmds *cmd, t_exec *exec, t_headers  *header)
 		else if (ft_strcmp(cmd->args[0], "cd") == 0)
 			cd(cmd);
 		else if (ft_strcmp(cmd->args[0], "exit") == 0)
-			ft_exit(cmd);//todo
+			ft_exit(header);//todo
 	}
 	dup2(in, 0);
 	dup2(out, 1);

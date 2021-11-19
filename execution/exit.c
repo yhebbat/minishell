@@ -1,4 +1,5 @@
 #include    "execution.h"
+#include <ctype.h>
 
 int	ft_exit(t_headers *headers)
 {
@@ -17,6 +18,7 @@ int	ft_exit(t_headers *headers)
 	{
 		printf("exit\n");
 		printf("minishell: exit: too many arguments\n");
+        __get_var(SETEXIT, 1);
 		return (1);
 	}
 
@@ -39,4 +41,5 @@ int	ft_exit(t_headers *headers)
         exit(__get_var(GETEXIT, 0));
 		//exit(g_var.exit_status);
 	}
+    return (0);
 }
