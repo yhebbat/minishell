@@ -1,6 +1,42 @@
 #include    "execution.h"
 
-void    ft_exit(t_cmds *cmd)
+int	ft_exit(t_headers *headers)
 {
-    //exit();
+	int j;
+	char **args;
+
+	args = headers->cmd_h->args;
+	if (!args[1])
+	{
+		printf("exit\n");
+        exit(__get_var(GETEXIT, 0));
+		//exit(g_var.exit_status);
+	}
+
+	if (args[2] != NULL)
+	{
+		printf("exit\n");
+		printf("minishell: exit: too many arguments\n");
+		return (1);
+	}
+
+	j = 0;
+	while (args[1][j])
+	{
+		if (!(isdigit(args[1][j])))
+		{
+			printf("exit\n");
+			printf("%s %s: %s \n","minishell: exit:",args[1], "numeric argument required");
+			exit(255);
+		}
+		j++;
+	}
+	if (args[2] == NULL)
+	{
+		//g_var.exit_status = atoi(args[1]);
+		__get_var(SETEXIT, atoi(args[1]));// = atoi(args[1]);
+		printf("exit\n");
+        exit(__get_var(GETEXIT, 0));
+		//exit(g_var.exit_status);
+	}
 }
