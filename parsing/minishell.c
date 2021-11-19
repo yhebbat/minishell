@@ -100,8 +100,6 @@ int		__get_var(t_norm op, int value)
 
 int	main(int ac, char **av, char **env)
 {
-
-
 	__get_var(SETPID, 0);
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);

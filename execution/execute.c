@@ -93,6 +93,7 @@ void     exec_init(t_headers *header, t_exec *exec)
 	i = 0;
     exec->i = 0;
     exec->in = 0;
+	// exec->out = 1;
     exec->fd = malloc(sizeof(int) * 2);
     env = header->env_h;
     while (env)
@@ -209,6 +210,9 @@ void	ft_execve(t_cmds *cmd, t_exec *exec)
 		if (pid == 0)
 		{
 			signal(SIGQUIT, SIG_DFL);
+			ft_pipe_last(cmd, exec);
+			if (cmd->file_h && cmd->file_h->filename != NULL)
+				redirection(cmd, exec);
 			if (cmd->path == NULL)
 				printf("minishell: %s: command not found\n", cmd->args[0]);
 			else
@@ -314,6 +318,62 @@ void    check_builtins_execve(t_cmds *cmd, t_exec *exec, t_headers  *header)
 	}
 }
 
+void    check_builtins(t_cmds *cmd, t_exec *exec, t_headers  *header)
+{
+	int in;
+	int out;
+
+	out = dup(1);
+	in = dup(0);
+	if (cmd->file_h && cmd->file_h->filename != NULL)
+		redirection(cmd, exec);
+	if (cmd->args[0])
+	{
+		// printf("++++++++\n");
+		if (ft_strcmp(cmd->args[0], "env") == 0)
+			ft_env(exec);
+		else if (ft_strcmp(cmd->args[0], "echo") == 0)
+			echo(cmd);
+		else if (ft_strcmp(cmd->args[0], "export") == 0)
+			export(cmd, exec, header);
+		else if (ft_strcmp(cmd->args[0], "unset") == 0)
+			unset(cmd, exec, header);
+		else if (ft_strcmp(cmd->args[0], "pwd") == 0)
+			pwd(cmd);
+		else if (ft_strcmp(cmd->args[0], "cd") == 0)
+			cd(cmd);
+		else if (ft_strcmp(cmd->args[0], "exit") == 0)
+			ft_exit(cmd);//todo
+	}
+	dup2(in, 0);
+	dup2(out, 1);
+	close(in);
+	close(out);
+}
+
+int    is_builtin(t_cmds *cmd, t_exec *exec, t_headers  *header)
+{
+	if (cmd->args[0])
+	{
+		if (ft_strcmp(cmd->args[0], "env") == 0)
+			return (1);
+		else if (ft_strcmp(cmd->args[0], "echo") == 0)
+			return (1);
+		else if (ft_strcmp(cmd->args[0], "export") == 0)
+			return (1);
+		else if (ft_strcmp(cmd->args[0], "unset") == 0)
+			return (1);
+		else if (ft_strcmp(cmd->args[0], "pwd") == 0)
+			return (1);
+		else if (ft_strcmp(cmd->args[0], "cd") == 0)
+			return (1);
+		else if (ft_strcmp(cmd->args[0], "exit") == 0)
+			return (1);//todo
+		return (0);
+	}
+	return (0);
+}
+
 void		ft_cmds(t_exec *exec, t_cmds *cmd, t_headers *header/*, int	exit_stat*/)
 {
 	exec->pid[exec->i] = fork();
@@ -323,7 +383,7 @@ void		ft_cmds(t_exec *exec, t_cmds *cmd, t_headers *header/*, int	exit_stat*/)
 		ft_pipe(cmd, exec);
 		//check_red
 		if (cmd->file_h && cmd->file_h->filename != NULL)
-			redirection(cmd);
+			redirection(cmd, exec);
 		check_builtins_execve(cmd, exec, header);
 		exit(__get_var(GETEXIT,0));
 		// printf("%s\n", cmd->args[0]);
@@ -346,7 +406,7 @@ void	ft_last_cmd(t_exec *exec, t_cmds *cmd, t_headers *header)
 				ft_pipe_last(cmd, exec);
 				// check_red
 				if (cmd->file_h && cmd->file_h->filename != NULL)
-					redirection(cmd);
+					redirection(cmd, exec);
 				check_builtins_execve(cmd, exec, header);
 				exit(__get_var(GETEXIT,0));
 			}
@@ -355,11 +415,12 @@ void	ft_last_cmd(t_exec *exec, t_cmds *cmd, t_headers *header)
 		}
 		else
 		{
-			ft_pipe_last(cmd, exec);
-				// check_red
-			if (cmd->file_h && cmd->file_h->filename != NULL)
-				redirection(cmd);
-			check_builtins_execve(cmd, exec, header);
+			if (is_builtin(cmd, exec, header) || !cmd->args[0])
+			{
+				check_builtins(cmd, exec, header);
+			}
+			else
+				check_builtins_execve(cmd, exec, header);
 		}
 		if (exec->in != 0)
 			close(exec->in);
@@ -374,7 +435,6 @@ int     execute(t_headers *header)
 	int 	i;
 
 	__get_var(SETPID, -1);
-
 	i = 0;
     exec = malloc(sizeof(t_exec));
 	exec_init(header, exec);
@@ -395,7 +455,7 @@ int     execute(t_headers *header)
     }
 	ft_last_cmd(exec, cmd, header);
 	// dprintf(2, "DBG exit status : %d\n", value);
-	// printf("%d\n", exec->nb_cmd);
+	// // printf("%d\n", exec->nb_cmd);
 	while (i < exec->nb_cmd)
 	{
 		waitpid(exec->pid[i], &stat, 0);
@@ -417,6 +477,10 @@ int     execute(t_headers *header)
 				dprintf(2,"\\QUIT\n");
 		}
 	}
+	// if (exec->out != 1)
+	// 	close(exec->out);
+	if (exec->in != 0)
+		close(exec->in);
 	//dprintf(1,"my exit status is %d\n",__get_var(GETEXIT,0));
 	exec_free(exec);
 //	g_pids = 0;

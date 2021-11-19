@@ -19,13 +19,12 @@ void	redirection_inside_loop(int *in, int *out, t_file *file_h)
 	}
 }
 
-void	redirection(t_cmds *cmd_h)
+void	redirection(t_cmds *cmd_h, t_exec *exec)
 {
 	t_file *nfile;
 	nfile = cmd_h->file_h;
 	int in = 0;
 	int out = 1;
-
 	while (nfile != NULL)
 	{
 		redirection_inside_loop(&in, &out, nfile);

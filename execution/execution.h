@@ -25,6 +25,7 @@ typedef struct s_exec
     char    **env;
 	int		*fd;
     int		in;
+    // int     out;
     int		i;
     int		*pid;
     int     nb_cmd;
@@ -46,6 +47,6 @@ void    ft_pipe_last(t_cmds *cmd, t_exec *exec);
 void	fill_env(t_exec *exec, t_headers *header);
 void	fill_env2(t_exec *exec, t_headers *header);
 
-
-void	redirection(t_cmds *cmd_h);
+void	redirection(t_cmds *cmd_h, t_exec *exec);
+// void	redirection(t_cmds *cmd_h);
 #endif
