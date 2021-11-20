@@ -1,5 +1,14 @@
 #include "../minishell.h"
 
+void	ft_addbotcmd_help(t_cmds *to_add)
+{
+	to_add->file_h = NULL;
+	to_add->file_f = NULL;
+	to_add->path = NULL;
+	to_add->next = NULL;
+	to_add->args = NULL;
+}
+
 void	ft_addbotcmd(t_headers *head, char *val)
 {
 	t_cmds	*stack;
@@ -11,12 +20,8 @@ void	ft_addbotcmd(t_headers *head, char *val)
 	if (head->cmd_h == NULL)
 	{
 		to_add->cmd = ft_strdup(val);
-		to_add->file_h = NULL;
-		to_add->file_f = NULL;
-		to_add->next = NULL;
-		to_add->path = NULL;
+		ft_addbotcmd_help(to_add);
 		to_add->prec = NULL;
-		to_add->args = NULL;
 		head->cmd_f = to_add;
 		head->cmd_h = to_add;
 	}
@@ -24,12 +29,8 @@ void	ft_addbotcmd(t_headers *head, char *val)
 	{
 		stack = head->cmd_f;
 		to_add->cmd = ft_strdup(val);
-		to_add->file_h = NULL;
-		to_add->file_f = NULL;
-		to_add->path = NULL;
+		ft_addbotcmd_help(to_add);
 		to_add->prec = stack;
-		to_add->next = NULL;
-		to_add->args = NULL;
 		stack->next = to_add;
 		head->cmd_f = to_add;
 	}
@@ -39,6 +40,15 @@ void	ft_freefile(t_cmds *head)
 {
 	while (head->file_h)
 		ft_delbotfile(head);
+}
+
+void	ft_delbotcmd_help(t_cmds *to_delete)
+{
+	ft_freefile(to_delete);
+	ft_free(to_delete->args);
+	free(to_delete->cmd);
+	if (to_delete->path != NULL)
+		free(to_delete->path);
 }
 
 void	ft_delbotcmd(t_headers *head)
@@ -51,11 +61,7 @@ void	ft_delbotcmd(t_headers *head)
 		to_delete = head->cmd_f;
 		if (!to_delete->prec)
 		{
-			ft_freefile(to_delete);
-			ft_free(to_delete->args);
-			free(to_delete->cmd);
-			if (to_delete->path != NULL)
-				free(to_delete->path);
+			ft_delbotcmd_help(to_delete);
 			free(to_delete);
 			head->cmd_h = NULL;
 			head->cmd_f = NULL;
@@ -66,11 +72,7 @@ void	ft_delbotcmd(t_headers *head)
 			stack = to_delete->prec;
 			head->cmd_f = stack;
 			stack->next = NULL;
-			ft_freefile(to_delete);
-			ft_free(to_delete->args);
-			free(to_delete->cmd);
-			if (to_delete->path != NULL)
-				free(to_delete->path);
+			ft_delbotcmd_help(to_delete);
 			free(to_delete);
 			to_delete = NULL;
 		}

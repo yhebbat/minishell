@@ -214,7 +214,12 @@ void	ft_execve(t_cmds *cmd, t_exec *exec)
 			if (cmd->file_h && cmd->file_h->filename != NULL)
 				redirection(cmd, exec);
 			if (cmd->path == NULL)
-				printf("minishell: %s: command not found\n", cmd->args[0]);
+			{
+				write(2, "minishell: ", ft_strlen("minishell: "));
+				write(2, cmd->args[0], ft_strlen(cmd->args[0]));
+				write(2, ": command not found\n", ft_strlen(": command not found\n"));
+			}
+				//printf("minishell: %s: command not found\n", cmd->args[0]);
 			else
 			{
 		
@@ -249,7 +254,12 @@ void	ft_execve(t_cmds *cmd, t_exec *exec)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		if (cmd->path == NULL)
-			printf("minishell: %s: command not found\n", cmd->args[0]);
+		{
+			write(2, "minishell: ", ft_strlen("minishell: "));
+			write(2, cmd->args[0], ft_strlen(cmd->args[0]));
+			write(2, ": command not found\n", ft_strlen(": command not found\n"));
+		}
+			//printf("minishell: %s: command not found\n", cmd->args[0]);
 		else
 		{
 			if (cmd->args[0] && strchr(cmd->args[0],'/'))

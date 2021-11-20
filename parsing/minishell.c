@@ -122,7 +122,10 @@ int	main(int ac, char **av, char **env)
 	{
 		line = readline("minishell🔥\%");
 		if (!line)
+		{
+			printf("exit\n");
 			break;
+		}
 		parse(line, header);
 		// execute(header);
 		add_history(line);
@@ -140,5 +143,5 @@ int	main(int ac, char **av, char **env)
 	// 	ft_delbotcmd(header);
 	free(header);
 	header = NULL;
-	// system("leaks minishell");
+	system("leaks minishell");
 }

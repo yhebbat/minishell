@@ -255,7 +255,10 @@ char	*ft_herdocs(char *str)
 	{
 		line = readline("heredoc>");
 		if (!line)
+		{
+			free(limiter);
 			break;
+		}
 		// add_history(line);
 		if (!ft_strcmp(line, limiter))
 		{
@@ -279,9 +282,13 @@ char	*ft_herdocs(char *str)
 		}
 	}
 	/*hadshi li zedt*/
-	dprintf(fd, "%s", ret);
+	if (ret != NULL)
+		dprintf(fd, "%s", ret);
+	else
+		dprintf(fd, "");
 	close(fd);
-	free(ret);
+	if (ret != NULL)
+		free(ret);
 	return(name);
 	/**/
 	//return (ret);

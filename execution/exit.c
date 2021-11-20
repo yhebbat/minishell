@@ -38,6 +38,7 @@ int	ft_exit(t_headers *headers)
 		//g_var.exit_status = atoi(args[1]);
 		__get_var(SETEXIT, atoi(args[1]));// = atoi(args[1]);
 		printf("exit\n");
+		// system("leaks minishell");
         exit(__get_var(GETEXIT, 0));
 		//exit(g_var.exit_status);
 	}
