@@ -242,7 +242,7 @@ void	checkdollar_cmd(t_headers *header)
 				d = calculate_dollar(new_cmd->cmd, i);
 				i += (d - 1);
 			}
-			if (new_cmd->cmd[i] == '$' && (d % 2) && new_cmd->cmd[i + 1] != '\0' && new_cmd->cmd[i + 1] != '=' && new_cmd->cmd[i + 1] != '+' && new_cmd->cmd[i + 1] != '-' && s_q % 2 == 0)
+			if (new_cmd->cmd[i] == '$' && (d % 2) && new_cmd->cmd[i + 1] != '\0' && new_cmd->cmd[i + 1] != '"' && new_cmd->cmd[i + 1] != '=' && new_cmd->cmd[i + 1] != '+' && new_cmd->cmd[i + 1] != '-' && s_q % 2 == 0)
 			{
 				var = to_find(new_cmd->cmd, i);
 				rest = ft_strdup(ft_strstr(new_cmd->cmd + i, var));
