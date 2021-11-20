@@ -273,10 +273,10 @@ void	save_cmd(t_headers *header, char **str)
 	if (header->cmd_h)
 		if (header->cmd_h->args[0] || header->cmd_h->file_h)
 			execute(header);
-	// new_cmd = header->cmd_h;
+	//	new_cmd = header->cmd_h;
 	// while (new_cmd)
 	// {
-	// 	file = new_cmd->file_h;
+	//	file = new_cmd->file_h;
 	// 	// int i = 0;
 	// 	// printf("|%s|\n",new_cmd->cmd);
 	// 	// while (new_cmd->args[i])
@@ -284,15 +284,27 @@ void	save_cmd(t_headers *header, char **str)
 	// 	// 		printf("arg:%d ==> %s\n",i,new_cmd->args[i]);
 	// 	// 		i++;
 	// 	// }
-	// 	while (file)
-	// 	{
-	// 		// printf("[type:%d][name:%s]\n",file->type,file->filename);
-	// 		// printf("[%s]\n",file->filename);
-	// 		file = file->next;
-	// 	}
+		// 	while (file)
+		// {
+		// 	// printf("[type:%d][name:%s]\n",file->type,file->filename);
+		// 	// printf("[%s]\n",file->filename);
+		// 	file = file->next;
+		// }
 	// 	printf("----------------------\n");
 	// 	new_cmd = new_cmd->next;
 	// }
+	new_cmd = header->cmd_h;
+	while (new_cmd)
+	{
+		file = new_cmd->file_h;
+		while (file)
+		{
+			if (file->type == 4)
+				unlink(file->filename);
+			file = file->next;
+		}
+		new_cmd = new_cmd->next;
+	}
 	while (header->cmd_h)
 		ft_delbotcmd(header);
 	// system("leaks minishell");

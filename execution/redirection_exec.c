@@ -16,6 +16,11 @@ void	redirection_inside_loop(int *in, int *out, t_file *file_h)
 		if (*in != STDIN_FILENO)
 			close(*in);
 		*in = open(file_h->filename, O_RDONLY, 0644);
+		if (*in == -1)
+		{
+			printf("bash: %s: No such file or directory\n", file_h->filename);
+			__get_var(SETEXIT, 1);
+		}
 	}
 }
 
