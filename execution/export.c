@@ -51,12 +51,12 @@ char    *check_eq(char *str, int *eq)
 char    *fill_exportval(char *str, int *eq)
 {
     int i;
-    int k;
+    //int k;
     char *ret;
 
     ret = NULL;
     i = 0;
-    k = 0;
+   // k = 0;
     while (str[i])
     {
         if (str[i] == '+' && str[i + 1] != '=')
@@ -131,14 +131,14 @@ void	fill_env2(t_exec *exec, t_headers *header)
 void    export(t_cmds *cmd, t_exec *exec, t_headers *header)
 {
     int t;
-    int k;
+    //int k;
     int eq;
     t_env *exist_env;
     t_env *env;
     char **str;
 
     env = header->env_h;
-    k = 0;
+   // k = 0;
     t = 1;
     if (!cmd->args[t])
     {
@@ -166,7 +166,7 @@ void    export(t_cmds *cmd, t_exec *exec, t_headers *header)
         //eq==1 =
         //eq==2 +=
         //eq==-1 error not a valid identifier
-        k = 0;
+     //   k = 0;
         if (cmd->args[t][0] != '_' && ft_isalpha(cmd->args[t][0]) == 0)
         {
             printf("export: `%s': not a valid identifier\n", cmd->args[t]);
