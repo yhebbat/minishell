@@ -164,26 +164,27 @@ char		*ft_itoa(int c)
 	return (str);
 }
 
+char	*print_exitstat(char *str, char *var)
+{
+	str = ft_itoa(__get_var(GETEXIT,0));
+	if (var[2])
+		str = ft_strjoin_free(str, var + 2);
+	return (str);
+}
+
 char	*findit(t_headers *header, char *var)
 {
 	t_env	*checkenv;
-	//int		r;
 	char	*str;
 
+	str = NULL;
 	checkenv = header->env_h;
-	// r = 0;
 	if (var[1] == '?')
-	{
-		str = ft_itoa(__get_var(GETEXIT,0));
-		if (var[2])
-			str = ft_strjoin_free(str, var + 2);
-		return (str);
-	}
+		return (print_exitstat(str, var));
 	if (var[1] != '_' && !ft_isalpha(var[1]))
 	{
 		var += 2;
-		str = ft_strdup(var);
-		return(str);
+		return (ft_strdup(var));
 	}
 	var++;
 	while (checkenv)
@@ -192,7 +193,7 @@ char	*findit(t_headers *header, char *var)
 		{
 			str = ft_strdup(checkenv->val);
 			return (str);
-			}
+		}
 		checkenv = checkenv->suivant;
 	}
 	str = malloc(1);
@@ -213,19 +214,40 @@ int		calculate_dollar(char *str, int i)
 	return (d);	
 }
 
-void	checkdollar_cmd(t_headers *header)
+void	check_dollarquotes(int	*s_q, int *d_q, char c)
 {
-	t_cmds *new_cmd;
+	if (c == '\''&& (*d_q % 2) == 0)
+		(*s_q)++;
+	if (c == '"' && (*s_q % 2) == 0)
+		(*d_q)++;
+}
+
+void	dollar_is_here(t_cmds *new_cmd, int *i, t_headers *header)
+{
 	char	*var;
 	char	*val;
 	char	*rest;
+
+	var = to_find(new_cmd->cmd, *i);
+	rest = ft_strdup(ft_strstr(new_cmd->cmd + (*i), var));
+	val = findit(header, var);
+	//printf("[%s], [%s], [%s]\n", var, val, rest);
+	new_cmd->cmd = ft_strjoin_dollarfree(new_cmd->cmd, val, *i);
+	new_cmd->cmd = ft_strjoin_free(new_cmd->cmd, rest);
+	(*i) = -1;
+	free(var);
+	free(val);
+	free(rest);	
+}
+
+void	checkdollar_cmd(t_headers *header)
+{
+	t_cmds *new_cmd;
 	int		i;
 	int		s_q;
 	int		d_q;
 	int		d;
 
-	d = 0;
-	i = 0;
 	new_cmd = header->cmd_h;
 	while (new_cmd)
 	{
@@ -235,28 +257,14 @@ void	checkdollar_cmd(t_headers *header)
 		d_q = 0;
 		while (new_cmd->cmd[i])
 		{
-			if (new_cmd->cmd[i] == '\'' && (d_q % 2) == 0)
-					s_q++;
-			if (new_cmd->cmd[i] == '"' && (s_q % 2) == 0)
-					d_q++;
+			check_dollarquotes(&s_q, &d_q, new_cmd->cmd[i]);
 			if (new_cmd->cmd[i] == '$')
 			{
 				d = calculate_dollar(new_cmd->cmd, i);
 				i += (d - 1);
 			}
 			if (new_cmd->cmd[i] == '$' && (d % 2) && new_cmd->cmd[i + 1] != '\0' && new_cmd->cmd[i + 1] != '"' && new_cmd->cmd[i + 1] != '=' && new_cmd->cmd[i + 1] != '+' && new_cmd->cmd[i + 1] != '-' && s_q % 2 == 0)
-			{
-				var = to_find(new_cmd->cmd, i);
-				rest = ft_strdup(ft_strstr(new_cmd->cmd + i, var));
-				val = findit(header, var);
-				//printf("[%s], [%s], [%s]\n", var, val, rest);
-				new_cmd->cmd = ft_strjoin_dollarfree(new_cmd->cmd, val, i);
-				new_cmd->cmd = ft_strjoin_free(new_cmd->cmd, rest);
-				i = -1;
-				free(var);
-				free(val);
-				free(rest);
-			}
+				dollar_is_here(new_cmd, &i, header);
 			i++;
 		}
 		new_cmd = new_cmd->next;
@@ -275,23 +283,23 @@ void	save_cmd(t_headers *header, char **str)
 	if (header->cmd_h)
 		if (header->cmd_h->args[0] || header->cmd_h->file_h)
 			execute(header);
-	//	new_cmd = header->cmd_h;
+	// 	new_cmd = header->cmd_h;
 	// while (new_cmd)
 	// {
-	//	file = new_cmd->file_h;
-	// 	// int i = 0;
-	// 	// printf("|%s|\n",new_cmd->cmd);
-	// 	// while (new_cmd->args[i])
-	// 	// {
-	// 	// 		printf("arg:%d ==> %s\n",i,new_cmd->args[i]);
-	// 	// 		i++;
-	// 	// }
-		// 	while (file)
-		// {
-		// 	// printf("[type:%d][name:%s]\n",file->type,file->filename);
-		// 	// printf("[%s]\n",file->filename);
-		// 	file = file->next;
-		// }
+	// 	file = new_cmd->file_h;
+	// 	int i = 0;
+	// 	printf("|%s|\n",new_cmd->cmd);
+	// 	while (new_cmd->args[i])
+	// 	{
+	// 			printf("arg:%d ==> %s\n",i,new_cmd->args[i]);
+	// 			i++;
+	// 	}
+	// 		while (file)
+	// 	{
+	// 		printf("[type:%d][name:%s]\n",file->type,file->filename);
+	// 		// printf("[%s]\n",file->filename);
+	// 		file = file->next;
+	// 	}
 	// 	printf("----------------------\n");
 	// 	new_cmd = new_cmd->next;
 	// }

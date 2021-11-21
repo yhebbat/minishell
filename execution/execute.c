@@ -42,6 +42,7 @@ void	fill_env(t_exec *exec, t_headers *header)
 	int		i;
 	t_env	*env;
 
+	i = 0;
 	env = header->env_h;
 	while (env)
 	{

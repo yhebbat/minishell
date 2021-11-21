@@ -1,5 +1,11 @@
 #include "../minishell.h"
 
+void	ft_deltop_helper(t_env *to_delete)
+{
+	free(to_delete->val);
+	free(to_delete->var);
+}
+
 void	ft_deltop(t_headers *head)
 {
 	t_env	*to_delete;
@@ -10,8 +16,7 @@ void	ft_deltop(t_headers *head)
 		to_delete = head->env_h;
 		if (!to_delete->suivant)
 		{
-			free(to_delete->val);
-			free(to_delete->var);
+			ft_deltop_helper(to_delete);
 			free(to_delete);
 			head->env_h = NULL;
 			head->env_f = NULL;
@@ -22,8 +27,7 @@ void	ft_deltop(t_headers *head)
 			stack = to_delete->suivant;
 			head->env_h = stack;
 			stack->preced = NULL;
-			free(to_delete->val);
-			free(to_delete->var);
+			ft_deltop_helper(to_delete);
 			free(to_delete);
 			to_delete = NULL;
 		}
@@ -72,13 +76,14 @@ void	parse(char *line, t_headers *header)
 
 void		handle_sigint(int sigint)
 {
+	(void)sigint;
 	if (__get_var(GETPID, 0) == 0)
 	{
 		write(1,"\n",1);
 		rl_on_new_line();
 		rl_replace_line("",0);
 		rl_redisplay();
-		__get_var(SETEXIT,130);
+		__get_var(SETEXIT,1);
 	}
 }
 
@@ -99,49 +104,50 @@ int		__get_var(t_norm op, int value)
 	return (0);
 }
 
-int	main(int ac, char **av, char **env)
+void	ft_readline(t_headers *header)
 {
-	__get_var(SETPID, 0);
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
-
-	t_headers	*header;
 	char		*line;
-	(void)		ac;
-	(void)		av;
 	int			k;
 
 	k = 1;
 	line = NULL;
-	header = malloc(sizeof(t_headers));
-	header->env_h = NULL;
-	header->env_f = NULL;
-	header->cmd_h = NULL;
-	envi(env, header);
 	while (k)
 	{
 		line = readline("minishell🔥\%");
 		if (!line)
 		{
 			printf("exit\n");
-			break;
+			while (header->env_h != NULL)
+				ft_delbottom(header);
+			free(header);
+			header = NULL;
+			// system("leaks minishell");
+			exit(__get_var(GETEXIT, 0));
 		}
 		parse(line, header);
-		// execute(header);
 		add_history(line);
-		// if (!ft_strcmp(line, "exit"))
-		// {
-		// 	k = 0;
-		// 	free(line);
-		// }
-		// else
-			free(line);
+		free(line);
 	}
+}
+
+int	main(int ac, char **av, char **env)
+{
+	t_headers	*header;
+	(void)		ac;
+	(void)		av;
+
+	__get_var(SETPID, 0);
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
+	header = malloc(sizeof(t_headers));
+	header->env_h = NULL;
+	header->env_f = NULL;
+	header->cmd_h = NULL;
+	envi(env, header);
+	ft_readline(header);
 	while (header->env_h != NULL)
 		ft_delbottom(header);
-	// while (header->cmd_h)
-	// 	ft_delbotcmd(header);
 	free(header);
 	header = NULL;
-	system("leaks minishell");
+	//system("leaks minishell");
 }

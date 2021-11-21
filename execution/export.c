@@ -6,6 +6,7 @@ char    *check_eq(char *str, int *eq)
     int k;
     char *ret;
 
+    ret = NULL;
     i = 0;
     k = 0;
     while (str[i])
@@ -53,6 +54,7 @@ char    *fill_exportval(char *str, int *eq)
     int k;
     char *ret;
 
+    ret = NULL;
     i = 0;
     k = 0;
     while (str[i])
@@ -90,6 +92,7 @@ void	fill_env2(t_exec *exec, t_headers *header)
 	int		i;
 	t_env	*env;
 
+    i = 0;
 	env = header->env_h;
 	while (env)
 	{

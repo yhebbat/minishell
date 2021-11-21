@@ -23,6 +23,13 @@
 # define ONEREV 3
 # define TWOREV 4
 
+typedef struct s_toke
+{
+	int	i;
+	int	j;
+	int	k;
+}t_toke;
+
 typedef struct s_env
 {
 	char			*var;
@@ -118,7 +125,7 @@ void	fill_cmd(t_headers *header, char	**str);
 void	ft_delbotcmd(t_headers *head);
 
 int     execute(t_headers *header);
-
+void	laysameh(int *r, int *i);
 
 
 int		__get_var(t_norm op, int value);

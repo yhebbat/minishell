@@ -1,5 +1,21 @@
 #include "../minishell.h"
 
+void	ft_mots_helper(char const *s, int	*i)
+{
+	if (s[*i] == '"')
+	{
+		(*i)++;
+		while (s[*i] && s[*i] != '"')
+			(*i)++;
+	}
+	else if (s[*i] == '\'')
+	{
+		(*i)++;
+		while (s[*i] && s[*i] != '\'')
+			(*i)++;
+	}
+}
+
 static	int	ft_mots(char const *s, char c)
 {
 	int			i;
@@ -15,18 +31,7 @@ static	int	ft_mots(char const *s, char c)
 	{
 		while (s[i])
 		{
-			if (s[i] == '"')
-			{
-				i++;
-				while (s[i] && s[i] != '"')
-					i++;
-			}
-			else if (s[i] == '\'')
-			{
-				i++;
-				while (s[i] && s[i] != '\'')
-					i++;
-			}
+			ft_mots_helper(s, &i);
 			if (s[i] == c)
 				p = 1;
 			else if (p == 1 && !d_q)
@@ -54,6 +59,12 @@ static void	*ft_freee(char **p)
 	return (0);
 }
 
+void		laysameh(int *r, int *i)
+{
+	(*r)++;
+	(*i)++;
+}
+
 static int	ft_alpha(char const *s, char c, int i)
 {
 	int	r;
@@ -63,92 +74,79 @@ static int	ft_alpha(char const *s, char c, int i)
 	{
 		if (s[i] == '"')
 		{
-			r++;
-			i++;
+			laysameh(&r, &i);
 			while (s[i] != '"')
-			{
-				r++;
-				i++;
-			}
-			r++;
-			i++;
+				laysameh(&r, &i);
+			laysameh(&r, &i);
 		}
 		else if (s[i] == '\'')
 		{
-			r++;
-			i++;
+			laysameh(&r, &i);
 			while (s[i] != '\'')
-			{
-				r++;
-				i++;
-			}
-			r++;
-			i++;
+				laysameh(&r, &i);
+			laysameh(&r, &i);
 		}
 		else
-		{
-			r++;
-			i++;
-		}
+			laysameh(&r, &i);
 	}
 	return (r);
 }
 
+void	ft_remp_helper2(t_toke *toke, char **p, char const *s)
+{
+	p[toke->j][toke->k] = s[toke->i];
+	toke->k++;
+	toke->i++;
+}
+
+void	ft_remp_helper(t_toke *toke, char **p, char const *s)
+{
+   if (s[toke->i] == '"')
+	{
+		ft_remp_helper2(toke, p, s);
+		while (s[toke->i] != '"')
+		{
+			ft_remp_helper2(toke, p, s);
+		}
+		ft_remp_helper2(toke, p, s);
+	}
+	else if (s[toke->i] == '\'')
+	{
+		ft_remp_helper2(toke, p, s);
+		while (s[toke->i] != '\'')
+		{
+			ft_remp_helper2(toke, p, s);
+		}
+		ft_remp_helper2(toke, p, s);
+	}
+	else
+		p[toke->j][toke->k++] = s[toke->i++];
+}
+
 static char	**ft_remp(char **p, char const *s, char c, int mots)
 {
-	int	i;
-	int	j;
-	int	k;
+	t_toke *toke;
 
-	i = 0;
-	j = 0;
-	while (s[i] && mots > j)
+	toke = malloc(sizeof(t_toke));
+	toke->i = 0;
+	toke->j = 0;
+	while (s[toke->i] && mots > toke->j)
 	{
-		k = 0;
-		while (s[i] == c)
+		toke->k = 0;
+		while (s[toke->i] == c)
 			s++;
-		p[j] = malloc(sizeof(char) * ft_alpha(s, c, i) + 1);
-		if (!p[j])
+		p[toke->j] = malloc(sizeof(char) * ft_alpha(s, c, toke->i) + 1);
+		if (!p[toke->j])
 			return (ft_freee(p));
-		while (s[i] && s[i] != c)
-        {
-            if (s[i] == '"')
-            {
-				p[j][k] = s[i];
-				k++;
-                i++;
-                while (s[i] != '"')
-                {
-		        	p[j][k] = s[i];
-					k++;
-					i++;
-                }
-				p[j][k] = s[i];
-				k++;
-                i++;
-            }
-			else if (s[i] == '\'')
-            {
-				p[j][k] = s[i];
-				k++;
-                i++;
-                while (s[i] != '\'')
-                {
-		        	p[j][k] = s[i];
-					k++;
-					i++;
-                }
-				p[j][k] = s[i];
-				k++;
-                i++;
-            }
-			else
-				p[j][k++] = s[i++];
-        }
-		p[j][k] = '\0';
-		j++;
+		while (s[toke->i] && s[toke->i] != c)
+		{
+			ft_remp_helper(toke, p, s);
+		}
+		p[toke->j][toke->k] = '\0';
+		toke->j++;
 	}
-	p[j] = 0;
+	p[toke->j] = 0;
+	free(toke);
 	return (p);
 }
 

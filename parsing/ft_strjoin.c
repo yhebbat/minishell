@@ -28,7 +28,6 @@ char	*ft_strjoin_red(char *s1, char *s2, int i)
 	char				*new;
 
 	ss2 = 0;
-	// printf("%s\n", s2);
 	if (s1 == NULL || s2 == NULL)
 		return (0);
 	while (s2 && s2[ss2] != '\0')

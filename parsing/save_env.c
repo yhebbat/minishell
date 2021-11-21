@@ -1,19 +1,24 @@
 #include "../minishell.h"
 
+void	ft_delbottom_helper(t_env *to_delete)
+{
+	if (to_delete->val != NULL)
+		free(to_delete->val);
+	if (to_delete->var != NULL)
+		free(to_delete->var);
+}
+
 void	ft_delbottom(t_headers *head)
 {
 	t_env	*to_delete;
 	t_env	*stack;
-	//printf("%s\n", head->env_h->var);
+
 	if (head != NULL && head->env_h != NULL)
 	{
 		to_delete = head->env_f;
 		if (!to_delete->preced)
 		{
-			if (to_delete->val != NULL)
-				free(to_delete->val);
-			if (to_delete->var != NULL)
-				free(to_delete->var);
+			ft_delbottom_helper(to_delete);
 			free(to_delete);
 			head->env_h = NULL;
 			head->env_f = NULL;
@@ -24,14 +29,21 @@ void	ft_delbottom(t_headers *head)
 			stack = to_delete->preced;
 			head->env_f = stack;
 			stack->suivant = NULL;
-			if (to_delete->val != NULL)
-				free(to_delete->val);
-			if (to_delete->var != NULL)
-				free(to_delete->var);
+			ft_delbottom_helper(to_delete);
 			free(to_delete);
 			to_delete = NULL;
 		}
 	}
+}
+
+void	ft_addbottom_helper(t_env *to_add, char *var, char *val)
+{
+	if (var != NULL)
+		to_add->var = ft_strdup(var);
+	if (val != NULL)
+		to_add->val = ft_strdup(val);
+	else
+		to_add->val = NULL;
 }
 
 void	ft_addbottom(t_headers *head, char *var, char *val)
@@ -44,12 +56,7 @@ void	ft_addbottom(t_headers *head, char *var, char *val)
 		exit(0);
 	if (head->env_h == NULL)
 	{
-		if (var != NULL)
-			to_add->var = ft_strdup(var);
-		if (val != NULL)
-			to_add->val = ft_strdup(val);
-		else
-			to_add->val = NULL;
+		ft_addbottom_helper(to_add, var, val);
 		to_add->suivant = NULL;
 		to_add->preced = NULL;
 		head->env_f = to_add;
@@ -58,12 +65,7 @@ void	ft_addbottom(t_headers *head, char *var, char *val)
 	else
 	{
 		stack = head->env_f;
-		if (var != NULL)
-			to_add->var = ft_strdup(var);
-		if (val != NULL)
-			to_add->val = ft_strdup(val);
-		else
-			to_add->val = NULL;
+		ft_addbottom_helper(to_add, var, val);
 		to_add->preced = stack;
 		to_add->suivant = NULL;
 		stack->suivant = to_add;
