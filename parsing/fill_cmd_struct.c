@@ -280,13 +280,14 @@ void save_cmd(t_headers *header, char **str)
 {
 	t_cmds *new_cmd;
 	t_file *file;
+	int		i;
 
 	fill_cmd(header, str);
 	checkdollar_cmd(header);
-	checkredirection_cmd(header);
+	i = checkredirection_cmd(header->cmd_h);
 	ft_complet(header);
 	if (header->cmd_h)
-		if (header->cmd_h->args[0] || header->cmd_h->file_h)
+		if (i != -1 && (header->cmd_h->args[0] || header->cmd_h->file_h))
 			execute(header);
 	// 	new_cmd = header->cmd_h;
 	// while (new_cmd)

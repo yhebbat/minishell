@@ -1,10 +1,30 @@
 #include    "execution.h"
 
-void    cd(t_cmds *cmd)
+void    change_pwd(t_env *env, char *to_find, char *to_add)
+{
+    t_env   *pwd;
+    char    *str;
+    char    *to_free;
+
+    str = 0;
+    pwd = find_var_env(to_find, env);
+    if (to_add)
+        to_free = to_add;
+    else
+        to_free = getcwd(str, 0);
+    free(pwd->val);
+    pwd->val = ft_strdup_free(to_free);
+    free(str);
+}
+
+void    cd(t_cmds *cmd, t_headers *header)
 {
     int i;
     char *str;
-
+    char *to_add;
+    
+    str = 0;
+    to_add = getcwd(str, 0);
     i = 0;
     if (cmd->args[1] == NULL)
     {
@@ -12,15 +32,25 @@ void    cd(t_cmds *cmd)
         if (str == 0)
             printf("minishell: cd: HOME not set\n");
         else
+        {
             i = chdir(str);
+            if (!i)
+                change_pwd(header->env_h, "OLDPWD", to_add);  
+            
+        }
     }
     else if (cmd->args[1])
+    {
         i = chdir(cmd->args[1]);
+        if (!i)
+            change_pwd(header->env_h, "OLDPWD", to_add);  
+    }
     if (i != 0)
     {
         printf("cd: %s: No such file or directory\n",cmd->args[1]);
+        free(to_add);
         __get_var(SETEXIT,1);
     }
     else
-        __get_var(SETEXIT,0);
+        change_pwd(header->env_h, "PWD", 0);  
 }

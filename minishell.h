@@ -120,7 +120,7 @@ void	*ft_free(char **p);
 void	save_cmd(t_headers *header, char **str);
 void	ft_addbotfile(t_cmds *head, char *val, int type);
 void	ft_delbotfile(t_cmds *head);
-void	checkredirection_cmd(t_headers *header);
+int		checkredirection_cmd(t_cmds	*find_redirection);
 void	fill_cmd(t_headers *header, char	**str);
 void	ft_delbotcmd(t_headers *head);
 

@@ -188,6 +188,7 @@ void    export(t_cmds *cmd, t_exec *exec, t_headers *header)
     		}
             else if (eq == 1 && exist_env)
             {
+                free(exist_env->val);
     			exist_env->val = ft_strdup_free(str[1]);
     			//modify it
     		}
@@ -200,6 +201,7 @@ void    export(t_cmds *cmd, t_exec *exec, t_headers *header)
             else if (eq == 2  && exist_env)
             {
     			exist_env->val = ft_strjoin_free(exist_env->val, str[1]);
+                free(str[1]);
     			//add it with val += 
     		}
             else if (eq == 2  && !exist_env)

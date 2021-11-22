@@ -54,7 +54,8 @@ char *ft_strdup_free(char *s1)
 	char *ret;
 
 	ret = ft_strdup(s1);
-	free (s1);
+	free(s1);
+	s1 = NULL;
 	return (ret);
 }
 

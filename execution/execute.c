@@ -214,30 +214,37 @@ void	ft_execve(t_cmds *cmd, t_exec *exec)
 			ft_pipe_last(cmd, exec);
 			if (cmd->file_h && cmd->file_h->filename != NULL)
 				redirection(cmd, exec);
-			if (cmd->path == NULL)
+			if(__get_var(GETEXIT,0) == -1)
 			{
-				write(2, "minishell: ", ft_strlen("minishell: "));
-				write(2, cmd->args[0], ft_strlen(cmd->args[0]));
-				write(2, ": command not found\n", ft_strlen(": command not found\n"));
+				__get_var(SETEXIT,1);
+				exit(1);
 			}
-				//printf("minishell: %s: command not found\n", cmd->args[0]);
-			else
-			{
-		
-				if (cmd->args[0] && strchr(cmd->args[0],'/'))
+		//	{
+				if (cmd->path == NULL)
 				{
-					stat(cmd->args[0], &buff);
-					if(buff.st_mode & S_IFDIR)
-					{
-						printf("minishell: %s: is a directory\n", cmd->args[0]);
-						exit(126);
-					}
+					write(2, "minishell: ", ft_strlen("minishell: "));
+					write(2, cmd->args[0], ft_strlen(cmd->args[0]));
+					write(2, ": command not found\n", ft_strlen(": command not found\n"));
 				}
-				execve(cmd->path, cmd->args, exec->env);
-			}
-			if (cmd->args[0] && strchr(cmd->args[0],'/'))
-				printf("minishell: %s: No such file or directory\n", cmd->args[0]);
-			exit(127);
+					//printf("minishell: %s: command not found\n", cmd->args[0]);
+				else
+				{
+			
+					if (cmd->args[0] && strchr(cmd->args[0],'/'))
+					{
+						stat(cmd->args[0], &buff);
+						if(buff.st_mode & S_IFDIR)
+						{
+							printf("minishell: %s: is a directory\n", cmd->args[0]);
+							exit(126);
+						}
+					}
+					execve(cmd->path, cmd->args, exec->env);
+				}
+				if (cmd->args[0] && strchr(cmd->args[0],'/'))
+					printf("minishell: %s: No such file or directory\n", cmd->args[0]);
+				exit(127);
+			//}
 		}
 		waitpid(pid, &exitstatu, 0);
 		if (WIFEXITED(exitstatu))
@@ -321,7 +328,7 @@ void    check_builtins_execve(t_cmds *cmd, t_exec *exec, t_headers  *header)
 		else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 			pwd(cmd);
 		else if (ft_strcmp(cmd->args[0], "cd") == 0)
-			cd(cmd);
+			cd(cmd, header);
 		else if (ft_strcmp(cmd->args[0], "exit") == 0)
 			ft_exit(header);//todo
 		else
@@ -338,28 +345,47 @@ void    check_builtins(t_cmds *cmd, t_exec *exec, t_headers  *header)
 	in = dup(0);
 	if (cmd->file_h && cmd->file_h->filename != NULL)
 		redirection(cmd, exec);
-	if (cmd->args[0])
+	// if(__get_var(GETEXIT,0))
+	// {
+	// 	dup2(in, 0);
+	// 	dup2(out, 1);
+	// 	close(in);
+	// 	close(out);
+	// 	return ;
+	// }
+	if(__get_var(GETEXIT,0) == -1)
 	{
-		// printf("++++++++\n");
-		if (ft_strcmp(cmd->args[0], "env") == 0)
-			ft_env(exec);
-		else if (ft_strcmp(cmd->args[0], "echo") == 0)
-			echo(cmd);
-		else if (ft_strcmp(cmd->args[0], "export") == 0)
-			export(cmd, exec, header);
-		else if (ft_strcmp(cmd->args[0], "unset") == 0)
-			unset(cmd, exec, header);
-		else if (ft_strcmp(cmd->args[0], "pwd") == 0)
-			pwd(cmd);
-		else if (ft_strcmp(cmd->args[0], "cd") == 0)
-			cd(cmd);
-		else if (ft_strcmp(cmd->args[0], "exit") == 0)
-			ft_exit(header);//todo
+		__get_var(SETEXIT,1);
+		dup2(in, 0);
+		dup2(out, 1);
+		close(in);
+		close(out);
 	}
-	dup2(in, 0);
-	dup2(out, 1);
-	close(in);
-	close(out);
+	else
+	{
+		if (cmd->args[0])
+		{
+			// printf("++++++++\n");
+			if (ft_strcmp(cmd->args[0], "env") == 0)
+				ft_env(exec);
+			else if (ft_strcmp(cmd->args[0], "echo") == 0)
+				echo(cmd);
+			else if (ft_strcmp(cmd->args[0], "export") == 0)
+				export(cmd, exec, header);
+			else if (ft_strcmp(cmd->args[0], "unset") == 0)
+				unset(cmd, exec, header);
+			else if (ft_strcmp(cmd->args[0], "pwd") == 0)
+				pwd(cmd);
+			else if (ft_strcmp(cmd->args[0], "cd") == 0)
+				cd(cmd, header);
+			else if (ft_strcmp(cmd->args[0], "exit") == 0)
+				ft_exit(header);//todo
+		}
+		dup2(in, 0);
+		dup2(out, 1);
+		close(in);
+		close(out);
+	}
 }
 
 int    is_builtin(t_cmds *cmd, t_exec *exec, t_headers  *header)
@@ -395,6 +421,11 @@ void		ft_cmds(t_exec *exec, t_cmds *cmd, t_headers *header/*, int	exit_stat*/)
 		//check_red
 		if (cmd->file_h && cmd->file_h->filename != NULL)
 			redirection(cmd, exec);
+		if(__get_var(GETEXIT,0) == -1)
+		{
+			__get_var(SETEXIT,1);
+			exit(1);
+		}
 		check_builtins_execve(cmd, exec, header);
 		exit(__get_var(GETEXIT,0));
 		// printf("%s\n", cmd->args[0]);
@@ -418,6 +449,13 @@ void	ft_last_cmd(t_exec *exec, t_cmds *cmd, t_headers *header)
 				// check_red
 				if (cmd->file_h && cmd->file_h->filename != NULL)
 					redirection(cmd, exec);
+				if(__get_var(GETEXIT,0) == -1)
+				{
+					__get_var(SETEXIT,1);
+					close(exec->fd[1]);
+					close(exec->fd[0]);
+					exit(1);
+				}
 				check_builtins_execve(cmd, exec, header);
 				exit(__get_var(GETEXIT,0));
 			}

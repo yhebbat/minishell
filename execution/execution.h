@@ -35,7 +35,7 @@ int         g_exit_status;
 
 t_env   *find_var_env(char  *str, t_env *env);
 void	ft_env(t_exec *exec);
-void    cd(t_cmds *cmd);
+void    cd(t_cmds *cmd, t_headers *header);
 int     execute(t_headers *header);
 void    pwd(t_cmds *cmd);
 void    echo(t_cmds *cmd);

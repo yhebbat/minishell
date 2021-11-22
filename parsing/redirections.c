@@ -233,59 +233,66 @@ char	*ft_herdocs_rl_helper(char *ret, char *line)
 	return(ret);
 }
 
-char	*ft_herdocs_rl(char	*limiter)
+void		handle_sigint_herdoc(int sigint)
 {
-	int		k;
-	char	*line;
-	char	*ret;
+	
+	(void)sigint;
+		write(1,"\n",1);
+		__get_var(SETEXIT, 1);
+		//__get_var(SETPID, 0);
+		exit(1);
+}
 
-	ret = NULL;
-	k = 1;
-	while (k)
+void	ft_herdocs_rl(char	*limiter, int fd)
+{
+	char	*line;
+
+	while (1)
 	{
+		signal(SIGINT, handle_sigint_herdoc);
 		line = readline("heredoc>");
 		if (!line)
 		{
-			free(limiter);
-			break;
+			__get_var(SETEXIT, 0);
+			exit(0);
 		}
 		if (!ft_strcmp(line, limiter))
 		{
-			k = 0;
-			free(limiter);
 			free(line);
+			__get_var(SETEXIT, 0);
+			exit(0);
 		}
 		else
-			ret = ft_herdocs_rl_helper(ret, line);
+		{
+			write(fd, line, ft_strlen(line));
+			write(fd, "\n", 1);
+			free(line);
+		}
 	}
-	return (ret);
 }
 
 char	*ft_herdocs(char *str)
 {
 	char	*limiter;
-	char	*ret;
+	int		pid;
 	char	*name;
 	int		fd;
+	int		status;
 
 	limiter = findredtosave(str);
-	/*hadchi li zedt*/
 	name = ft_strjoin("/tmp/", limiter);
 	fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	//free(name);
-	/**/
-	ret = ft_herdocs_rl(limiter);
-	/*hadshi li zedt*/
-	if (ret != NULL)
-		write(fd, ret, ft_strlen(ret));
-	else
-		write(fd, "", ft_strlen(""));
+	__get_var(SETPID, -1);
+	pid = fork();
+	if (pid == 0)
+		ft_herdocs_rl(limiter, fd);
+	waitpid(pid, &status, 0);
+	if (status == 256)
+		__get_var(SETEXIT, 1);
+	__get_var(SETPID, 0);
+	free(limiter);
 	close(fd);
-	if (ret != NULL)
-		free(ret);
 	return(name);
-	/**/
-	//return (ret);
 }
 
 void	check_redquotes(int	*s_q, int *d_q, char c)
@@ -317,31 +324,62 @@ void	file_is_here(t_cmds *find_redirection, int *red, int *i)
 	free(rest);
 }
 
-void	checkredirection_cmd(t_headers *header)
+// int	checkredirection_cmd(t_headers *header)
+// {
+//     t_cmds	*find_redirection;
+// 	int i;
+// 	int	red;
+// 	int	s_q;
+// 	int	d_q;
+
+// 	find_redirection = header->cmd_h;
+// 	while (find_redirection)
+// 	{
+// 		i = -1;
+// 		red = 0;
+// 		s_q = 0;
+// 		d_q = 0;
+// 		while (find_redirection->cmd[++i])
+// 		{
+// 			check_redquotes(&s_q, &d_q, find_redirection->cmd[i]);
+//  			if ((find_redirection->cmd[i] == '>'
+// 				|| find_redirection->cmd[i] == '<') && !(d_q % 2) && !(s_q % 2))
+// 			{
+// 				file_is_here(find_redirection, &red, &i);
+// 				if (__get_var(GETEXIT, 0) == 1)
+// 					return (-1);
+// 			}
+// 		}
+// 		find_redirection = find_redirection->next;
+// 	}
+// 	return (1);
+// }
+
+int	checkredirection_cmd(t_cmds	*find_redirection)
 {
-    t_cmds	*find_redirection;
-	int i;
 	int	red;
 	int	s_q;
 	int	d_q;
+	int i;
 
-	i = 0;
-	red = 0;
-	find_redirection = header->cmd_h;
 	while (find_redirection)
 	{
-		i = 0;
+		i = -1;
 		red = 0;
 		s_q = 0;
 		d_q = 0;
-		while (find_redirection->cmd[i])
+		while (find_redirection->cmd[++i])
 		{
 			check_redquotes(&s_q, &d_q, find_redirection->cmd[i]);
  			if ((find_redirection->cmd[i] == '>'
 				|| find_redirection->cmd[i] == '<') && !(d_q % 2) && !(s_q % 2))
+			{
 				file_is_here(find_redirection, &red, &i);
-			i++;
+				if (__get_var(GETEXIT, 0) == 1)
+					return (-1);
+			}
 		}
 		find_redirection = find_redirection->next;
 	}
+	return (1);
 }
