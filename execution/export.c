@@ -261,6 +261,7 @@ char	*check_eq(char *str, int *eq)
 	int		k;
 	char	*ret;
 
+	ret = NULL;
 	k = 0;
 	i = 0;
 	set_eq(str, eq, &i);
@@ -284,11 +285,10 @@ char	*check_eq(char *str, int *eq)
 char	*fill_exportval(char *str, int *eq)
 {
 	int		i;
-	// int		k;
 	char	*ret;
 
 	i = 0;
-	// k = 0;
+	ret = NULL;
 	while (str[i])
 	{
 		if (str[i] == '+' && str[i + 1] != '=')
@@ -340,6 +340,7 @@ void	fill_env2(t_exec *exec, t_headers *header)
 	int		i;
 	t_env	*env;
 
+	i = 0;
 	env = header->env_h;
 	while (env)
 	{
@@ -387,7 +388,6 @@ void	init_str(char **str, t_cmds *cmd, int *eq, int t)
 void	add_to_export(t_cmds *cmd, t_env *env, t_headers *header, int t)
 {
 	int		eq;
-	// int		k;
 	t_env	*exist_env;
 	char	**str;
 
@@ -402,15 +402,11 @@ void	add_to_export(t_cmds *cmd, t_env *env, t_headers *header, int t)
 		exist_env->val = ft_strdup_free(str[1]);
 	}
 	else if ((eq == 1 || eq == 2) && !exist_env)
-	{
 		ft_addbottom(header, str[0], str[1]);
-		free(str[1]);
-	}
 	else if (eq == 2 && exist_env)
-	{
 		exist_env->val = ft_strjoin_free(exist_env->val, str[1]);
+	if (((eq == 1 || eq == 2) && !exist_env) || (eq == 2 && exist_env))
 		free(str[1]);
-	}
 	free(str[0]);
 	free(str);
 }

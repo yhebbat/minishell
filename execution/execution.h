@@ -17,7 +17,6 @@
 # include <sys/types.h>
 # include <sys/errno.h>
 # include <limits.h>
-# include <bits/stat.h>
 
 typedef struct s_exec
 {
@@ -25,7 +24,6 @@ typedef struct s_exec
     char    **env;
 	int		*fd;
     int		in;
-    // int     out;
     int		i;
     int		*pid;
     int     nb_cmd;

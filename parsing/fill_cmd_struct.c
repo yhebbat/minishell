@@ -189,7 +189,7 @@ char *findit(t_headers *header, char *var)
 	var++;
 	while (checkenv)
 	{
-		if (!ft_strcmp(checkenv->var, var))
+		if (!ft_strcmp(checkenv->var, var) && checkenv->val)
 		{
 			str = ft_strdup(checkenv->val);
 			return (str);
