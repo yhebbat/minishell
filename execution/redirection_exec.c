@@ -35,7 +35,7 @@ void	redirection(t_cmds *cmd_h, t_exec *exec)
 	nfile = cmd_h->file_h;
 	int in = 0;
 	int out = 1;
-	while (nfile != NULL && __get_var(GETEXIT, 2) != 2)
+	while (nfile != NULL && __get_var(GETEXIT, 2) != -1)
 	{
 		redirection_inside_loop(&in, &out, nfile);
 		nfile = nfile->next;

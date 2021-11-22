@@ -12,30 +12,12 @@
 
 #include "execution.h"
 
-// void    ft_pipe(t_cmds *cmd, t_exec *exec)
-// {
-
-//     if (cmd->next != NULL)
-//     {
-//         // write(2, "test\n", 5);
-//         if (dup2(exec->fd[1], 1) == -1)
-//         {
-//             write(2, strerror(errno), ft_strlen(strerror(errno)));
-//             write(2, "\n", 1);
-//         }
-//         close(exec->fd[1]);
-//         close(exec->fd[0]);
-//     }
-//     if (exec->i != 0)
-//     {
-//         if (dup2(exec->in, 0) == -1)
-//         {
-//             write(2, "ok\n", 3);
-//         }
-//         // close(exec->fd[1]);
-//         close(exec->in);
-//     }
-// }
+void	ft_perror(char *c)
+{
+	write(2, "minishell: ", 12);
+	write(2, c, ft_strlen(c));
+	write(2, ": No such file or directory\n", 29);	
+}
 
 void	fill_env(t_exec *exec, t_headers *header)
 {
@@ -55,8 +37,6 @@ void	fill_env(t_exec *exec, t_headers *header)
 	i = 0;
 	while (env)
 	{
-		// if (env->val != NULL)
-		// 	printf("%s=%s\n", env->var, env->val);
 		if (env->val != NULL)
 		{
 			exec->env[i] = ft_strjoin(env->var, "=");
@@ -66,12 +46,6 @@ void	fill_env(t_exec *exec, t_headers *header)
 		env = env->suivant;
 	}
 	exec->env[i] = 0;
-	// i = 0;
-	// while (exec->env[i])
-	// {
-	// 	printf("%s\n", exec->env[i]);
-	// 	i++;
-	// }
 }
 
 void     exec_init(t_headers *header, t_exec *exec)
@@ -94,7 +68,6 @@ void     exec_init(t_headers *header, t_exec *exec)
 	i = 0;
     exec->i = 0;
     exec->in = 0;
-	// exec->out = 1;
     exec->fd = malloc(sizeof(int) * 2);
     env = header->env_h;
     while (env)
@@ -135,10 +108,8 @@ void    replace_arg(t_headers *header, t_exec *exec)
 	while (cmd)
 	{
 		i = 0;
-		// cmd->path = NULL;
 		while (exec->path && exec->path[i])
 		{
-			//printf("hjk\n");
 			str = ft_strjoin(exec->path[i] ,cmd->args[0]);
 			if ((fd = open(str,O_RDONLY)) != -1)
 			{
@@ -158,159 +129,148 @@ void    replace_arg(t_headers *header, t_exec *exec)
 	}
 }
 
-// int     execute(t_headers *header)
-// {
-// 	t_cmds	*cmd;
-// 	t_exec	*exec;
-// 	int		exit_stat;
-
-//     exec = malloc(sizeof(t_exec));
-// 	exec_init(header, exec);
-// 	// int i = 0;
-//     // while (exec->path[i])
-//     // {
-//     //     printf("%s\n",exec->path[i]);
-//     //     i++;
-//     // }
-//     replace_arg(header, exec);
-// 	cmd = header->cmd_h;
-//     while (cmd)
-//     {
-//         pipe(exec->fd);
-//         exec->pid = fork();
-//         if(exec->pid == 0)
-//         {
-//             ft_pipe(cmd, exec);
-// 			// printf("%s\n", cmd->args[0]);
-//             execve(cmd->args[0], cmd->args, exec->env);
-//         }
-//         waitpid(exec->pid, &exit_stat, 0);
-//         close(exec->fd[1]);
-//         if (exec->i > 0)
-//             close(exec->in);
-//         exec->in = exec->fd[0];
-//         exec->i++;
-//         cmd = cmd->next;
-//     }
-// 	exec_free(exec);
-//     return (0);
-// }
-
-void	ft_execve(t_cmds *cmd, t_exec *exec)
+void	ft_more_cmd(t_cmds *cmd, t_exec *exec)
 {
-	int		exitstatu;
-	int		pid;
 	struct stat buff;
-	// pid = fork();
-	// if (pid == 0)
-	// {
-		// printf("lll*\n");
-	if (!cmd->next && !cmd->prec)
+
+	signal(SIGQUIT, SIG_DFL);
+	if (cmd->path == NULL)
 	{
-		pid = fork();
-		if (pid == 0)
-		{
-			signal(SIGQUIT, SIG_DFL);
-			ft_pipe_last(cmd, exec);
-			if (cmd->file_h && cmd->file_h->filename != NULL)
-				redirection(cmd, exec);
-			if(__get_var(GETEXIT,0) == -1)
-			{
-				__get_var(SETEXIT,1);
-				exit(1);
-			}
-		//	{
-				if (cmd->path == NULL)
-				{
-					write(2, "minishell: ", ft_strlen("minishell: "));
-					write(2, cmd->args[0], ft_strlen(cmd->args[0]));
-					write(2, ": command not found\n", ft_strlen(": command not found\n"));
-				}
-					//printf("minishell: %s: command not found\n", cmd->args[0]);
-				else
-				{
-			
-					if (cmd->args[0] && strchr(cmd->args[0],'/'))
-					{
-						stat(cmd->args[0], &buff);
-						if(buff.st_mode & S_IFDIR)
-						{
-							printf("minishell: %s: is a directory\n", cmd->args[0]);
-							exit(126);
-						}
-					}
-					execve(cmd->path, cmd->args, exec->env);
-				}
-				if (cmd->args[0] && strchr(cmd->args[0],'/'))
-					printf("minishell: %s: No such file or directory\n", cmd->args[0]);
-				exit(127);
-			//}
-		}
-		waitpid(pid, &exitstatu, 0);
-		if (WIFEXITED(exitstatu))
-			__get_var(SETEXIT, WEXITSTATUS(exitstatu));
-		else if (WIFSIGNALED(exitstatu))
-		{
-			//dprintf(2, "im here\n");
-			__get_var(SETEXIT, WTERMSIG(exitstatu) + 128);
-			//g_exit_status = WTERMSIG(stat) + 128;
-			if (WTERMSIG(exitstatu) == SIGQUIT)
-				dprintf(2,"\\QUIT\n");
-		}
+		write(2, "minishell: ", ft_strlen("minishell: "));
+		write(2, cmd->args[0], ft_strlen(cmd->args[0]));
+		write(2, ": command not found\n", ft_strlen(": command not found\n"));
 	}
 	else
 	{
-		signal(SIGQUIT, SIG_DFL);
-		if (cmd->path == NULL)
+		if (cmd->args[0] && strchr(cmd->args[0], '/'))
 		{
-			write(2, "minishell: ", ft_strlen("minishell: "));
-			write(2, cmd->args[0], ft_strlen(cmd->args[0]));
-			write(2, ": command not found\n", ft_strlen(": command not found\n"));
-		}
-			//printf("minishell: %s: command not found\n", cmd->args[0]);
-		else
-		{
-			if (cmd->args[0] && strchr(cmd->args[0],'/'))
+			stat(cmd->args[0], &buff);
+			if (buff.st_mode & S_IFDIR)
 			{
-				stat(cmd->args[0], &buff);
-				if(buff.st_mode & S_IFDIR)
-				{
-					printf("minishell: %s: is a directory\n", cmd->args[0]);
-					exit(126);
-				}
+				printf("minishell: %s: is a directory\n", cmd->args[0]);
+				exit(126);
 			}
-			execve(cmd->path, cmd->args, exec->env);
 		}
-		if (cmd->args[0] && strchr(cmd->args[0],'/'))
+		execve(cmd->path, cmd->args, exec->env);
+	}
+	if (cmd->args[0] && strchr(cmd->args[0], '/'))
+		ft_perror(cmd->args[0]);
+	exit(127);
+}
+
+void	print_error(t_cmds *cmd, char *s, int i)
+{
+	write(2, "minishell: ", 12);
+	write(2, cmd->args[0], ft_strlen(cmd->args[0]));
+	write(2, s, ft_strlen(s));
+	if (i)
+		exit (i);
+}
+
+void	child_proccess(t_cmds *cmd, t_exec *exec)
+{
+	struct stat buff;
+
+	signal(SIGQUIT, SIG_DFL);
+	ft_pipe_last(cmd, exec);
+	if (cmd->file_h && cmd->file_h->filename != NULL)
+		redirection(cmd, exec);
+	if (__get_var(GETEXIT,0) == -1)
+	{
+		__get_var(SETEXIT,1);
+		exit(1);
+	}
+	if (cmd->path == NULL)
+		print_error(cmd, ": command not found\n", 0);
+	else
+	{
+		if (cmd->args[0] && strchr(cmd->args[0], '/'))
+		{
+			stat(cmd->args[0], &buff);
+			if (buff.st_mode & S_IFDIR)
+				print_error(cmd, ": is a directory\n", 126);
+		}
+		execve(cmd->path, cmd->args, exec->env);
+	}
+}
+
+void	one_command(t_cmds *cmd, t_exec *exec)
+{
+	int	pid;
+	int	exitstatu;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		child_proccess(cmd, exec);
+		if (cmd->args[0] && strchr(cmd->args[0], '/'))
 			printf("minishell: %s: No such file or directory\n", cmd->args[0]);
 		exit(127);
 	}
-	// }
-	// else
-	// {
-	// 	// if (cmd->next)
-	// 	// {
-	// 		printf("ttt*\n");
-	// 		waitpid(pid , &exitstatu, 0);
-	// 		if (WIFEXITED(exitstatu))
-	// 		{
-	// 			dprintf(2, "im here\n");
-	// 			__get_var(SETEXIT, WEXITSTATUS(exitstatu));
-	// 			printf("%d\n",__get_var(GETEXIT, WEXITSTATUS(exitstatu)));
-	// 			//g_exit_status = WEXITSTATUS(stat);
-	// 		}
-	// 		else if (WIFSIGNALED(exitstatu))
-	// 		{
-				
-	// 			__get_var(SETEXIT, WTERMSIG(exitstatu) + 128);
-	// 			//g_exit_status = WTERMSIG(stat) + 128;
-	// 			if (WTERMSIG(exitstatu) == SIGQUIT)
-	// 				dprintf(2,"\\QUIT\n");
-	// 		}
-	// 			//exit (__get_var(GETEXIT, 0));
-	// 			//dprintf(2, "im here\n");
-	// 	// }
-	// }
+	waitpid(pid, &exitstatu, 0);
+	if (WIFEXITED(exitstatu))
+		__get_var(SETEXIT, WEXITSTATUS(exitstatu));
+	else if (WIFSIGNALED(exitstatu))
+	{
+		__get_var(SETEXIT, WTERMSIG(exitstatu) + 128);
+		if (WTERMSIG(exitstatu) == SIGQUIT)
+			write(2, "\\QUIT\n", 7);
+	}
+}
+
+void	ft_execve(t_cmds *cmd, t_exec *exec)
+{
+	if (!cmd->next && !cmd->prec)
+	{
+		one_command(cmd, exec);
+		// pid = fork();
+		// if (pid == 0)
+		// {
+		// 	signal(SIGQUIT, SIG_DFL);
+		// 	ft_pipe_last(cmd, exec);
+		// 	if (cmd->file_h && cmd->file_h->filename != NULL)
+		// 		redirection(cmd, exec);
+		// 	if(__get_var(GETEXIT,0) == -1)
+		// 	{
+		// 		__get_var(SETEXIT,1);
+		// 		exit(1);
+		// 	}
+		// 	if (cmd->path == NULL)
+		// 	{
+		// 		write(2, "minishell: ", ft_strlen("minishell: "));
+		// 		write(2, cmd->args[0], ft_strlen(cmd->args[0]));
+		// 		write(2, ": command not found\n", ft_strlen(": command not found\n"));
+		// 	}
+		// 	else
+		// 	{
+		
+		// 		if (cmd->args[0] && strchr(cmd->args[0],'/'))
+		// 		{
+		// 			stat(cmd->args[0], &buff);
+		// 			if(buff.st_mode & S_IFDIR)
+		// 			{
+		// 				printf("minishell: %s: is a directory\n", cmd->args[0]);
+		// 				exit(126);
+		// 			}
+		// 		}
+		// 		execve(cmd->path, cmd->args, exec->env);
+		// 	}
+		// 	if (cmd->args[0] && strchr(cmd->args[0],'/'))
+		// 		printf("minishell: %s: No such file or directory\n", cmd->args[0]);
+		// 	exit(127);
+		// }
+		// waitpid(pid, &exitstatu, 0);
+		// if (WIFEXITED(exitstatu))
+		// 	__get_var(SETEXIT, WEXITSTATUS(exitstatu));
+		// else if (WIFSIGNALED(exitstatu))
+		// {
+		// 	__get_var(SETEXIT, WTERMSIG(exitstatu) + 128);
+		// 	if (WTERMSIG(exitstatu) == SIGQUIT)
+		// 		write(2, "QUIT\n", 6);
+		// }
+	}
+	else
+		ft_more_cmd(cmd, exec);
 }	
 
 void    check_builtins_execve(t_cmds *cmd, t_exec *exec, t_headers  *header)
@@ -330,10 +290,36 @@ void    check_builtins_execve(t_cmds *cmd, t_exec *exec, t_headers  *header)
 		else if (ft_strcmp(cmd->args[0], "cd") == 0)
 			cd(cmd, header);
 		else if (ft_strcmp(cmd->args[0], "exit") == 0)
-			ft_exit(header);//todo
+			ft_exit(header);
 		else
 			ft_execve(cmd, exec);
 	}
+}
+
+void	dup_n_close(int out, int in)
+{
+	dup2(in, 0);
+	dup2(out, 1);
+	close(in);
+	close(out);
+}
+
+void	check_builtins_condition(t_cmds *cmd, t_exec *exec, t_headers *header)
+{
+	if (ft_strcmp(cmd->args[0], "env") == 0)
+		ft_env(exec);
+	else if (ft_strcmp(cmd->args[0], "echo") == 0)
+		echo(cmd);
+	else if (ft_strcmp(cmd->args[0], "export") == 0)
+		export(cmd, exec, header);
+	else if (ft_strcmp(cmd->args[0], "unset") == 0)
+		unset(cmd, exec, header);
+	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
+		pwd(cmd);
+	else if (ft_strcmp(cmd->args[0], "cd") == 0)
+		cd(cmd, header);
+	else if (ft_strcmp(cmd->args[0], "exit") == 0)
+		ft_exit(header);
 }
 
 void    check_builtins(t_cmds *cmd, t_exec *exec, t_headers  *header)
@@ -345,46 +331,16 @@ void    check_builtins(t_cmds *cmd, t_exec *exec, t_headers  *header)
 	in = dup(0);
 	if (cmd->file_h && cmd->file_h->filename != NULL)
 		redirection(cmd, exec);
-	// if(__get_var(GETEXIT,0))
-	// {
-	// 	dup2(in, 0);
-	// 	dup2(out, 1);
-	// 	close(in);
-	// 	close(out);
-	// 	return ;
-	// }
 	if(__get_var(GETEXIT,0) == -1)
 	{
 		__get_var(SETEXIT,1);
-		dup2(in, 0);
-		dup2(out, 1);
-		close(in);
-		close(out);
+		dup_n_close(out, in);
 	}
 	else
 	{
 		if (cmd->args[0])
-		{
-			// printf("++++++++\n");
-			if (ft_strcmp(cmd->args[0], "env") == 0)
-				ft_env(exec);
-			else if (ft_strcmp(cmd->args[0], "echo") == 0)
-				echo(cmd);
-			else if (ft_strcmp(cmd->args[0], "export") == 0)
-				export(cmd, exec, header);
-			else if (ft_strcmp(cmd->args[0], "unset") == 0)
-				unset(cmd, exec, header);
-			else if (ft_strcmp(cmd->args[0], "pwd") == 0)
-				pwd(cmd);
-			else if (ft_strcmp(cmd->args[0], "cd") == 0)
-				cd(cmd, header);
-			else if (ft_strcmp(cmd->args[0], "exit") == 0)
-				ft_exit(header);//todo
-		}
-		dup2(in, 0);
-		dup2(out, 1);
-		close(in);
-		close(out);
+			check_builtins_condition(cmd, exec, header);
+		dup_n_close(out, in);
 	}
 }
 
@@ -405,20 +361,19 @@ int    is_builtin(t_cmds *cmd, t_exec *exec, t_headers  *header)
 		else if (ft_strcmp(cmd->args[0], "cd") == 0)
 			return (1);
 		else if (ft_strcmp(cmd->args[0], "exit") == 0)
-			return (1);//todo
+			return (1);
 		return (0);
 	}
 	return (0);
 }
 
-void		ft_cmds(t_exec *exec, t_cmds *cmd, t_headers *header/*, int	exit_stat*/)
+void		ft_cmds(t_exec *exec, t_cmds *cmd, t_headers *header)
 {
 	exec->pid[exec->i] = fork();
 	if (exec->pid[exec->i] == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		ft_pipe(cmd, exec);
-		//check_red
 		if (cmd->file_h && cmd->file_h->filename != NULL)
 			redirection(cmd, exec);
 		if(__get_var(GETEXIT,0) == -1)
@@ -428,10 +383,31 @@ void		ft_cmds(t_exec *exec, t_cmds *cmd, t_headers *header/*, int	exit_stat*/)
 		}
 		check_builtins_execve(cmd, exec, header);
 		exit(__get_var(GETEXIT,0));
-		// printf("%s\n", cmd->args[0]);
-		// execve(cmd->args[0], cmd->args, exec->env);
 	}
-	// check_builtins(cmd, exec, header->env_h);
+}
+
+void	ft_simple_cmd(t_exec *exec, t_cmds *cmd, t_headers *header)
+{
+	pipe(exec->fd);
+	exec->pid[exec->i] = fork();
+	if (exec->pid[exec->i] == 0)
+	{
+		signal(SIGQUIT, SIG_DFL);
+		ft_pipe_last(cmd, exec);
+		if (cmd->file_h && cmd->file_h->filename != NULL)
+			redirection(cmd, exec);
+		if(__get_var(GETEXIT,0) == -1)
+		{
+			__get_var(SETEXIT,1);
+			close(exec->fd[1]);
+			close(exec->fd[0]);
+			exit(1);
+		}
+		check_builtins_execve(cmd, exec, header);
+		exit(__get_var(GETEXIT, 0));
+	}
+	close(exec->fd[1]);
+	close(exec->fd[0]);
 }
 
 void	ft_last_cmd(t_exec *exec, t_cmds *cmd, t_headers *header)
@@ -439,29 +415,7 @@ void	ft_last_cmd(t_exec *exec, t_cmds *cmd, t_headers *header)
 	if (cmd && cmd->next == NULL)
 	{
 		if (cmd->prec != NULL)
-		{
-			pipe(exec->fd);
-			exec->pid[exec->i] = fork();
-			if (exec->pid[exec->i] == 0)
-			{
-				signal(SIGQUIT, SIG_DFL);
-				ft_pipe_last(cmd, exec);
-				// check_red
-				if (cmd->file_h && cmd->file_h->filename != NULL)
-					redirection(cmd, exec);
-				if(__get_var(GETEXIT,0) == -1)
-				{
-					__get_var(SETEXIT,1);
-					close(exec->fd[1]);
-					close(exec->fd[0]);
-					exit(1);
-				}
-				check_builtins_execve(cmd, exec, header);
-				exit(__get_var(GETEXIT,0));
-			}
-			close(exec->fd[1]);
-			close(exec->fd[0]);
-		}
+			ft_simple_cmd(exec, cmd, header);
 		else
 		{
 			if (is_builtin(cmd, exec, header) || !cmd->args[0])
@@ -476,6 +430,38 @@ void	ft_last_cmd(t_exec *exec, t_cmds *cmd, t_headers *header)
 	}
 }
 
+t_cmds	*commands(t_exec *exec, t_cmds *cmd, t_headers *header)
+{
+	while (cmd && cmd->next != NULL)
+	{
+		pipe(exec->fd);
+		ft_cmds(exec, cmd, header);
+		if (exec->fd[1] > 2)
+			close(exec->fd[1]);
+		if (exec->in != 0)
+			close(exec->in);
+		exec->in = exec->fd[0];
+		exec->i++;
+		cmd = cmd->next;
+	}
+	return (cmd);
+}
+
+void	some_status_code(t_cmds *cmd, int *stat)
+{
+	if (cmd->prec)
+	{
+		if (WIFEXITED(*stat))
+			__get_var(SETEXIT, WEXITSTATUS(*stat));
+		else if (WIFSIGNALED(*stat))
+		{
+			__get_var(SETEXIT, WTERMSIG(*stat) + 128);
+			if (WTERMSIG(*stat) == SIGQUIT)
+				write(2, "QUIT\n", 6);
+		}
+	}
+}
+
 int     execute(t_headers *header)
 {
 	t_cmds	*cmd;
@@ -487,52 +473,30 @@ int     execute(t_headers *header)
 	i = 0;
     exec = malloc(sizeof(t_exec));
 	exec_init(header, exec);
-	//if (exec->path)
-		replace_arg(header, exec);//maybe kayn some leaks here
+	replace_arg(header, exec);
 	cmd = header->cmd_h;
-    while (cmd && cmd->next != NULL)
-    {
-        pipe(exec->fd);
-		ft_cmds(exec, cmd, header/*, &exit_stat*/);
-		if (exec->fd[1] > 2)
-        	close(exec->fd[1]);
-        if (exec->in != 0)
-            close(exec->in);
-        exec->in = exec->fd[0];
-        exec->i++;
-        cmd = cmd->next;
-    }
+	cmd = commands(exec, cmd, header);
 	ft_last_cmd(exec, cmd, header);
-	// dprintf(2, "DBG exit status : %d\n", value);
-	// // printf("%d\n", exec->nb_cmd);
 	while (i < exec->nb_cmd)
 	{
 		waitpid(exec->pid[i], &stat, 0);
 		i++;
 	}
-	if (cmd->prec)
-	{
-		if (WIFEXITED(stat))
-		{
-			__get_var(SETEXIT, WEXITSTATUS(stat));
-			// dprintf(1,"||%d\n",__get_var(GETEXIT,0));
-			// g_exit_status = WEXITSTATUS(stat);
-		}
-		else if (WIFSIGNALED(stat))
-		{
-			__get_var(SETEXIT, WTERMSIG(stat) + 128);
-			//g_exit_status = WTERMSIG(stat) + 128;
-			if (WTERMSIG(stat) == SIGQUIT)
-				dprintf(2,"\\QUIT\n");
-		}
-	}
-	// if (exec->out != 1)
-	// 	close(exec->out);
+	some_status_code(cmd, &stat);
+	// if (cmd->prec)
+	// {
+	// 	if (WIFEXITED(stat))
+	// 		__get_var(SETEXIT, WEXITSTATUS(stat));
+	// 	else if (WIFSIGNALED(stat))
+	// 	{
+	// 		__get_var(SETEXIT, WTERMSIG(stat) + 128);
+	// 		if (WTERMSIG(stat) == SIGQUIT)
+	// 			dprintf(2,"QUIT\n");
+	// 	}
+	// }
 	if (exec->in != 0)
 		close(exec->in);
-	//dprintf(1,"my exit status is %d\n",__get_var(GETEXIT,0));
 	exec_free(exec);
-//	g_pids = 0;
   	__get_var(SETPID, 0);
     return (0);
 }
