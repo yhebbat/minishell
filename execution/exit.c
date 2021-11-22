@@ -1,46 +1,48 @@
-#include    "execution.h"
+#include "execution.h"
 #include <ctype.h>
 
-int	ft_exit(t_headers *headers)
+void	half_ft_exit(char **args)
 {
-	int j;
-	char **args;
-
-	args = headers->cmd_h->args;
-	if (!args[1])
-	{
-		printf("exit\n");
-        exit(__get_var(GETEXIT, 0));
-		//exit(g_var.exit_status);
-	}
-
-	if (args[2] != NULL)
-	{
-		printf("exit\n");
-		printf("minishell: exit: too many arguments\n");
-        __get_var(SETEXIT, 1);
-		return (1);
-	}
+	int	j;
 
 	j = 0;
 	while (args[1][j])
 	{
 		if (!(isdigit(args[1][j])))
 		{
-			printf("exit\n");
-			printf("%s %s: %s \n","minishell: exit:",args[1], "numeric argument required");
+			write(2, "exit\n", 6);
+			write(2, "minishell: exit:", 17);
+			write(2, args[1], ft_strlen(args[1]));
+			write(2, "numeric argument required", 26);
 			exit(255);
 		}
 		j++;
 	}
 	if (args[2] == NULL)
 	{
-		//g_var.exit_status = atoi(args[1]);
-		__get_var(SETEXIT, atoi(args[1]));// = atoi(args[1]);
-		printf("exit\n");
-		// system("leaks minishell");
-        exit(__get_var(GETEXIT, 0));
-		//exit(g_var.exit_status);
+		__get_var(SETEXIT, atoi(args[1]));
+		write(2, "exit\n", 6);
+		exit(__get_var(GETEXIT, 0));
 	}
-    return (0);
+}
+
+int	ft_exit(t_headers *headers)
+{
+	char	**args;
+
+	args = headers->cmd_h->args;
+	if (!args[1])
+	{
+		write(2, "exit\n", 6);
+		exit(__get_var(GETEXIT, 0));
+	}
+	if (args[2] != NULL)
+	{
+		write(2, "exit\n", 6);
+		write(2, "minishell: exit: too many arguments\n", 37);
+		__get_var(SETEXIT, 1);
+		return (1);
+	}
+	half_ft_exit(args);
+	return (0);
 }

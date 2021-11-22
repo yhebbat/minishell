@@ -1,5 +1,12 @@
 # include "execution.h"
 
+void	printfile_error(char *str, char *s, int i)
+{
+	write(2, "minishell: ", 12);
+	write(2, str, ft_strlen(str));
+	write(2, s, ft_strlen(s));
+}
+
 void	redirection_inside_loop(int *in, int *out, t_file *file_h) 
 {
 	if (file_h->filename && (file_h->type == 1 || file_h->type == 2))
@@ -12,7 +19,7 @@ void	redirection_inside_loop(int *in, int *out, t_file *file_h)
 			*out = open(file_h->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (*out == -1)
 		{
-			dprintf(2,"minishell: %s: No such file or directory\n", file_h->filename);
+			printfile_error(file_h->filename, ": is a directory\n", 0);
 			__get_var(SETEXIT, -1);
 		}
 	}
@@ -23,7 +30,7 @@ void	redirection_inside_loop(int *in, int *out, t_file *file_h)
 		*in = open(file_h->filename, O_RDONLY, 0644);
 		if (*in == -1)
 		{
-			dprintf(2,"minishell: %s: No such file or directory\n", file_h->filename);
+			printfile_error(file_h->filename, ": No such file or directory\n", 0);
 			__get_var(SETEXIT, -1);
 		}
 	}
@@ -33,8 +40,11 @@ void	redirection(t_cmds *cmd_h, t_exec *exec)
 {
 	t_file *nfile;
 	nfile = cmd_h->file_h;
-	int in = 0;
-	int out = 1;
+	int in;
+	int out;
+
+	in = 0;
+	out = 1;
 	while (nfile != NULL && __get_var(GETEXIT, 2) != -1)
 	{
 		redirection_inside_loop(&in, &out, nfile);

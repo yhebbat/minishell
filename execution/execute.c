@@ -6,7 +6,7 @@
 /*   By: yhebbat <yhebbat@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 16:40:23 by yhebbat           #+#    #+#             */
-/*   Updated: 2021/11/17 05:49:58 by yhebbat          ###   ########.fr       */
+/*   Updated: 2021/11/22 06:50:58 by yhebbat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,43 +48,90 @@ void	fill_env(t_exec *exec, t_headers *header)
 	exec->env[i] = 0;
 }
 
-void     exec_init(t_headers *header, t_exec *exec)
+// void     exec_init(t_headers *header, t_exec *exec)
+// {
+//     t_env  *env;
+// 	t_cmds *cmd;
+// 	int		i;
+
+// 	i = 0;
+// 	cmd = header->cmd_h;
+// 	while (cmd)
+// 	{
+// 		i++;
+// 		cmd->path = NULL;
+// 		cmd = cmd->next;
+// 	}
+// 	exec->path = NULL;
+// 	exec->pid = malloc(sizeof(int) * (i));
+// 	exec->nb_cmd = i;
+// 	i = 0;
+//     exec->i = 0;
+//     exec->in = 0;
+//     exec->fd = malloc(sizeof(int) * 2);
+//     env = header->env_h;
+//     while (env)
+//     {
+//         if (ft_strcmp(env->var, "PATH") == 0)
+//         {
+//         	exec->path = ft_split(env->val, ':');
+//         	break ;
+//         }
+//         env = env->suivant;
+//     }
+//     while (env && exec->path[i])
+//     {
+//         exec->path[i] = ft_strjoin_free(exec->path[i], "/");
+//         i++;
+//     }
+//     fill_env(exec, header);
+// }
+
+void	half_exec_init(t_exec *exec, t_cmds **cmd)
 {
-    t_env  *env;
-	t_cmds *cmd;
-	int		i;
+	int	i;
 
 	i = 0;
-	cmd = header->cmd_h;
-	while (cmd)
+	while (*cmd)
 	{
 		i++;
-		cmd->path = NULL;
-		cmd = cmd->next;
+		(*cmd)->path = NULL;
+		*cmd = (*cmd)->next;
 	}
 	exec->path = NULL;
 	exec->pid = malloc(sizeof(int) * (i));
 	exec->nb_cmd = i;
 	i = 0;
-    exec->i = 0;
-    exec->in = 0;
-    exec->fd = malloc(sizeof(int) * 2);
-    env = header->env_h;
-    while (env)
-    {
-        if (ft_strcmp(env->var, "PATH") == 0)
-        {
-        	exec->path = ft_split(env->val, ':');
-        	break ;
-        }
-        env = env->suivant;
-    }
-    while (env && exec->path[i])
-    {
-        exec->path[i] = ft_strjoin_free(exec->path[i], "/");
-        i++;
-    }
-    fill_env(exec, header);
+	exec->i = 0;
+	exec->in = 0;
+	exec->fd = malloc(sizeof(int) * 2);
+}
+
+void	exec_init(t_headers *header, t_exec *exec)
+{
+	t_env		*env;
+	t_cmds		*cmd;
+	int			i;
+
+	i = 0;
+	cmd = header->cmd_h;
+	half_exec_init(exec, &cmd);
+	env = header->env_h;
+	while (env)
+	{
+		if (ft_strcmp(env->var, "PATH") == 0)
+		{
+			exec->path = ft_split(env->val, ':');
+			break ;
+		}
+		env = env->suivant;
+	}
+	while (env && exec->path[i])
+	{
+		exec->path[i] = ft_strjoin_free(exec->path[i], "/");
+		i++;
+	}
+	fill_env(exec, header);
 }
 
 void     exec_free(t_exec *exec)
@@ -97,34 +144,39 @@ void     exec_free(t_exec *exec)
     free(exec);
 }
 
-void    replace_arg(t_headers *header, t_exec *exec)
+void	join_path(t_exec *exec, t_cmds **cmd)
+{
+	char	*str;
+	int		fd;
+	int		i;
+
+	i = 0;
+	while (exec->path && exec->path[i])
+	{
+		str = ft_strjoin(exec->path[i], (*cmd)->args[0]);
+		fd = open(str, O_RDONLY);
+		if (fd != -1)
+		{
+			close(fd);
+			(*cmd)->path = ft_strjoin(exec->path[i], (*cmd)->args[0]);
+			free(str);
+			break ;
+		}
+		free(str);
+		i++;
+	}	
+}
+
+void	replace_arg(t_headers *header, t_exec *exec)
 {
 	t_cmds	*cmd;
-	char	*str;
-	int		i;
-	int		fd;
 
 	cmd = header->cmd_h;
 	while (cmd)
 	{
-		i = 0;
-		while (exec->path && exec->path[i])
-		{
-			str = ft_strjoin(exec->path[i] ,cmd->args[0]);
-			if ((fd = open(str,O_RDONLY)) != -1)
-			{
-				close(fd);
-				cmd->path = ft_strjoin(exec->path[i] ,cmd->args[0]);
-				free(str);
-				break ;
-			}
-			free(str);
-			i++;
-		}
-		if (cmd->args[0] && strchr(cmd->args[0],'/'))
-		{
+		join_path(exec, &cmd);
+		if (cmd->args[0] && strchr(cmd->args[0], '/'))
 			cmd->path = ft_strdup(cmd->args[0]);
-		}
 		cmd = cmd->next;
 	}
 }
@@ -271,7 +323,7 @@ void	ft_execve(t_cmds *cmd, t_exec *exec)
 	}
 	else
 		ft_more_cmd(cmd, exec);
-}	
+}
 
 void    check_builtins_execve(t_cmds *cmd, t_exec *exec, t_headers  *header)
 {

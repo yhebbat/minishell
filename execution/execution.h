@@ -6,7 +6,7 @@
 /*   By: yhebbat <yhebbat@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 16:38:46 by yhebbat           #+#    #+#             */
-/*   Updated: 2021/11/14 18:57:19 by yhebbat          ###   ########.fr       */
+/*   Updated: 2021/11/22 06:23:58 by yhebbat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 # include "../minishell.h"
 # include <sys/types.h>
-# include <sys/wait.h>
 # include <sys/errno.h>
 # include <limits.h>
+# include <bits/stat.h>
 
 typedef struct s_exec
 {
