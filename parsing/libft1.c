@@ -30,24 +30,21 @@ char	*ft_strstr(char *src, char *tofind)
 	return (0);
 }
 
-// char	*ft_strdup(char *str)
-// {
-// 	char	*res;
-// 	int		i;
+char	*ft_strchr(const char *s, int c)
+{
+	int		i;
+	char	str;
 
-// 	i = 0;
-// 	while (str[i])
-// 		i++;
-// 	res = malloc(sizeof(char) * i + 1);
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		res[i] = str[i];
-// 		i++;
-// 	}
-// 	res[i] = '\0';
-// 	return (res);
-// }
+	str = (unsigned char)c;
+	i = 0;
+	while (s[i] != str)
+	{
+		if (s[i] == '\0')
+			return (0);
+		i++;
+	}
+	return ((char *)s + i);
+}
 
 char *ft_strdup_free(char *s1)
 {
@@ -64,8 +61,6 @@ int		ft_strlen(char *str)
 	int	i;
 
 	i = 0;
-	// if (!str)
-	// 	return (0);
 	while (str[i])
 		i++;
 	return (i);

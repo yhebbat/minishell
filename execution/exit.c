@@ -1,6 +1,13 @@
 #include "execution.h"
 #include <ctype.h>
 
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
+
 void	half_ft_exit(char **args)
 {
 	int	j;
@@ -8,7 +15,7 @@ void	half_ft_exit(char **args)
 	j = 0;
 	while (args[1][j])
 	{
-		if (!(isdigit(args[1][j])))
+		if (!(ft_isdigit(args[1][j])))
 		{
 			write(2, "exit\n", 6);
 			write(2, "minishell: exit:", 17);

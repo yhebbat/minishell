@@ -12,11 +12,11 @@
 
 #include "execution.h"
 
-void	ft_perror(char *c)
+void	ft_perror(char *c, char *s)
 {
 	write(2, "minishell: ", 12);
 	write(2, c, ft_strlen(c));
-	write(2, ": No such file or directory\n", 29);	
+	write(2, s, ft_strlen(s));	
 }
 
 void	fill_env(t_exec *exec, t_headers *header)
@@ -175,7 +175,7 @@ void	replace_arg(t_headers *header, t_exec *exec)
 	while (cmd)
 	{
 		join_path(exec, &cmd);
-		if (cmd->args[0] && strchr(cmd->args[0], '/'))
+		if (cmd->args[0] && ft_strchr(cmd->args[0], '/'))
 			cmd->path = ft_strdup(cmd->args[0]);
 		cmd = cmd->next;
 	}
@@ -194,19 +194,19 @@ void	ft_more_cmd(t_cmds *cmd, t_exec *exec)
 	}
 	else
 	{
-		if (cmd->args[0] && strchr(cmd->args[0], '/'))
+		if (cmd->args[0] && ft_strchr(cmd->args[0], '/'))
 		{
 			stat(cmd->args[0], &buff);
 			if (buff.st_mode & S_IFDIR)
 			{
-				printf("minishell: %s: is a directory\n", cmd->args[0]);
+				ft_perror(cmd->args[0], "is a directory\n");
 				exit(126);
 			}
 		}
 		execve(cmd->path, cmd->args, exec->env);
 	}
-	if (cmd->args[0] && strchr(cmd->args[0], '/'))
-		ft_perror(cmd->args[0]);
+	if (cmd->args[0] && ft_strchr(cmd->args[0], '/'))
+		ft_perror(cmd->args[0], ": No such file or directory\n");
 	exit(127);
 }
 
@@ -236,7 +236,7 @@ void	child_proccess(t_cmds *cmd, t_exec *exec)
 		print_error(cmd, ": command not found\n", 0);
 	else
 	{
-		if (cmd->args[0] && strchr(cmd->args[0], '/'))
+		if (cmd->args[0] && ft_strchr(cmd->args[0], '/'))
 		{
 			stat(cmd->args[0], &buff);
 			if (buff.st_mode & S_IFDIR)
@@ -256,7 +256,7 @@ void	one_command(t_cmds *cmd, t_exec *exec)
 	{
 		child_proccess(cmd, exec);
 		if (cmd->args[0] && strchr(cmd->args[0], '/'))
-			printf("minishell: %s: No such file or directory\n", cmd->args[0]);
+			ft_perror(cmd->args[0], ": No such file or directory\n");
 		exit(127);
 	}
 	waitpid(pid, &exitstatu, 0);
