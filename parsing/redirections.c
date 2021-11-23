@@ -301,7 +301,7 @@ void	check_redquotes(int	*s_q, int *d_q, char c)
 		(*d_q)++;
 }
 
-void	file_is_here(t_cmds *find_redirection, int *red, int *i)
+int	file_is_here(t_cmds *find_redirection, int *red, int *i)
 {
 	char	*var;
 	char	*val;
@@ -319,6 +319,9 @@ void	file_is_here(t_cmds *find_redirection, int *red, int *i)
 	free(var);
 	free(val);
 	free(rest);
+	if (__get_var(GETEXIT, 0) == 1 && *red == 4)
+		return (1);
+	return (0);
 }
 
 int	checkredirection_cmd(t_cmds	*find_red)
@@ -340,9 +343,8 @@ int	checkredirection_cmd(t_cmds	*find_red)
 			if ((find_red->cmd[i] == '>' || find_red->cmd[i] == '<')
 				&& !(d_q % 2) && !(s_q % 2))
 			{
-				file_is_here(find_red, &red, &i);
-				// if (__get_var(GETEXIT, 0) == 1)
-				// 	return (-1);
+				if (file_is_here(find_red, &red, &i))
+					return (-1);
 			}
 		}
 		find_red = find_red->next;

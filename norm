@@ -53,127 +53,78 @@ execution/cd.c: OK!
 execution/echo.c: OK!
 execution/env.c: OK!
 execution/execute.c: Error!
-Error: TAB_INSTEAD_SPC      (line:  19, col:  50):	Found tab when expecting space
-Error: CONSECUTIVE_SPC      (line: 137, col:   5):	Two or more consecutives spaces
-Error: SPACE_BEFORE_FUNC    (line: 137, col:   9):	space before function name
-Error: TOO_FEW_TAB          (line: 143, col:   1):	Missing tabs for indent level
-Error: SPACE_REPLACE_TAB    (line: 143, col:   5):	Found space when expecting tab
-Error: TOO_FEW_TAB          (line: 144, col:   1):	Missing tabs for indent level
-Error: SPACE_REPLACE_TAB    (line: 144, col:   5):	Found space when expecting tab
-Error: TOO_MANY_FUNCS       (line: 147, col:   1):	Too many functions in file
-Error: TOO_MANY_FUNCS       (line: 170, col:   1):	Too many functions in file
-Error: TOO_MANY_FUNCS       (line: 184, col:   1):	Too many functions in file
-Error: SPACE_REPLACE_TAB    (line: 186, col:  16):	Found space when expecting tab
-Error: TOO_MANY_FUNCS       (line: 213, col:   1):	Too many functions in file
-Error: TOO_MANY_FUNCS       (line: 222, col:   1):	Too many functions in file
-Error: SPACE_REPLACE_TAB    (line: 224, col:  16):	Found space when expecting tab
-Error: SPC_AFTER_OPERATOR   (line: 230, col:  26):	missing space after operator
-Error: SPC_AFTER_OPERATOR   (line: 232, col:  26):	missing space after operator
-Error: TOO_MANY_FUNCS       (line: 249, col:   1):	Too many functions in file
+Error: TAB_INSTEAD_SPC      (line:  19, col:  31):	Found tab when expecting space
+Error: CONSECUTIVE_SPC      (line:  98, col:   5):	Two or more consecutives spaces
+Error: SPACE_BEFORE_FUNC    (line:  98, col:   9):	space before function name
+Error: TOO_FEW_TAB          (line: 104, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 104, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 105, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 105, col:   5):	Found space when expecting tab
+Error: TOO_MANY_FUNCS       (line: 108, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 131, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 145, col:   1):	Too many functions in file
+Error: SPACE_REPLACE_TAB    (line: 147, col:  16):	Found space when expecting tab
+Error: TOO_MANY_FUNCS       (line: 174, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 183, col:   1):	Too many functions in file
+Error: SPACE_REPLACE_TAB    (line: 185, col:  16):	Found space when expecting tab
+Error: CONSECUTIVE_NEWLINES (line: 187, col:   1):	Consecutive newlines
+Error: EMPTY_LINE_FUNCTION  (line: 187, col:   1):	Empty line in function
+Error: EMPTY_LINE_FUNCTION  (line: 192, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line: 192, col:   1):	Space on empty line
+Error: SPC_AFTER_OPERATOR   (line: 193, col:  26):	missing space after operator
+Error: SPC_AFTER_OPERATOR   (line: 195, col:  26):	missing space after operator
+Error: TOO_MANY_FUNCS       (line: 212, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 236, col:   1):	Too many functions in file
+Error: EMPTY_LINE_FUNCTION  (line: 238, col:   1):	Empty line in function
+Error: EMPTY_LINE_FUNCTION  (line: 241, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line: 241, col:   1):	Space on empty line
+Error: TOO_MANY_FUNCS       (line: 248, col:   1):	Too many functions in file
+Error: CONSECUTIVE_SPC      (line: 248, col:   5):	Two or more consecutives spaces
+Error: SPACE_BEFORE_FUNC    (line: 248, col:   8):	space before function name
+Error: EMPTY_LINE_FUNCTION  (line: 250, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line: 250, col:   1):	Space on empty line
+Error: EMPTY_LINE_FUNCTION  (line: 253, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line: 253, col:   1):	Space on empty line
 Error: TOO_MANY_FUNCS       (line: 273, col:   1):	Too many functions in file
-Error: WRONG_SCOPE_COMMENT  (line: 278, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 279, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 280, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 281, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 282, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 283, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 284, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 285, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 286, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 287, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 288, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 289, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 290, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 291, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 292, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 293, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 294, col:   9):	Comment is invalid in this scope
-Error: LINE_TOO_LONG        (line: 294, col:  85):	line too long
-Error: WRONG_SCOPE_COMMENT  (line: 295, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 296, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 297, col:   9):	Comment is invalid in this scope
-Error: EMPTY_LINE_FUNCTION  (line: 298, col:   1):	Empty line in function
-Error: SPACE_EMPTY_LINE     (line: 298, col:   1):	Space on empty line
-Error: WRONG_SCOPE_COMMENT  (line: 299, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 300, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 301, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 302, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 303, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 304, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 305, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 306, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 307, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 308, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 309, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 310, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 311, col:   9):	Comment is invalid in this scope
-Error: LINE_TOO_LONG        (line: 311, col:  83):	line too long
-Error: WRONG_SCOPE_COMMENT  (line: 312, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 313, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 314, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 315, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 316, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 317, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 318, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 319, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 320, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 321, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 322, col:   9):	Comment is invalid in this scope
-Error: TOO_MANY_LINES       (line: 326, col:   1):	Function has more than 25 lines
-Error: TOO_MANY_FUNCS       (line: 328, col:   1):	Too many functions in file
-Error: CONSECUTIVE_SPC      (line: 328, col:   5):	Two or more consecutives spaces
-Error: SPACE_BEFORE_FUNC    (line: 328, col:   8):	space before function name
-Error: TOO_MANY_FUNCS       (line: 351, col:   1):	Too many functions in file
-Error: TOO_MANY_FUNCS       (line: 359, col:   1):	Too many functions in file
-Error: TOO_MANY_FUNCS       (line: 377, col:   1):	Too many functions in file
-Error: CONSECUTIVE_SPC      (line: 377, col:   5):	Two or more consecutives spaces
-Error: SPACE_BEFORE_FUNC    (line: 377, col:   8):	space before function name
-Error: SPACE_REPLACE_TAB    (line: 379, col:   8):	Found space when expecting tab
-Error: SPACE_REPLACE_TAB    (line: 380, col:   8):	Found space when expecting tab
-Error: SPACE_AFTER_KW       (line: 386, col:   5):	Missing space after keyword
-Error: SPC_BFR_PAR          (line: 386, col:   7):	Missing space before parenthesis (brace/bracket)
-Error: SPC_AFTER_OPERATOR   (line: 386, col:  25):	missing space after operator
-Error: SPC_AFTER_OPERATOR   (line: 388, col:  26):	missing space after operator
-Error: TOO_MANY_FUNCS       (line: 399, col:   1):	Too many functions in file
-Error: CONSECUTIVE_SPC      (line: 399, col:   4):	Two or more consecutives spaces
-Error: SPACE_BEFORE_FUNC    (line: 399, col:   7):	space before function name
+Error: TOO_MANY_FUNCS       (line: 281, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 299, col:   1):	Too many functions in file
+Error: CONSECUTIVE_SPC      (line: 299, col:   5):	Two or more consecutives spaces
+Error: SPACE_BEFORE_FUNC    (line: 299, col:   8):	space before function name
+Error: SPACE_REPLACE_TAB    (line: 301, col:   8):	Found space when expecting tab
+Error: SPACE_REPLACE_TAB    (line: 302, col:   8):	Found space when expecting tab
+Error: SPACE_AFTER_KW       (line: 308, col:   5):	Missing space after keyword
+Error: SPC_BFR_PAR          (line: 308, col:   7):	Missing space before parenthesis (brace/bracket)
+Error: SPC_AFTER_OPERATOR   (line: 308, col:  25):	missing space after operator
+Error: SPC_AFTER_OPERATOR   (line: 310, col:  26):	missing space after operator
+Error: TOO_MANY_FUNCS       (line: 321, col:   1):	Too many functions in file
+Error: CONSECUTIVE_SPC      (line: 321, col:   4):	Two or more consecutives spaces
+Error: SPACE_BEFORE_FUNC    (line: 321, col:   7):	space before function name
+Error: TOO_MANY_FUNCS       (line: 344, col:   1):	Too many functions in file
+Error: TOO_MANY_TABS_FUNC   (line: 344, col:   9):	extra tabs before function name
+Error: SPACE_AFTER_KW       (line: 353, col:   9):	Missing space after keyword
+Error: SPC_BFR_PAR          (line: 353, col:  11):	Missing space before parenthesis (brace/bracket)
+Error: SPC_AFTER_OPERATOR   (line: 353, col:  29):	missing space after operator
+Error: SPC_AFTER_OPERATOR   (line: 355, col:  30):	missing space after operator
+Error: SPC_AFTER_OPERATOR   (line: 359, col:  31):	missing space after operator
+Error: TOO_MANY_FUNCS       (line: 363, col:   1):	Too many functions in file
+Error: SPC_AFTER_OPERATOR   (line: 373, col:  30):	missing space after operator
+Error: SPC_AFTER_OPERATOR   (line: 375, col:  30):	missing space after operator
+Error: TOO_MANY_FUNCS       (line: 387, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 405, col:   1):	Too many functions in file
 Error: TOO_MANY_FUNCS       (line: 422, col:   1):	Too many functions in file
-Error: TOO_MANY_TABS_FUNC   (line: 422, col:   9):	extra tabs before function name
-Error: SPACE_AFTER_KW       (line: 431, col:   9):	Missing space after keyword
-Error: SPC_BFR_PAR          (line: 431, col:  11):	Missing space before parenthesis (brace/bracket)
-Error: SPC_AFTER_OPERATOR   (line: 431, col:  29):	missing space after operator
-Error: SPC_AFTER_OPERATOR   (line: 433, col:  30):	missing space after operator
-Error: SPC_AFTER_OPERATOR   (line: 437, col:  31):	missing space after operator
-Error: TOO_MANY_FUNCS       (line: 441, col:   1):	Too many functions in file
-Error: SPACE_AFTER_KW       (line: 451, col:   9):	Missing space after keyword
-Error: SPC_BFR_PAR          (line: 451, col:  11):	Missing space before parenthesis (brace/bracket)
-Error: SPC_AFTER_OPERATOR   (line: 451, col:  29):	missing space after operator
-Error: SPC_AFTER_OPERATOR   (line: 453, col:  30):	missing space after operator
-Error: TOO_MANY_FUNCS       (line: 465, col:   1):	Too many functions in file
-Error: TOO_MANY_FUNCS       (line: 485, col:   1):	Too many functions in file
-Error: TOO_MANY_FUNCS       (line: 502, col:   1):	Too many functions in file
-Error: TOO_MANY_FUNCS       (line: 517, col:   1):	Too many functions in file
-Error: CONSECUTIVE_SPC      (line: 517, col:   4):	Two or more consecutives spaces
-Error: SPACE_BEFORE_FUNC    (line: 517, col:   8):	space before function name
-Error: MIXED_SPACE_TAB      (line: 522, col:   8):	Mixed spaces and tabs
-Error: SPACE_REPLACE_TAB    (line: 522, col:   8):	Found space when expecting tab
-Error: SPACE_REPLACE_TAB    (line: 526, col:   5):	Found space when expecting tab
-Error: WRONG_SCOPE_COMMENT  (line: 538, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 539, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 540, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 541, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 542, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 543, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 544, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 545, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 546, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 547, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 548, col:   5):	Comment is invalid in this scope
-Error: TOO_FEW_TAB          (line: 552, col:   1):	Missing tabs for indent level
-Error: SPACE_REPLACE_TAB    (line: 552, col:   3):	Found space when expecting tab
-Error: TOO_FEW_TAB          (line: 553, col:   1):	Missing tabs for indent level
-Error: SPACE_REPLACE_TAB    (line: 553, col:   5):	Found space when expecting tab
-Error: TOO_MANY_LINES       (line: 554, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 437, col:   1):	Too many functions in file
+Error: CONSECUTIVE_SPC      (line: 437, col:   4):	Two or more consecutives spaces
+Error: SPACE_BEFORE_FUNC    (line: 437, col:   8):	space before function name
+Error: MIXED_SPACE_TAB      (line: 442, col:   8):	Mixed spaces and tabs
+Error: SPACE_REPLACE_TAB    (line: 442, col:   8):	Found space when expecting tab
+Error: SPACE_REPLACE_TAB    (line: 446, col:   5):	Found space when expecting tab
+Error: SPACE_AFTER_KW       (line: 452, col:   5):	Missing space after keyword
+Error: SPC_BFR_PAR          (line: 452, col:  10):	Missing space before parenthesis (brace/bracket)
+Error: EXP_NEWLINE          (line: 452, col:  39):	Expected newline after control structure
+Error: TOO_FEW_TAB          (line: 457, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 457, col:   3):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 458, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 458, col:   5):	Found space when expecting tab
 execution/execution.h: Error!
 Error: TOO_FEW_TAB          (line:  23, col:   1):	Missing tabs for indent level
 Error: SPACE_REPLACE_TAB    (line:  23, col:   5):	Found space when expecting tab
@@ -387,13 +338,13 @@ Error: SPACE_EMPTY_LINE     (line: 136, col:   5):	Space on empty line
 Error: TOO_FEW_TAB          (line: 137, col:   1):	Missing tabs for indent level
 Error: SPACE_REPLACE_TAB    (line: 137, col:   5):	Found space when expecting tab
 Error: TOO_MANY_LINES       (line: 138, col:   1):	Function has more than 25 lines
-parsing/error.c: Error!
+parse no norme/error.c: Error!
 Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
 Error: CONSECUTIVE_NEWLINES (line:   3, col:   1):	Consecutive newlines
 Error: TOO_MANY_LINES       (line:  48, col:   1):	Function has more than 25 lines
 Error: TOO_MANY_LINES       (line: 107, col:   1):	Function has more than 25 lines
 Error: TOO_MANY_LINES       (line: 144, col:   1):	Function has more than 25 lines
-parsing/fill_cmd_struct.c: Error!
+parse no norme/fill_cmd_struct.c: Error!
 Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
 Error: SPACE_BEFORE_FUNC    (line:   3, col:   5):	space before function name
 Error: SPACE_BEFORE_FUNC    (line:  12, col:   5):	space before function name
@@ -488,34 +439,16 @@ Error: WRONG_SCOPE_COMMENT  (line: 309, col:   5):	Comment is invalid in this sc
 Error: WRONG_SCOPE_COMMENT  (line: 310, col:   5):	Comment is invalid in this scope
 Error: WRONG_SCOPE_COMMENT  (line: 311, col:   5):	Comment is invalid in this scope
 Error: WRONG_SCOPE_COMMENT  (line: 312, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 313, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 314, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 315, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 316, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 317, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 318, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 319, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 320, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 321, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 322, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 323, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 324, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 325, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 326, col:   5):	Comment is invalid in this scope
 Error: WRONG_SCOPE_COMMENT  (line: 327, col:   5):	Comment is invalid in this scope
 Error: WRONG_SCOPE_COMMENT  (line: 328, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 329, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 330, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 345, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 346, col:   5):	Comment is invalid in this scope
-Error: BRACE_SHOULD_EOL     (line: 347, col:   1):	Expected newline after brace
-Error: TOO_MANY_LINES       (line: 347, col:   1):	Function has more than 25 lines
-parsing/free.c: Error!
+Error: BRACE_SHOULD_EOL     (line: 329, col:   1):	Expected newline after brace
+Error: TOO_MANY_LINES       (line: 329, col:   1):	Function has more than 25 lines
+parse no norme/free.c: Error!
 Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
 Error: BRACE_SHOULD_EOL     (line:  15, col:   1):	Expected newline after brace
-parsing/ft_split.c: Error!
+parse no norme/ft_split.c: Error!
 Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
-parsing/ft_strjoin.c: Error!
+parse no norme/ft_strjoin.c: Error!
 Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
 Error: ASSIGN_IN_CONTROL    (line:  17, col:  15):	Assignment in control structure
 Error: ASSIGN_IN_CONTROL    (line:  35, col:  15):	Assignment in control structure
@@ -528,7 +461,7 @@ Error: TOO_MANY_FUNCS       (line:  83, col:   1):	Too many functions in file
 Error: SPACE_BEFORE_FUNC    (line:  83, col:   5):	space before function name
 Error: SPACE_REPLACE_TAB    (line:  85, col:   9):	Found space when expecting tab
 Error: BRACE_SHOULD_EOL     (line:  90, col:   1):	Expected newline after brace
-parsing/ft_tst.c: Error!
+parse no norme/ft_tst.c: Error!
 Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
 Error: NEWLINE_PRECEDES_FUNC (line:  16, col:   1):	Functions must be separated by a newline
 Error: TOO_MANY_FUNCS       (line: 226, col:   1):	Too many functions in file
@@ -538,21 +471,19 @@ Error: TOO_MANY_FUNCS       (line: 250, col:   1):	Too many functions in file
 Error: SPACE_REPLACE_TAB    (line: 252, col:  11):	Found space when expecting tab
 Error: TOO_MANY_FUNCS       (line: 277, col:   1):	Too many functions in file
 Error: BRACE_SHOULD_EOL     (line: 289, col:   1):	Expected newline after brace
-parsing/libft0.c: Error!
+parse no norme/libft0.c: Error!
 Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
 Error: TOO_MANY_TABS_FUNC   (line:   3, col:   5):	extra tabs before function name
 Error: SPACE_REPLACE_TAB    (line:  27, col:   5):	Found space when expecting tab
 Error: CONSECUTIVE_NEWLINES (line:  39, col:   1):	Consecutive newlines
 Error: CONSECUTIVE_NEWLINES (line:  78, col:   1):	Consecutive newlines
-parsing/libft1.c: Error!
+parse no norme/libft1.c: Error!
 Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
 Error: RETURN_PARENTHESIS   (line:  16, col:  23):	Return value must be in parenthesis
-Error: SPACE_BEFORE_FUNC    (line:  52, col:   5):	space before function name
-Error: SPACE_REPLACE_TAB    (line:  54, col:   9):	Found space when expecting tab
-Error: TOO_MANY_TABS_FUNC   (line:  62, col:   5):	extra tabs before function name
-Error: WRONG_SCOPE_COMMENT  (line:  67, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line:  68, col:   5):	Comment is invalid in this scope
-parsing/minishell.c: Error!
+Error: SPACE_BEFORE_FUNC    (line:  49, col:   5):	space before function name
+Error: SPACE_REPLACE_TAB    (line:  51, col:   9):	Found space when expecting tab
+Error: TOO_MANY_TABS_FUNC   (line:  59, col:   5):	extra tabs before function name
+parse no norme/minishell.c: Error!
 Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
 Error: NL_AFTER_VAR_DECL    (line:  69, col:   1):	Variable declarations must be followed by a newline
 Error: TOO_MANY_TABS_FUNC   (line:  77, col:   9):	extra tabs before function name
@@ -565,6 +496,7 @@ Error: TOO_MANY_FUNCS       (line:  91, col:   1):	Too many functions in file
 Error: TOO_MANY_TABS_FUNC   (line:  91, col:   5):	extra tabs before function name
 Error: SPACE_AFTER_KW       (line:  97, col:   9):	Missing space after keyword
 Error: SPC_BFR_PAR          (line:  97, col:  15):	Missing space before parenthesis (brace/bracket)
+Error: TAB_INSTEAD_SPC      (line:  97, col:  29):	Found tab when expecting space
 Error: TOO_MANY_FUNCS       (line: 107, col:   1):	Too many functions in file
 Error: WRONG_SCOPE_COMMENT  (line: 124, col:  13):	Comment is invalid in this scope
 Error: TOO_MANY_FUNCS       (line: 133, col:   1):	Too many functions in file
@@ -573,7 +505,7 @@ Error: TAB_INSTEAD_SPC      (line: 136, col:  11):	Found tab when expecting spac
 Error: TAB_INSTEAD_SPC      (line: 137, col:  11):	Found tab when expecting space
 Error: EMPTY_LINE_FUNCTION  (line: 138, col:   1):	Empty line in function
 Error: WRONG_SCOPE_COMMENT  (line: 152, col:   5):	Comment is invalid in this scope
-parsing/redirections.c: Error!
+parse no norme/redirections.c: Error!
 Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
 Error: TOO_MANY_TABS_FUNC   (line:  68, col:   5):	extra tabs before function name
 Error: TAB_INSTEAD_SPC      (line:  78, col:  16):	Found tab when expecting space
@@ -625,7 +557,9 @@ Error: SPACE_REPLACE_TAB    (line: 363, col:   8):	Found space when expecting ta
 Error: TOO_FEW_TAB          (line: 374, col:   1):	Missing tabs for indent level
 Error: SPACE_REPLACE_TAB    (line: 374, col:   2):	Found space when expecting tab
 Error: TOO_FEW_TAB          (line: 375, col:  17):	Missing tabs for indent level
-parsing/save_env.c: Error!
+Error: WRONG_SCOPE_COMMENT  (line: 378, col:  17):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 379, col:  17):	Comment is invalid in this scope
+parse no norme/save_env.c: Error!
 Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
 Error: SPACE_REPLACE_TAB    (line:  78, col:   8):	Found space when expecting tab
 Error: SPACE_REPLACE_TAB    (line:  79, col:   9):	Found space when expecting tab
@@ -645,7 +579,7 @@ Error: WRONG_SCOPE_COMMENT  (line: 102, col:   5):	Comment is invalid in this sc
 Error: WRONG_SCOPE_COMMENT  (line: 103, col:   5):	Comment is invalid in this scope
 Error: WRONG_SCOPE_COMMENT  (line: 104, col:   5):	Comment is invalid in this scope
 Error: CONSECUTIVE_NEWLINES (line: 107, col:   1):	Consecutive newlines
-parsing/toke.c: Error!
+parse no norme/toke.c: Error!
 Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
 Error: TOO_MANY_TABS_FUNC   (line:  62, col:   9):	extra tabs before function name
 Error: TOO_MANY_FUNCS       (line:  95, col:   1):	Too many functions in file
@@ -659,3 +593,80 @@ Error: TOO_MANY_FUNCS       (line: 167, col:   1):	Too many functions in file
 Error: VAR_DECL_START_FUNC  (line: 170, col:   1):	Variable declaration not at start of function
 Error: SPACE_REPLACE_TAB    (line: 172, col:   5):	Found space when expecting tab
 Error: BRACE_SHOULD_EOL     (line: 174, col:   1):	Expected newline after brace
+parsing/error.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
+Error: CONSECUTIVE_NEWLINES (line:   3, col:   1):	Consecutive newlines
+Error: TOO_MANY_LINES       (line:  48, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_LINES       (line: 111, col:   1):	Function has more than 25 lines
+Error: SPACE_REPLACE_TAB    (line: 115, col:   8):	Found space when expecting tab
+Error: SPC_AFTER_OPERATOR   (line: 122, col:  14):	missing space after operator
+Error: SPC_BFR_OPERATOR     (line: 122, col:  14):	missing space before operator
+Error: TOO_MANY_LINES       (line: 174, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 176, col:   1):	Too many functions in file
+parsing/fill_cmd_struct.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
+Error: TOO_MANY_FUNCS       (line:  82, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line:  94, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 106, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 129, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 142, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 170, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 178, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 207, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 220, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 228, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 245, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 254, col:   1):	Too many functions in file
+Error: TOO_MANY_TABS_FUNC   (line: 254, col:   5):	extra tabs before function name
+Error: TOO_MANY_FUNCS       (line: 267, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 277, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 305, col:   1):	Too many functions in file
+parsing/fill_cmd_struct_sec.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
+Error: EMPTY_LINE_EOF       (line:   2, col:   1):	Empty line at end of file
+parsing/free.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
+parsing/ft_split.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
+parsing/ft_strjoin.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
+Error: TOO_MANY_FUNCS       (line:  86, col:   1):	Too many functions in file
+parsing/ft_tst.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
+Error: TOO_MANY_FUNCS       (line:  96, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 120, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 147, col:   1):	Too many functions in file
+parsing/libft0.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
+parsing/libft1.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
+parsing/minishell.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
+Error: TOO_MANY_FUNCS       (line:  91, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 107, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 132, col:   1):	Too many functions in file
+parsing/redirections.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
+Error: TOO_MANY_FUNCS       (line:  93, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 118, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 137, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 166, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 195, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 211, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 220, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 236, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 244, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 272, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 296, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 304, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 327, col:   1):	Too many functions in file
+parsing/save_env.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
+Error: TOO_MANY_FUNCS       (line:  91, col:   1):	Too many functions in file
+parsing/toke.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
+Error: TOO_MANY_FUNCS       (line:  95, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 102, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 126, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 153, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 167, col:   1):	Too many functions in file

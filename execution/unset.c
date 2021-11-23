@@ -86,48 +86,6 @@ void    unset(t_cmds *cmd, t_exec *exec, t_headers *header)
             str = ft_strdup(cmd->args[t]);
             to_del = find_var_env(str, env);
             valid_unset(header, to_del);
-            // if (to_del)
-            // {
-            //     if (to_del->preced == NULL && to_del->suivant)
-            //     {
-            //         exist_env = to_del->suivant;
-            //         header->env_h = exist_env;
-            //         exist_env->preced = NULL;
-            //         if (to_del->val != NULL)
-			// 	        free(to_del->val);
-            //         if (to_del->var != NULL)
-            //             free(to_del->var);
-            //         free(to_del);
-			// 		to_del = NULL;
-            //     }
-            //     else if (to_del->preced && to_del->suivant)
-            //     {
-            //         exist_env = to_del->suivant;
-            //         exist_env->preced = to_del->preced;
-            //         exist_env = to_del->preced;
-            //         exist_env->suivant = to_del->suivant;
-            //         if (to_del->val != NULL)
-			// 	        free(to_del->val);
-            //         if (to_del->var != NULL)
-            //             free(to_del->var);
-            //         free(to_del);
-			// 		to_del = NULL;
-            //     }
-            //     else if (to_del->preced && to_del->suivant == NULL)
-            //     {
-            //        // header->env_f = to_del->preced;
-            //         exist_env = to_del->preced;
-            //         exist_env->suivant = NULL;
-            //         header->env_f = exist_env;
-            //         // exist_env->suivant = to_del->suivant;
-            //         if (to_del->val != NULL)
-			// 	        free(to_del->val);
-            //         if (to_del->var != NULL)
-            //             free(to_del->var);
-            //         free(to_del);
-			// 		to_del = NULL;
-            //     }
-    		// }
             free(str);
             if (__get_var(GETEXIT,0) != 1)
                 __get_var(SETEXIT,0);
