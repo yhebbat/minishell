@@ -65,9 +65,9 @@ void	ft_delbotfile(t_cmds *head)
 	}
 }
 
-int		redcounter(char *str, int i)
+int	redcounter(char *str, int i)
 {
-	int		d;
+	int	d;
 
 	d = 0;
 	while (str[i] && str[i] == '$')
@@ -75,10 +75,10 @@ int		redcounter(char *str, int i)
 		i++;
 		d++;
 	}
-	return (d);	
+	return (d);
 }
 
-void	type_of_red(char *str ,int r,int *red)
+void	type_of_red(char *str, int r, int *red)
 {
 	if (str[r] == '>' && str[r + 1] != '>')
 		*red = ONE;
@@ -93,25 +93,25 @@ void	type_of_red(char *str ,int r,int *red)
 void	skip_it(char *str, int *i, int r)
 {
 	while (str[r] == '>' || str[r] == '<' || str[r] == ' ')
-		laysameh(&r,i);
+		laysameh(&r, i);
 	while (str[r] && str[r] != ' ' && str[r] != '>' && str[r] != '<')
 	{
 		if (str[r] == '"')
 		{
-			laysameh(&r,i);
+			laysameh(&r, i);
 			while (str[r] && str[r] != '"')
-				laysameh(&r,i);
-			laysameh(&r,i);
+				laysameh(&r, i);
+			laysameh(&r, i);
 		}
 		else if (str[r] == '\'')
 		{
-			laysameh(&r,i);
+			laysameh(&r, i);
 			while (str[r] && str[r] != '\'')
-				laysameh(&r,i);
-			laysameh(&r,i);
+				laysameh(&r, i);
+			laysameh(&r, i);
 		}
 		else
-			laysameh(&r,i);
+			laysameh(&r, i);
 	}
 }
 
@@ -208,9 +208,9 @@ char	*findredtosave(char *var)
 	return (findredtosave_help2(var, &k, t));
 }
 
-char *ft_strjoin_redfree(char *s1, char *s2, int i)
+char	*ft_strjoin_redfree(char *s1, char *s2, int i)
 {
-	char *ret;
+	char	*ret;
 
 	ret = ft_strjoin_red(s1, s2, i);
 	free (s1);
@@ -230,17 +230,15 @@ char	*ft_herdocs_rl_helper(char *ret, char *line)
 		ret = ft_strjoin_free(ret, "\n");
 	}
 	free(line);
-	return(ret);
+	return (ret);
 }
 
-void		handle_sigint_herdoc(int sigint)
+void	handle_sigint_herdoc(int sigint)
 {
-	
 	(void)sigint;
-		write(1,"\n",1);
-		__get_var(SETEXIT, 1);
-		//__get_var(SETPID, 0);
-		exit(1);
+	write(1, "\n", 1);
+	__get_var(SETEXIT, 1);
+	exit(1);
 }
 
 void	ft_herdocs_rl(char	*limiter, int fd)
@@ -292,14 +290,14 @@ char	*ft_herdocs(char *str)
 	__get_var(SETPID, 0);
 	free(limiter);
 	close(fd);
-	return(name);
+	return (name);
 }
 
 void	check_redquotes(int	*s_q, int *d_q, char c)
 {
-	if (c == '\''/* && (d_q % 2) == 0*/)
+	if (c == '\'')
 		(*s_q)++;
-	if (c == '"'/* && (s_q % 2) == 0*/)
+	if (c == '"')
 		(*d_q)++;
 }
 
@@ -317,50 +315,18 @@ void	file_is_here(t_cmds *find_redirection, int *red, int *i)
 		val = findredtosave(var);
 	find_redirection->cmd = ft_strjoin_redfree(find_redirection->cmd, rest, *i);
 	ft_addbotfile(find_redirection, val, *red);
-	// printf("var->%s||||val->%s||||rest->%s\n", var, val,rest);
 	(*i) = -1;
 	free(var);
 	free(val);
 	free(rest);
 }
 
-// int	checkredirection_cmd(t_headers *header)
-// {
-//     t_cmds	*find_redirection;
-// 	int i;
-// 	int	red;
-// 	int	s_q;
-// 	int	d_q;
-
-// 	find_redirection = header->cmd_h;
-// 	while (find_redirection)
-// 	{
-// 		i = -1;
-// 		red = 0;
-// 		s_q = 0;
-// 		d_q = 0;
-// 		while (find_redirection->cmd[++i])
-// 		{
-// 			check_redquotes(&s_q, &d_q, find_redirection->cmd[i]);
-//  			if ((find_redirection->cmd[i] == '>'
-// 				|| find_redirection->cmd[i] == '<') && !(d_q % 2) && !(s_q % 2))
-// 			{
-// 				file_is_here(find_redirection, &red, &i);
-// 				if (__get_var(GETEXIT, 0) == 1)
-// 					return (-1);
-// 			}
-// 		}
-// 		find_redirection = find_redirection->next;
-// 	}
-// 	return (1);
-// }
-
 int	checkredirection_cmd(t_cmds	*find_redirection)
 {
 	int	red;
 	int	s_q;
 	int	d_q;
-	int i;
+	int	i;
 
 	while (find_redirection)
 	{
@@ -371,12 +337,11 @@ int	checkredirection_cmd(t_cmds	*find_redirection)
 		while (find_redirection->cmd[++i])
 		{
 			check_redquotes(&s_q, &d_q, find_redirection->cmd[i]);
- 			if ((find_redirection->cmd[i] == '>'
-				|| find_redirection->cmd[i] == '<') && !(d_q % 2) && !(s_q % 2))
+			if ((find_redirection->cmd[i] == '>'
+					|| find_redirection->cmd[i] == '<') && !(d_q % 2)
+				&& !(s_q % 2))
 			{
 				file_is_here(find_redirection, &red, &i);
-				// if (__get_var(GETEXIT, 0) == 1)
-				// 	return (-1);
 			}
 		}
 		find_redirection = find_redirection->next;

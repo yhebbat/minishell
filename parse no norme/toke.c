@@ -59,7 +59,7 @@ static void	*ft_freee(char **p)
 	return (0);
 }
 
-void		laysameh(int *r, int *i)
+void	laysameh(int *r, int *i)
 {
 	(*r)++;
 	(*i)++;
@@ -101,7 +101,7 @@ void	ft_remp_helper2(t_toke *toke, char **p, char const *s)
 
 void	ft_remp_helper(t_toke *toke, char **p, char const *s)
 {
-   if (s[toke->i] == '"')
+	if (s[toke->i] == '"')
 	{
 		ft_remp_helper2(toke, p, s);
 		while (s[toke->i] != '"')
@@ -125,7 +125,7 @@ void	ft_remp_helper(t_toke *toke, char **p, char const *s)
 
 static char	**ft_remp(char **p, char const *s, char c, int mots)
 {
-	t_toke *toke;
+	t_toke	*toke;
 
 	toke = malloc(sizeof(t_toke));
 	toke->i = 0;
@@ -166,9 +166,9 @@ char	**ft_toke(char const *s, char c)
 
 char	**split_pipe(char *line, t_headers *header)
 {
-	(void)header;
 	char	**test;
 
-    test = ft_toke(line, '|');
+	(void)header;
+	test = ft_toke(line, '|');
 	return (test);
 }

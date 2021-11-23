@@ -66,6 +66,7 @@ void	ft_addtop(t_headers *head, char *var, char *val)
 void	parse(char *line, t_headers *header)
 {
 	char	**str;
+
 	if (!check_error(line))
 	{
 		str = split_pipe(line, header);
@@ -74,27 +75,26 @@ void	parse(char *line, t_headers *header)
 	}
 }
 
-void		handle_sigint(int sigint)
+void	handle_sigint(int sigint)
 {
 	(void)sigint;
 	if (__get_var(GETPID, 0) == 0)
 	{
-		write(1,"\n",1);
+		write(1, "\n", 1);
 		rl_on_new_line();
-		rl_replace_line("",0);
+		rl_replace_line("", 0);
 		rl_redisplay();
-		__get_var(SETEXIT,1);
+		__get_var(SETEXIT, 1);
 	}
 }
 
-
-int		__get_var(t_norm op, int value)
+int	__get_var(t_norm op, int value)
 {
 	static int		exit_status = 0;
 	static int		pids = 0;
 
 	if (op == GETEXIT)
-		return(exit_status);	
+		return (exit_status);
 	if (op == SETEXIT)
 		exit_status = value;
 	if (op == SETPID)
@@ -121,7 +121,6 @@ void	ft_readline(t_headers *header)
 				ft_delbottom(header);
 			free(header);
 			header = NULL;
-			// system("leaks minishell");
 			exit(__get_var(GETEXIT, 0));
 		}
 		parse(line, header);
@@ -133,9 +132,9 @@ void	ft_readline(t_headers *header)
 int	main(int ac, char **av, char **env)
 {
 	t_headers	*header;
-	(void)		ac;
-	(void)		av;
 
+	(void) ac;
+	(void) av;
 	__get_var(SETPID, 0);
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
@@ -149,5 +148,4 @@ int	main(int ac, char **av, char **env)
 		ft_delbottom(header);
 	free(header);
 	header = NULL;
-	//system("leaks minishell");
 }

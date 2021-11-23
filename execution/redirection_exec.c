@@ -1,4 +1,4 @@
-# include "execution.h"
+#include "execution.h"
 
 void	printfile_error(char *str, char *s, int i)
 {
@@ -7,7 +7,7 @@ void	printfile_error(char *str, char *s, int i)
 	write(2, s, ft_strlen(s));
 }
 
-void	redirection_inside_loop(int *in, int *out, t_file *file_h) 
+void	redirection_inside_loop(int *in, int *out, t_file *file_h)
 {
 	if (file_h->filename && (file_h->type == 1 || file_h->type == 2))
 	{
@@ -30,7 +30,8 @@ void	redirection_inside_loop(int *in, int *out, t_file *file_h)
 		*in = open(file_h->filename, O_RDONLY, 0644);
 		if (*in == -1)
 		{
-			printfile_error(file_h->filename, ": No such file or directory\n", 0);
+			printfile_error(file_h->filename,
+				": No such file or directory\n", 0);
 			__get_var(SETEXIT, -1);
 		}
 	}
@@ -38,11 +39,11 @@ void	redirection_inside_loop(int *in, int *out, t_file *file_h)
 
 void	redirection(t_cmds *cmd_h, t_exec *exec)
 {
-	t_file *nfile;
-	nfile = cmd_h->file_h;
-	int in;
-	int out;
+	t_file	*nfile;
+	int		in;
+	int		out;
 
+	nfile = cmd_h->file_h;
 	in = 0;
 	out = 1;
 	while (nfile != NULL && __get_var(GETEXIT, 2) != -1)

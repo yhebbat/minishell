@@ -75,11 +75,11 @@ void	ft_addbottom(t_headers *head, char *var, char *val)
 
 void	from_tab_to_ll(char **env, t_headers *header)
 {
-	int i;
-	char **str;
+	int		i;
+	char	**str;
 
 	i = 0;
-	while(env[i])
+	while (env[i])
 	{
 		str = ft_split(env[i], '=');
 		ft_addbottom(header, str[0], str[1]);
@@ -90,54 +90,5 @@ void	from_tab_to_ll(char **env, t_headers *header)
 
 void	envi(char **env, t_headers *header)
 {
-	// t_env		*new_env;
-
-	// new_env = NULL;
 	from_tab_to_ll(env, header);
-	// new_env = header->env_h;
-	// while (new_env)
-	// {
-	// 	printf("%s = %s\n", new_env->var, new_env->val);
-	// 	new_env = new_env->suivant;
-	// }
-	// while (header->env_h)
-	// 	ft_delbottom(header);
 }
-
-
-// char	**env_from_ll_to_tab(t_henv *henv)
-// {
-// 	int i;
-// 	t_env *nb;
-// 	int k;
-// 	int r;
-// 	char **str;
-
-// 	k = 0;
-// 	i = 0;
-// 	nb = henv->env_h;
-// 	while (nb)
-// 	{
-// 		i++;
-// 		nb = nb->suivant;
-// 	}
-// 	str = malloc(sizeof(char) * i + 1);
-// 	nb = henv->header;
-// 	while(nb)
-// 	{
-// 		k = 0;
-// 		while (nb->val[k])
-// 			k++;
-// 		while (nb->var[])
-// 		nb = nb->suivant;
-// 	}
-// 	i = 0;
-// 	// while(env[i])
-// 	// {
-// 	// 	str = ft_split(env[i], '=');
-// 	// 	ft_addbottom(henv, str[0], str[1]);
-// 	// 	ft_freee(str, ft_mots(env[i], '=') + 1);
-// 	// 	i++;
-// 	// }
-// 	return (str);
-// }

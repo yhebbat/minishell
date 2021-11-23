@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int		ft_strcmp(const char *s1, const char *s2)
+int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t				i;
 	unsigned char		*ss1;
@@ -24,7 +24,7 @@ char	*ft_strdup(const char *s)
 	k = 0;
 	while (s && s[k] != '\0')
 		k++;
-    new = (char *)malloc((k + 1) * sizeof(char));
+	new = (char *)malloc((k + 1) * sizeof(char));
 	if (!new)
 		return (0);
 	while (s[i] != '\0')
@@ -35,7 +35,6 @@ char	*ft_strdup(const char *s)
 	new[i] = '\0';
 	return (new);
 }
-
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
@@ -74,7 +73,6 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	}
 	return (dest);
 }
-
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {

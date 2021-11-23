@@ -58,7 +58,6 @@ typedef struct s_cmds
 	struct s_cmds	*prec;
 }t_cmds;
 
-
 typedef struct s_headers
 {
 	struct s_env	*env_h;
@@ -67,14 +66,14 @@ typedef struct s_headers
 	struct s_cmds	*cmd_f;
 }t_headers;
 
-int         g_pids;
+int		g_pids;
 
 typedef enum e_norm
 {
-    GETEXIT,
-    SETEXIT,
-    GETPID,
-    SETPID
+	GETEXIT,
+	SETEXIT,
+	GETPID,
+	SETPID
 }t_norm;
 
 /*
@@ -83,6 +82,7 @@ libft
 int		ft_isalpha(int c);
 int		ft_strcmp(const char *s1, const char *s2);
 char	**ft_split(char const *s, char c);
+// char	*ft_strdup(char *str);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);
 char	*ft_strdup_free(char *s1);
@@ -97,8 +97,8 @@ join
 char	*ft_strjoin_dollar(char *s1, char *s2, int i);
 char	*ft_strjoin_red(char *s1, char *s2, int i);
 char	*ft_strjoin_free(char *s1, char *s2);
-char *ft_strjoin_free2(char *s1, char *s2);
-char *ft_strjoin_dollarfree(char *s1, char *s2, int i);
+char	*ft_strjoin_free2(char *s1, char *s2);
+char	*ft_strjoin_dollarfree(char *s1, char *s2, int i);
 /*
 env
 */
@@ -125,9 +125,8 @@ int		checkredirection_cmd(t_cmds	*find_redirection);
 void	fill_cmd(t_headers *header, char	**str);
 void	ft_delbotcmd(t_headers *head);
 
-int     execute(t_headers *header);
+int		execute(t_headers *header);
 void	laysameh(int *r, int *i);
-
 
 int		__get_var(t_norm op, int value);
 #endif

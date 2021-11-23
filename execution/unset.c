@@ -70,7 +70,6 @@ void	valid_unset(t_headers *header, t_env *to_del)
 void    unset(t_cmds *cmd, t_exec *exec, t_headers *header)
 {
     int t;
-    // t_env	*exist_env;
     t_env	*to_del;
     t_env	*env;
     char	*str;

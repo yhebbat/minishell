@@ -13,7 +13,7 @@ char	*ft_strstr(char *src, char *tofind)
 	char	*fin;
 
 	if (*tofind == '\0')
-		return (char*)src;
+		return ((char *)src);
 	while (*src != '\0')
 	{
 		deb = src;
@@ -46,9 +46,9 @@ char	*ft_strchr(const char *s, int c)
 	return ((char *)s + i);
 }
 
-char *ft_strdup_free(char *s1)
+char	*ft_strdup_free(char *s1)
 {
-	char *ret;
+	char	*ret;
 
 	ret = ft_strdup(s1);
 	free(s1);
@@ -56,7 +56,7 @@ char *ft_strdup_free(char *s1)
 	return (ret);
 }
 
-int		ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
 	int	i;
 

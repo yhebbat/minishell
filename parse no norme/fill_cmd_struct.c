@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-void ft_addbotcmd_help(t_cmds *to_add)
+void	ft_addbotcmd_help(t_cmds *to_add)
 {
 	to_add->file_h = NULL;
 	to_add->file_f = NULL;
@@ -9,10 +9,10 @@ void ft_addbotcmd_help(t_cmds *to_add)
 	to_add->args = NULL;
 }
 
-void ft_addbotcmd(t_headers *head, char *val)
+void	ft_addbotcmd(t_headers *head, char *val)
 {
-	t_cmds *stack;
-	t_cmds *to_add;
+	t_cmds	*stack;
+	t_cmds	*to_add;
 
 	to_add = malloc(sizeof(t_cmds));
 	if (!to_add)
@@ -36,13 +36,13 @@ void ft_addbotcmd(t_headers *head, char *val)
 	}
 }
 
-void ft_freefile(t_cmds *head)
+void	ft_freefile(t_cmds *head)
 {
 	while (head->file_h)
 		ft_delbotfile(head);
 }
 
-void ft_delbotcmd_help(t_cmds *to_delete)
+void	ft_delbotcmd_help(t_cmds *to_delete)
 {
 	ft_freefile(to_delete);
 	ft_free(to_delete->args);
@@ -51,10 +51,10 @@ void ft_delbotcmd_help(t_cmds *to_delete)
 		free(to_delete->path);
 }
 
-void ft_delbotcmd(t_headers *head)
+void	ft_delbotcmd(t_headers *head)
 {
-	t_cmds *to_delete;
-	t_cmds *stack;
+	t_cmds	*to_delete;
+	t_cmds	*stack;
 
 	if (head != NULL && head->cmd_h != NULL)
 	{
@@ -79,9 +79,10 @@ void ft_delbotcmd(t_headers *head)
 	}
 }
 
-void ft_complet(t_headers *header)
+void	ft_complet(t_headers *header)
 {
-	t_cmds *new_cmd;
+	t_cmds	*new_cmd;
+
 	new_cmd = header->cmd_h;
 	while (new_cmd)
 	{
@@ -90,9 +91,9 @@ void ft_complet(t_headers *header)
 	}
 }
 
-void fill_cmd(t_headers *header, char **str)
+void	fill_cmd(t_headers *header, char **str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -102,15 +103,16 @@ void fill_cmd(t_headers *header, char **str)
 	}
 }
 
-char *to_find(char *str, int k)
+char	*to_find(char *str, int k)
 {
-	int i;
-	int r;
-	char *var;
+	int		i;
+	int		r;
+	char	*var;
 
 	i = 0;
 	r = k + 1;
-	while (str[r] && str[r] != '"' && str[r] != ' ' && str[r] != '\'' && str[r] != '$' && str[r] != '=' && str[r] != '>' && str[r] != '<')
+	while (str[r] && str[r] != '"' && str[r] != ' ' && str[r] != '\'' && str[r]
+		!= '$' && str[r] != '=' && str[r] != '>' && str[r] != '<')
 	{
 		i++;
 		r++;
