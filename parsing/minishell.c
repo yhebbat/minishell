@@ -6,7 +6,7 @@
 /*   By: yhebbat <yhebbat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 01:03:06 by mgrissen          #+#    #+#             */
-/*   Updated: 2021/11/24 03:52:36 by yhebbat          ###   ########.fr       */
+/*   Updated: 2021/11/24 05:00:28 by yhebbat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	handle_sigint(int sigint)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
+		rl_replace_line("", 0);
 		rl_redisplay();
 		__get_var(SETEXIT, 1);
 	}
