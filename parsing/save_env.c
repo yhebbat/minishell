@@ -1,40 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   save_env.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yhebbat <yhebbat@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/24 01:03:19 by mgrissen          #+#    #+#             */
+/*   Updated: 2021/11/24 03:55:23 by yhebbat          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
-
-void	ft_delbottom_helper(t_env *to_delete)
-{
-	if (to_delete->val != NULL)
-		free(to_delete->val);
-	if (to_delete->var != NULL)
-		free(to_delete->var);
-}
-
-void	ft_delbottom(t_headers *head)
-{
-	t_env	*to_delete;
-	t_env	*stack;
-
-	if (head != NULL && head->env_h != NULL)
-	{
-		to_delete = head->env_f;
-		if (!to_delete->preced)
-		{
-			ft_delbottom_helper(to_delete);
-			free(to_delete);
-			head->env_h = NULL;
-			head->env_f = NULL;
-			to_delete = NULL;
-		}
-		else
-		{
-			stack = to_delete->preced;
-			head->env_f = stack;
-			stack->suivant = NULL;
-			ft_delbottom_helper(to_delete);
-			free(to_delete);
-			to_delete = NULL;
-		}
-	}
-}
 
 void	ft_addbottom_helper(t_env *to_add, char *var, char *val)
 {

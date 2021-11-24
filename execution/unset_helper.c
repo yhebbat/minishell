@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   unset_helper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgrissen <mgrissen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yhebbat <yhebbat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/24 00:49:20 by mgrissen          #+#    #+#             */
-/*   Updated: 2021/11/24 00:49:21 by mgrissen         ###   ########.fr       */
+/*   Created: 2021/11/24 03:25:20 by yhebbat           #+#    #+#             */
+/*   Updated: 2021/11/24 03:25:21 by yhebbat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	ft_env(t_exec *exec)
+void	unvalid_unset(t_cmds *cmd, int t)
 {
-	int	i;
-
-	i = 0;
-	while (exec->env[i])
-	{
-		printf("%s\n", exec->env[i]);
-		i++;
-	}
-	__get_var(SETEXIT, 0);
+	write(2, "export: ", 9);
+	write(2, cmd->args[t], ft_strlen(cmd->args[t]));
+	write(2, ": not a valid identifier\n", 26);
+	__get_var(SETEXIT, 1);
 }

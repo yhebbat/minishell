@@ -1,16 +1,20 @@
-#include    "execution.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yhebbat <yhebbat@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/24 00:49:51 by mgrissen          #+#    #+#             */
+/*   Updated: 2021/11/24 03:24:42 by yhebbat          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	unvalid_unset(t_cmds *cmd, int t)
-{
-	write(2, "export: ", 9);
-	write(2, cmd->args[t], ft_strlen(cmd->args[t]));
-    write(2, ": not a valid identifier\n",26);
-	__get_var(SETEXIT, 1);
-}
+#include    "execution.h"
 
 void	del1(t_headers *header, t_env *to_del)
 {
-    t_env	*exist_env;
+	t_env	*exist_env;
 
 	exist_env = to_del->suivant;
 	header->env_h = exist_env;
@@ -25,7 +29,7 @@ void	del1(t_headers *header, t_env *to_del)
 
 void	del2(t_headers *header, t_env *to_del)
 {
-    t_env	*exist_env;
+	t_env	*exist_env;
 
 	exist_env = to_del->suivant;
 	exist_env->preced = to_del->preced;
@@ -41,7 +45,7 @@ void	del2(t_headers *header, t_env *to_del)
 
 void	del3(t_headers *header, t_env *to_del)
 {
-    t_env	*exist_env;
+	t_env	*exist_env;
 
 	exist_env = to_del->preced;
 	exist_env->suivant = NULL;
@@ -67,29 +71,29 @@ void	valid_unset(t_headers *header, t_env *to_del)
 	}
 }
 
-void    unset(t_cmds *cmd, t_exec *exec, t_headers *header)
+void	unset(t_cmds *cmd, t_exec *exec, t_headers *header)
 {
-    int t;
-    t_env	*to_del;
-    t_env	*env;
-    char	*str;
+	int		t;
+	t_env	*to_del;
+	t_env	*env;
+	char	*str;
 
-    t = 1;
-    env = header->env_h;
-    while (cmd->args[t])
-    {
-        if (cmd->args[t][0] != '_' && ft_isalpha(cmd->args[t][0]) == 0)
-            unvalid_unset(cmd, t);
-        else
-        {
-            str = ft_strdup(cmd->args[t]);
-            to_del = find_var_env(str, env);
-            valid_unset(header, to_del);
-            free(str);
-            if (__get_var(GETEXIT,0) != 1)
-                __get_var(SETEXIT,0);
-        }
-        t++;
-    }
-    fill_env2(exec, header);
+	t = 1;
+	env = header->env_h;
+	while (cmd->args[t])
+	{
+		if (cmd->args[t][0] != '_' && ft_isalpha(cmd->args[t][0]) == 0)
+			unvalid_unset(cmd, t);
+		else
+		{
+			str = ft_strdup(cmd->args[t]);
+			to_del = find_var_env(str, env);
+			valid_unset(header, to_del);
+			free(str);
+			if (__get_var(GETEXIT, 0) != 1)
+				__get_var(SETEXIT, 0);
+		}
+		t++;
+	}
+	fill_env2(exec, header);
 }

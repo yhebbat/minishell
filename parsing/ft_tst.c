@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_tst.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yhebbat <yhebbat@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/24 01:02:48 by mgrissen          #+#    #+#             */
+/*   Updated: 2021/11/24 03:49:10 by yhebbat          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 static void	*ft_freee(char **p)
@@ -12,22 +24,6 @@ static void	*ft_freee(char **p)
 	}
 	free(p);
 	return (0);
-}
-
-void	ft_mmots_helper(char const *s, int	*i)
-{
-	if (s[*i] == '"')
-	{
-		(*i)++;
-		while (s[*i] && s[*i] != '"')
-			(*i)++;
-	}
-	else if (s[*i] == '\'')
-	{
-		(*i)++;
-		while (s[*i] && s[*i] != '\'')
-			(*i)++;
-	}
 }
 
 static	int	ft_mmots(char const *s, char c)
@@ -84,37 +80,6 @@ static int	ft_alpha(char const *s, char c, int i)
 			laysameh(&r, &i);
 	}
 	return (r);
-}
-
-void	ft_rempp_helper2(t_toke *toke, char **p, char const *s)
-{
-	p[toke->j][toke->k] = s[toke->i];
-	toke->k++;
-	toke->i++;
-}
-
-void	ft_rempp_helper(t_toke *toke, char **p, char const *s)
-{
-	if (s[toke->i] == '"')
-	{
-		toke->i++;
-		while (s[toke->i] != '"')
-		{
-			ft_rempp_helper2(toke, p, s);
-		}
-		toke->i++;
-	}
-	else if (s[toke->i] == '\'')
-	{
-		toke->i++;
-		while (s[toke->i] != '\'')
-		{
-			ft_rempp_helper2(toke, p, s);
-		}
-		toke->i++;
-	}
-	else
-		p[toke->j][toke->k++] = s[toke->i++];
 }
 
 static char	**ft_rempp(char **p, char const *s, char c, int mots)
