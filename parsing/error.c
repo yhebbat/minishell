@@ -6,7 +6,7 @@
 /*   By: yhebbat <yhebbat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 01:01:03 by mgrissen          #+#    #+#             */
-/*   Updated: 2021/11/24 03:27:59 by yhebbat          ###   ########.fr       */
+/*   Updated: 2021/11/26 12:24:09 by yhebbat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ int	only_quotes(char *line)
 	i = 0;
 	while (line[i] && line[i] == ' ')
 		i++;
-	if (line[i] && line[i + 1] && line[i] == '"' && line[i + 1] == '"')
+	if (line[i] && line[i + 1]
+		&& ((line[i] == '"' && line[i + 1] == '"') || (line[i] == '\'' && line[i + 1] == '\'')))
 	{
 		printf("minishell: : command not found\n");
 		__get_var(SETEXIT, 127);
